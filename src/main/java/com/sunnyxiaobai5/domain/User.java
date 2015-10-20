@@ -17,17 +17,18 @@ import javax.validation.constraints.NotNull;
  * ****************************************************************************
  */
 @Entity
-@Table
+@Table(name = "USER")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
     @NotNull
     private String name;
 
     @NotNull
+    @Column(name = "PASSWORD")
     private String password;
 
     public Long getId() {

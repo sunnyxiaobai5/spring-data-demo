@@ -39,5 +39,33 @@
     </dependencies>
     <build>
         <finalName>spring-data-demo</finalName>
+
+        <plugins>
+
+            <!--http://docs.spring.io/spring-boot/docs/1.1.x/maven-plugin/-->
+            <!--allowing you to package executable jar or war archives and run an application “in-place”-->
+            <!--mvn spring-boot:run 可直接运行项目-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--http://maven.apache.org/plugins/maven-source-plugin/-->
+            <!--creates a jar archive of the source files of the current project. The jar file is, by default, created in the project's target directory.-->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
