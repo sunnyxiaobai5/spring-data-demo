@@ -1,11 +1,8 @@
-package com.sunnyxiaobai5.repository;
+package com.sunnyxiaobai5.common;
 
-import com.sunnyxiaobai5.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import javax.transaction.Transactional;
 import java.io.Serializable;
 
 /**
