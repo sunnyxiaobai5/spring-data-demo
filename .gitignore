@@ -2,3 +2,4 @@
 spring-data-demo.iml
 .idea
 target
+src/main/webapp/bower_components
