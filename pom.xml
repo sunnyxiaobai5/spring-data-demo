@@ -36,6 +36,14 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!--mvn javadoc:javadoc 生成javadoc时，因Repository接口中 @Transactional注解中的@InterceptorBinding找不到报错，此包中有-->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>spring-data-demo</finalName>

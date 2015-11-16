@@ -1,10 +1,4 @@
-package com.sunnyxiaobai5.domain;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-/**
- * ****************************************************************************
+/*******************************************************************************
  * Copyright (c) 2005, 2014 www.yineng.com
  * <p>
  * <li>项目名称: spring-data-demo</li>
@@ -14,8 +8,12 @@ import javax.validation.constraints.NotNull;
  * <li>内容描述: </li>
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
- * ****************************************************************************
- */
+ ******************************************************************************/
+package com.sunnyxiaobai5.domain;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "USER")
 public class User {
