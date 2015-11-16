@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/styles/main.css">
 </head>
-<body>
-<div ui-view="header"></div>
+<body ng-app="clapseApp">
 
-<div ui-view></div>
+<div ui-view="navbar" class="ng-cloak" ng-cloak="">路由替换前的navbar</div>
 
-<div ui-view="footer"></div>
+<div ui-view="content" class="ng-cloak" ng-cloak="">路由替换前的content</div>
 
+<div ui-view="footer" class="ng-cloak" ng-cloak="">路由替换前的footer</div>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+<script src="scripts/app/app.js"></script>
+
+<script src="scripts/components/navbar/navbar.controller.js"></script>
+<script src="scripts/components/footer/footer.controller.js"></script>
+<script src="scripts/app/main/main.js"></script>
 </body>
 </html>

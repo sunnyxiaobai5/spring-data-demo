@@ -9,7 +9,7 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-package com.sunnyxiaobai5.web.home;
+package com.sunnyxiaobai5.web;
 
 import com.sunnyxiaobai5.domain.User;
 import com.sunnyxiaobai5.repository.UserRepository;
@@ -36,7 +36,7 @@ public class HomeController {
 
     @RequestMapping("/homePage")
     String homePage() {
-        return "/index.jsp";
+        return "/index.html";
     }
 
     @RequestMapping("/homeInfo")
