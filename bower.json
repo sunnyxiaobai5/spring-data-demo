@@ -1,0 +1,31 @@
+{
+  "name": "spring-data-demo",
+  "description": "learn",
+  "main": "index.js",
+  "authors": [
+    "Xiangyong Zeng"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "SpringMVC+JPA+AngularJS"
+  ],
+  "homepage": "https://github.com/sunnyxiaobai5/spring-data-demo",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.7",
+    "angular-ui-router": "ui-router#~0.2.15",
+    "angular-resource": "~1.4.7"
+  }
+}

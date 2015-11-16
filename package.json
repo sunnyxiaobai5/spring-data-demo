@@ -1,0 +1,22 @@
+{
+  "name": "spring-data-demo",
+  "version": "1.0.0",
+  "description": "learn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunnyxiaobai5/spring-data-demo.git"
+  },
+  "keywords": [
+    "SpringMVC+JPA+AngularJS"
+  ],
+  "author": "Xiangyong Zeng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunnyxiaobai5/spring-data-demo/issues"
+  },
+  "homepage": "https://github.com/sunnyxiaobai5/spring-data-demo#readme"
+}
