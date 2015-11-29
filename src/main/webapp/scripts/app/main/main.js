@@ -24,6 +24,38 @@ angular.module('clapseApp')
                 },
                 resolve: {}
             }
+        }).state('system1', {
+            parent: 'site',
+            url: '/system1',
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system2', {
+            parent: 'site',
+            url: '/system2',
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system3', {
+            parent: 'site',
+            url: '/system3',
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system4', {
+            parent: 'site',
+            url: '/system4',
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
         });
 
     });

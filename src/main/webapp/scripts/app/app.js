@@ -9,7 +9,10 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-angular.module('clapseApp', ['ui.router'])
+
+var basePath = "../../..";
+
+angular.module('clapseApp', ['ui.router', 'ngResource'])
     .run(function ($rootScope, $window, $state) {
 
     })

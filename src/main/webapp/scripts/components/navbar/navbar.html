@@ -1,1 +1,36 @@
-<div>路由替换后的navbar</div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">Home</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-repeat="(key, menu) in menuList" ui-sref-active="active">
+                <a ng-bind="menu.name" ui-sref="{{menu.state}}"></a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"></span>
+                    admin
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-home"></span>
+                            个人中心
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-off"></span>
+                            退出
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
