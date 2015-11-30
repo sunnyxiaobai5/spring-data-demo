@@ -10,7 +10,9 @@
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
 angular.module('clapseApp')
-    .config(function ($stateProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
+
         $stateProvider.state('home', {
             parent: 'site',
             url: '/',
@@ -19,14 +21,16 @@ angular.module('clapseApp')
             },
             views: {
                 'content@': {
-                    templateUrl: 'scripts/app/main/main.html',
-                    //controller: 'MainController'
+                    templateUrl: 'scripts/app/main/main.html'
                 },
                 resolve: {}
             }
         }).state('system1', {
             parent: 'site',
             url: '/system1',
+            data: {
+                id: 1
+            },
             views: {
                 'content@': {
                     templateUrl: 'scripts/app/main/main.html'
@@ -35,6 +39,9 @@ angular.module('clapseApp')
         }).state('system2', {
             parent: 'site',
             url: '/system2',
+            data: {
+                id: 2
+            },
             views: {
                 'content@': {
                     templateUrl: 'scripts/app/main/main.html'
@@ -43,6 +50,9 @@ angular.module('clapseApp')
         }).state('system3', {
             parent: 'site',
             url: '/system3',
+            data: {
+                id: 3
+            },
             views: {
                 'content@': {
                     templateUrl: 'scripts/app/main/main.html'
@@ -51,11 +61,40 @@ angular.module('clapseApp')
         }).state('system4', {
             parent: 'site',
             url: '/system4',
+            data: {
+                id: 4
+            },
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system1.module1', {
+            parent: 'system1',
+            url: '/module1',
+            data: {},
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system1.module2', {
+            parent: 'system1',
+            url: '/module2',
+            data: {},
+            views: {
+                'content@': {
+                    templateUrl: 'scripts/app/main/main.html'
+                }
+            }
+        }).state('system2.module1', {
+            parent: 'system2',
+            url: '/module1',
+            data: {},
             views: {
                 'content@': {
                     templateUrl: 'scripts/app/main/main.html'
                 }
             }
         });
-
     });

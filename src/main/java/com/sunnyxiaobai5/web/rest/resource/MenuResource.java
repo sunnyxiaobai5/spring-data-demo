@@ -29,19 +29,45 @@ public class MenuResource {
     @Resource
     private MenuService menuService;
 
+    /**
+     * 查询单个菜单
+     *
+     * @param id 菜单ID
+     * @return
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public JsonBean<MenuDTO> findOne(@PathVariable Long id) {
         return new JsonBean<>(menuService.findOneDTO(id));
     }
 
+    /**
+     * 查询所有菜单
+     *
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public JsonBean<List<MenuDTO>> findAll() {
         return new JsonBean<>(menuService.findAllDTO());
     }
 
+    /**
+     * 查询某系统下菜单
+     *
+     * @param id 系统ID
+     * @return
+     */
     @RequestMapping(value = "findByParentId/{id}", method = RequestMethod.GET)
-    public JsonBean<List<MenuDTO>> findAll(@PathVariable Long id) {
-        List<MenuDTO> menuDTOList = menuService.findByParentId(id);
-        return new JsonBean<>(menuDTOList);
+    public JsonBean<List<MenuDTO>> findByParentId(@PathVariable Long id) {
+        return new JsonBean<>(menuService.findByParentId(id));
+    }
+
+    /**
+     * 查询所有系统
+     *
+     * @return
+     */
+    @RequestMapping(value = "findSystem", method = RequestMethod.GET)
+    public JsonBean<List<MenuDTO>> findSystem() {
+        return new JsonBean<>(menuService.findSystem());
     }
 }

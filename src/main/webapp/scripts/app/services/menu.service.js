@@ -21,7 +21,8 @@ angular.module('clapseApp').factory('Menu', ['$resource', function ($resource) {
             }
         },
         'update': {method: 'PUT'},
-        'findByParentId': {method: 'GET', url: 'menu/findByParentId/1', isArray: false}
+        'findByParentId': {method: 'GET', url: 'menu/findByParentId/:id'},
+        'findSystem': {method: 'GET', url: 'menu/findSystem'}
     });
 }]);
 

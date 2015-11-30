@@ -14,6 +14,18 @@ var basePath = "../../..";
 
 angular.module('clapseApp', ['ui.router', 'ngResource'])
     .run(function ($rootScope, $window, $state) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.toState = toState;
+            $rootScope.toStateParams = toParams;
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.previousStateName = fromState.name;
+            $rootScope.previousStateParams = fromParams;
+            if (toState && toState.data.pageTitle) {
+                $window.document.title = toState.data.pageTitle;
+            }
+        });
 
     })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {

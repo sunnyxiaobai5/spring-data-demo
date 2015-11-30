@@ -15,7 +15,7 @@ angular.module('clapseApp').directive('navbar', ['Menu', function (Menu) {
         scope: true,
         templateUrl: basePath + '/scripts/components/navbar/navbar.html',
         link: function ($scope, iElm, IAttrs, controller) {
-            Menu.query(null, function (data) {
+            Menu.findSystem(null, function (data) {
                 $scope.menuList = data.result;
             });
         }

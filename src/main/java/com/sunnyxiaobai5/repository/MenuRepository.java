@@ -13,9 +13,14 @@ package com.sunnyxiaobai5.repository;
 
 import com.sunnyxiaobai5.common.BaseRepository;
 import com.sunnyxiaobai5.domain.Menu;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface MenuRepository extends BaseRepository<Menu, Long> {
+    /**
+     * 查询所有系统
+     *
+     * @return
+     */
+    List<Menu> findByMenuIdIsNull();
 }

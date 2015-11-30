@@ -19,6 +19,19 @@ import java.util.List;
 
 public interface MenuService extends BaseService<Menu, MenuDTO, Long> {
 
+    /**
+     * 查询某系统下菜单
+     *
+     * @param id 系统ID
+     * @return
+     */
     List<MenuDTO> findByParentId(Long id);
+
+    /**
+     * 查询所有系统
+     *
+     * @return
+     */
+    List<MenuDTO> findSystem();
 
 }

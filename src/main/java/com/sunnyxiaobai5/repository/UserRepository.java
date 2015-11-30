@@ -14,8 +14,6 @@ package com.sunnyxiaobai5.repository;
 import com.sunnyxiaobai5.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.transaction.Transactional;
-
 public interface UserRepository extends CrudRepository<User, Long> {
     public User findByName(String name);
 }
