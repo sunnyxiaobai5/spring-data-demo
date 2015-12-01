@@ -29,6 +29,18 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @NotNull
+    @Column(name = "GENDER_CODE")
+    private Byte genderCode;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @NotNull
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive;
+
+
     public Long getId() {
         return id;
     }
@@ -51,5 +63,29 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Byte getGenderCode() {
+        return genderCode;
+    }
+
+    public void setGenderCode(Byte genderCode) {
+        this.genderCode = genderCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

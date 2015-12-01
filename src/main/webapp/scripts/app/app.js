@@ -22,7 +22,7 @@ angular.module('clapseApp', ['ui.router', 'ngResource'])
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.previousStateName = fromState.name;
             $rootScope.previousStateParams = fromParams;
-            if (toState && toState.data.pageTitle) {
+            if (toState && toState.data && toState.data.pageTitle) {
                 $window.document.title = toState.data.pageTitle;
             }
         });
