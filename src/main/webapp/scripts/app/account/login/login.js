@@ -16,7 +16,7 @@ angular.module('clapseApp')
             parent: 'account',
             url: '/login',
             views: {
-                'content@': {
+                'main@': {
                     templateUrl: 'scripts/app/account/login/login.html',
                     controller: 'LoginController'
                 },

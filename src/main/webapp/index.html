@@ -12,8 +12,8 @@
 <!--<div ui-view="navbar" class="ng-cloak" ng-cloak="">路由替换前的navbar</div>-->
 <navbar></navbar>
 
-<!--<div ui-view="content" class="ng-cloak" ng-cloak="">路由替换前的content</div>-->
-<sidebar></sidebar>
+<div ui-view="main" class="ng-cloak main" ng-cloak="">路由替换前的main</div>
+<!--<sidebar></sidebar>-->
 
 <footer></footer>
 <!--<div ui-view="footer" class="ng-cloak" ng-cloak="">路由替换前的footer</div>-->
@@ -25,14 +25,20 @@
 <script src="bower_components/angular-resource/angular-resource.js"></script>
 
 <script src="scripts/app/app.js"></script>
+<script src="scripts/app/app.constants.js"></script>
 
+<script src="scripts/components/services/auth.service.js"></script>
+<script src="scripts/components/services/menu.service.js"></script>
 <script src="scripts/components/navbar/navbar.directive.js"></script>
 <script src="scripts/components/sidebar/sidebar.directive.js"></script>
 <script src="scripts/components/footer/footer.directive.js"></script>
-<script src="scripts/app/main/main.js"></script>
 
-<script src="scripts/app/services/auth.service.js"></script>
-<script src="scripts/app/services/menu.service.js"></script>
+<script src="scripts/app/main/main.js"></script>
+<script src="scripts/app/home/home.js"></script>
+<script src="scripts/app/system1/system1.js"></script>
+<script src="scripts/app/system2/system2.js"></script>
+<script src="scripts/app/system3/system3.js"></script>
+<script src="scripts/app/system4/system4.js"></script>
 
 <script src="scripts/app/account/account.js"></script>
 <script src="scripts/app/account/login/login.js"></script>

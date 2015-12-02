@@ -32,7 +32,7 @@ angular.module('clapseApp', ['ui.router', 'ngResource'])
 
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('site', {
-            'abstract': true,
+            abstract: true,
             views: {
                 'navbar@': {
                     templateUrl: 'scripts/components/navbar/navbar.html',
