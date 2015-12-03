@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Project: spring-data-demo
- * FileName:Application.java 
+ * FileName:Application.java
  * Author:  Xiangyong Zeng
  * Date:    2015/10/12 16:02
  * Copyright: 2015 www.yineng.com.cn Inc. All rights reserved.
@@ -9,9 +9,11 @@
 
 package com.sunnyxiaobai5;
 
+import com.sunnyxiaobai5.config.ApplicationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 //@ComponentScan(basePackages = "com.sunnyxiaobai5")
 //@ComponentScan
 @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan (main class 在root package的时候)
+@EnableConfigurationProperties(ApplicationProperties.class) //多个类以“,”分割
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
