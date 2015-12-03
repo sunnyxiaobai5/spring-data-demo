@@ -30,6 +30,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!--security start-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--</dependency>-->
+
+        <!--DTO和Entity互相转换时用到的包-->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
@@ -88,6 +95,7 @@
                 </executions>
             </plugin>
 
+            <!--mvn javadoc:javadoc 可生成javadoc文档-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
