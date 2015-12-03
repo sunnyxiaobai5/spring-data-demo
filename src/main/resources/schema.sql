@@ -1,3 +1,4 @@
+# classpath 下的data.sql 和 schema.sql文件在spring-boot启动的时候会自动执行
 USE `test`;
 
 SET FOREIGN_KEY_CHECKS = 0;
