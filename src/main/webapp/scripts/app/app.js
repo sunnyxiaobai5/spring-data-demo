@@ -35,12 +35,10 @@ angular.module('clapseApp', ['ui.router', 'ngResource'])
             abstract: true,
             views: {
                 'navbar@': {
-                    templateUrl: 'scripts/components/navbar/navbar.html',
-                    controller: 'NavbarController'
+                    template: '<navbar></navbar>'
                 },
                 'footer@': {
-                    templateUrl: 'scripts/components/footer/footer.html',
-                    controller: 'FooterController'
+                    template: '<footer></footer>'
                 }
             }
         });
