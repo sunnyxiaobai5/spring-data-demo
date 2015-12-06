@@ -11,8 +11,11 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
 
+import com.itextpdf.text.DocumentException;
 import com.sunnyxiaobai5.common.JsonBean;
+import com.sunnyxiaobai5.common.exception.BaseException;
 import com.sunnyxiaobai5.service.MenuService;
+import com.sunnyxiaobai5.util.PdfTableUtils;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -69,5 +73,25 @@ public class MenuResource {
     @RequestMapping(value = "findSystem", method = RequestMethod.GET)
     public JsonBean<List<MenuDTO>> findSystem() {
         return new JsonBean<>(menuService.findSystem());
+    }
+
+    @RequestMapping(value = "export", method = RequestMethod.GET)
+    public void export() throws BaseException {
+        //表格标题
+        String title = "表格标题";
+
+        try {
+            PdfTableUtils.createPdf("pdf/simple_table.pdf", title, MenuDTO.class, menuService.findAllDTO());
+        } catch (BaseException e) {
+            //外部异常
+            if (e.getStatus() > 10000) {
+                throw new BaseException(e.getMessage());
+            }
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

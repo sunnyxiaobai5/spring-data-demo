@@ -12,18 +12,24 @@
 package com.sunnyxiaobai5.web.rest.dto;
 
 import com.sunnyxiaobai5.common.BaseDTO;
+import com.sunnyxiaobai5.common.annotation.ExportAnnotation;
 
 import java.util.List;
 
 public class MenuDTO extends BaseDTO {
+    @ExportAnnotation(name = "菜单名称")
     private String name;
 
+    @ExportAnnotation(name = "是否系统")
     private Boolean isSystem;
 
+    @ExportAnnotation(name = "路由状态")
     private String state;
 
+    @ExportAnnotation(name = "icon路径")
     private String iconUrl;
 
+    @ExportAnnotation(name = "是否快捷菜单")
     private Boolean isShortcutMenu;
 
     private MenuDTO menuDTO;
