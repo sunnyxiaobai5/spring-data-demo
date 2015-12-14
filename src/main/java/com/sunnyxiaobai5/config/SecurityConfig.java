@@ -16,7 +16,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password("123456").roles("USER");
+                .withUser("admin").password("123456").roles("USER")
+                .and().withUser("user").password("123456").roles("USER", "ADMIN");
     }
 
     @Override
@@ -24,18 +25,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //所有请求都需要用户认证
                 .authorizeRequests()
+                .antMatchers("/bower_components/**", "/signup").permitAll()
                 .anyRequest()
                 .authenticated()
-            .and()
-                //运行用户通过表单认证
+                .and()
+                        //允许用户通过表单认证
                 .formLogin()
-//                .loginPage("/scripts/app/account/login/login.html")
-//                .permitAll()
-            .and()
-                //允许用户通过Http Basic认证
-                .httpBasic()
-            .and()
-                .logout()
-                .logoutUrl("/logout");
+////                .loginPage("/scripts/app/account/login/login.html")
+                .permitAll();
+//                .and()
+//                //允许用户通过Http Basic认证
+//                .httpBasic()
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout");
     }
 }
