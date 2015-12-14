@@ -63,7 +63,7 @@ public class PdfTableUtils {
      * @throws DocumentException
      * @throws IOException
      */
-    public static void createPdf(String dest, String title, List<String> headers, List<String> fieldNames, List<? extends Object> dataList) throws BaseException {
+    public static void createPdf(String dest, String title, List<String> headers, List<String> fieldNames, List<?> dataList) throws BaseException {
         //列长度为0时抛出外部异常
         if (headers.size() == 0) {
             throw new BaseException(-1, ExceptionEnum.EXPORT_NO_COLUMN.getMessage());
@@ -127,7 +127,7 @@ public class PdfTableUtils {
      * @throws DocumentException
      * @throws IOException
      */
-    public static void createPdf(String dest, String title, Class<? extends Object> clazz, List<? extends Object> dataList) throws BaseException, DocumentException, IOException {
+    public static void createPdf(String dest, String title, Class<?> clazz, List<?> dataList) throws BaseException, DocumentException, IOException {
         //获取要导出的相关信息
         ObjInfo objInfo = PdfTableUtils.ObjInfo.getObjInfo(clazz);
 
@@ -160,7 +160,7 @@ public class PdfTableUtils {
          * @param clazz <? extends Object>
          * @return
          */
-        private static ObjInfo getObjInfo(Class<? extends Object> clazz) {
+        private static ObjInfo getObjInfo(Class<?> clazz) {
             ObjInfo objInfo = new ObjInfo();
 
             //获取类的Field（属性）
