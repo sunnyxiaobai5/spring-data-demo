@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <activiti.version>5.19.0</activiti.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -50,10 +51,10 @@
         </dependency>
 
         <!--slf4j日志框架-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-log4j12</artifactId>-->
+        <!--</dependency>-->
 
         <!--pdf文档操作-->
         <dependency>
@@ -90,28 +91,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!--activity 工作流-->
+        <!--activity 工作流 使用spring-boot方式集成-->
         <dependency>
             <groupId>org.activiti</groupId>
-            <artifactId>activiti-engine</artifactId>
-            <version>5.19.0</version>
+            <artifactId>activiti-spring-boot-starter-basic</artifactId>
+            <version>${activiti.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <!--<version>spring.version</version>-->
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-jdbc</artifactId>-->
-            <!--<version>spring.version</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <!--<version>spring.version</version>-->
-        </dependency>
-
     </dependencies>
 
     <!--activity 工作流-->
