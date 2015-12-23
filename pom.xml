@@ -91,7 +91,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--activity 工作流 使用spring-boot方式集成-->
+        <!--activiti 工作流 使用spring-boot方式集成-->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
@@ -99,13 +99,6 @@
         </dependency>
     </dependencies>
 
-    <!--activity 工作流-->
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>Alfresco Maven Repository</id>-->
-            <!--<url>https://maven.alfresco.com/nexus/content/groups/public/</url>-->
-        <!--</repository>-->
-    <!--</repositories>-->
     <build>
         <finalName>spring-data-demo</finalName>
 

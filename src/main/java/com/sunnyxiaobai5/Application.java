@@ -10,10 +10,17 @@
 package com.sunnyxiaobai5;
 
 import com.sunnyxiaobai5.config.ApplicationProperties;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,5 +50,22 @@ public class Application {
 //        若在properties文件中配置spring.main.show-banner=true/false，将以properties文件配置为准
 //        app.setShowBanner(true);
 //        app.run(args);
+    }
+
+    Logger Log= LoggerFactory.getLogger(this.getClass());
+
+    @Bean
+    public CommandLineRunner init(final RepositoryService repositoryService,
+                                  final RuntimeService runtimeService,
+                                  final TaskService taskService) {
+
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... strings) throws Exception {
+                Log.info("【Activiti】Number of process definitions:" + repositoryService.createProcessDefinitionQuery().count());
+                Log.info("【Activiti】Number of process Instances:" + runtimeService.createProcessInstanceQuery().count());
+            }
+        };
+
     }
 }
