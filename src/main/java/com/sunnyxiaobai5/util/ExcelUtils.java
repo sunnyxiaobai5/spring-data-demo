@@ -11,10 +11,13 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.util;
 
+import com.itextpdf.text.Paragraph;
+import org.apache.commons.collections.ArrayStack;
 import org.apache.poi.hssf.usermodel.HSSFHeader;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.springframework.security.util.FieldUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -110,15 +113,58 @@ public class ExcelUtils {
         return styles;
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-        List<Map<String, String>> wbDefs = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            Map<String, String> map = new HashMap<>();
-            long identity = Math.round(Math.random() * 100);
-            map.put("列名" + identity, "说明：必填，必须与岗位码表中内容一致" + identity);
-            wbDefs.add(map);
+    public static void main(String[] args) throws FileNotFoundException, IOException, IllegalAccessException {
+        class DTO {
+            private String name;
+            private Integer age;
+            private Date birthDay;
+            private List<?> dynamic;
+
+            public void setDynamic(List<?> dynamic) {
+                this.dynamic = dynamic;
+            }
+
+            public DTO(String name, Integer age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            public DTO(String name, Integer age, Date birthDay) {
+                this.name = name;
+                this.age = age;
+                this.birthDay = birthDay;
+            }
         }
-        createWorkbook("WorkbookTest.xls", wbDefs);
+        class Dynamic {
+            private String field;
+            private String value;
+
+            public Dynamic(String field, String value) {
+                this.field = field;
+                this.value = value;
+            }
+        }
+
+        Map<String, String> wbDefMap = new LinkedHashMap<>();
+        wbDefMap.put("name", "姓名");
+        wbDefMap.put("birthDay", "出生日期");
+        int dynamicNum = 3;
+        wbDefMap.put("dynamic", "动态数据");
+        for (int i = 0; i < dynamicNum; i++) {
+            wbDefMap.put("dynamicField" + i, "动态列头" + i);
+        }
+
+        List dataList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            DTO dto = new DTO("name" + i, i, new Date());
+            List dynamics = new ArrayList<>();
+            for (int j = 0; j < dynamicNum; j++) {
+                dynamics.add(new Dynamic("dynamicField" + j, "动态列值_" + i + "_" + j));
+            }
+            dto.setDynamic(dynamics);
+            dataList.add(dto);
+        }
+        createWorkbook("WorkbookTest.xls", wbDefMap, dataList, 2);
     }
 
     public static void createWorkbook(String filePath, List<Map<String, String>> colMapList) throws FileNotFoundException, IOException {
@@ -165,6 +211,91 @@ public class ExcelUtils {
 //        for (int i = 0; i < colMapList.size()-2; i++) {
 //            sheet.setColumnWidth(i, 18 * 256);  //18 characters wide
 //        }
+
+        wb.write(fileOut);
+        fileOut.close();
+    }
+
+    /**
+     * 动态创建excel
+     *
+     * @param filePath
+     * @param colDefMap    列头定义，key为对象属性名，value为列头显示值，key序号（0开始）为staticColNum的为对象中的动态List属性名，
+     *                     后面的key为List<T> T中的filed对应的值，value为列头显示值
+     * @param dataList     数据列表()
+     * @param staticColNum 固定列数量
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws IllegalAccessException
+     */
+    public static void createWorkbook(String filePath, Map<String, String> colDefMap, List<?> dataList, int staticColNum) throws FileNotFoundException, IOException, IllegalAccessException {
+        Workbook wb = new HSSFWorkbook();
+        FileOutputStream fileOut = new FileOutputStream(filePath);
+        Sheet sheet = createSheet(wb, "数据列");
+
+        Map<String, CellStyle> styles = createStyles(wb);
+
+        CreationHelper createHelper = wb.getCreationHelper();
+
+        //header
+        sheet.setDefaultColumnWidth(18);
+        Row rowHeader = sheet.createRow(0);
+
+        //获取每列对应的map keySet
+        Set<String> keySet = colDefMap.keySet();
+        Iterator iterator = keySet.iterator();
+
+        //生成表头
+        int keyIndex = 0;
+        while (iterator.hasNext()) {
+            //获取map key（表头的数据）
+            String key = (String) iterator.next();
+            Cell cellHeader = null;
+            if (keyIndex < staticColNum) {
+                //列 i 的Cell
+                cellHeader = rowHeader.createCell(keyIndex);
+            } else if (keyIndex == staticColNum) {
+                keyIndex++;
+                continue;
+            } else {
+                //列 i 的Cell
+                cellHeader = rowHeader.createCell(keyIndex - 1);
+            }
+            cellHeader.setCellValue(createHelper.createRichTextString(colDefMap.get(key)));
+            cellHeader.setCellStyle(styles.get("header"));
+            keyIndex++;
+        }
+
+        //生成数据行列
+        for (int i = 0; i < dataList.size(); i++) {
+            //创建行i(i从1开始，0为表头)
+            Row row = sheet.createRow(i + 1);
+            //创建行i，列 j 的Cell
+            iterator = keySet.iterator();
+            int j = 0;
+            while (iterator.hasNext()) {
+                //获取map key（字段key）
+                String fieldKey = (String) iterator.next();
+                //创建行j，列 j 的Cell
+                Cell cell = null;
+                //固定列
+                if (j < staticColNum) {
+                    cell = row.createCell(j);
+                    Object fieldValue = FieldUtils.getFieldValue(dataList.get(i), fieldKey);
+                    cell.setCellValue(createHelper.createRichTextString(String.valueOf(fieldValue)));
+                }
+                //动态列
+                else if (j == staticColNum) {
+                    Collection dynamics = (Collection) FieldUtils.getFieldValue(dataList.get(i), fieldKey);
+                    for (Object obj : dynamics) {
+                        cell = row.createCell(j++);
+                        Object fieldValue = FieldUtils.getFieldValue(obj, "value");
+                        cell.setCellValue(createHelper.createRichTextString(String.valueOf(fieldValue)));
+                    }
+                }
+                j++;
+            }
+        }
 
         wb.write(fileOut);
         fileOut.close();
