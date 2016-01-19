@@ -24,11 +24,10 @@ angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Me
                 function (newValue, oldValue) {
                     if (newValue && newValue.parent == 'main' && newValue.data && newValue.data.id) {
                         Menu.findByParentId({id: newValue.data.id}, function (data) {
-                            scope.menuList = data.result;
+                            scope.menuList = data;
                         });
                     }
                 });
-
         }
     }
 }]);

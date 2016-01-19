@@ -12,11 +12,12 @@
 package com.sunnyxiaobai5.web.rest.resource;
 
 import com.itextpdf.text.DocumentException;
-import com.sunnyxiaobai5.common.JsonBean;
 import com.sunnyxiaobai5.common.exception.BaseException;
 import com.sunnyxiaobai5.service.MenuService;
 import com.sunnyxiaobai5.util.PdfTableUtils;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,8 +41,8 @@ public class MenuResource {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public JsonBean<MenuDTO> findOne(@PathVariable Long id) {
-        return new JsonBean<>(menuService.findOneDTO(id));
+    public ResponseEntity<MenuDTO> findOne(@PathVariable Long id) {
+        return new ResponseEntity<>(menuService.findOneDTO(id), HttpStatus.OK);
     }
 
     /**
@@ -50,8 +51,8 @@ public class MenuResource {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonBean<List<MenuDTO>> findAll() {
-        return new JsonBean<>(menuService.findAllDTO());
+    public ResponseEntity<List<MenuDTO>> findAll() {
+        return new ResponseEntity<>(menuService.findAllDTO(), HttpStatus.OK);
     }
 
     /**
@@ -61,8 +62,8 @@ public class MenuResource {
      * @return
      */
     @RequestMapping(value = "findByParentId/{id}", method = RequestMethod.GET)
-    public JsonBean<List<MenuDTO>> findByParentId(@PathVariable Long id) {
-        return new JsonBean<>(menuService.findByParentId(id));
+    public ResponseEntity<List<MenuDTO>> findByParentId(@PathVariable Long id) {
+        return new ResponseEntity<>(menuService.findByParentId(id), HttpStatus.OK);
     }
 
     /**
@@ -71,8 +72,8 @@ public class MenuResource {
      * @return
      */
     @RequestMapping(value = "findSystem", method = RequestMethod.GET)
-    public JsonBean<List<MenuDTO>> findSystem() {
-        return new JsonBean<>(menuService.findSystem());
+    public ResponseEntity<List<MenuDTO>> findSystem() {
+        return new ResponseEntity<>(menuService.findSystem(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "export", method = RequestMethod.GET)

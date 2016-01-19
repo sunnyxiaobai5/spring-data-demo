@@ -12,7 +12,7 @@
 
 angular.module('clapseApp').factory('Menu', ['$resource', function ($resource) {
     return $resource('menu/:id', {}, {
-        'query': {method: 'GET', isArray: false},
+        'query': {method: 'GET', isArray: true},
         'get': {
             method: 'GET',
             transformResponse: function (data) {
@@ -21,8 +21,8 @@ angular.module('clapseApp').factory('Menu', ['$resource', function ($resource) {
             }
         },
         'update': {method: 'PUT'},
-        'findByParentId': {method: 'GET', url: 'menu/findByParentId/:id'},
-        'findSystem': {method: 'GET', url: 'menu/findSystem'}
+        'findByParentId': {method: 'GET', url: 'menu/findByParentId/:id', isArray: true},
+        'findSystem': {method: 'GET', url: 'menu/findSystem', isArray: true}
     });
 }]);
 

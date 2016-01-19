@@ -19,7 +19,8 @@ angular.module('clapseApp')
                 url: '/',
                 views: {
                     'main@': {
-                        templateUrl: 'scripts/app/home/home.html'
+                        templateUrl: 'scripts/app/home/home.html',
+                        controller: 'HomeController'
                     },
                     resolve: {}
                 }

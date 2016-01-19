@@ -9,3 +9,20 @@
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
 'use strict';
+
+angular.module('clapseApp').controller('HomeController', ['$scope', '$state', 'Menu', 'Auth', function ($scope, $state, Menu, Auth) {
+
+    //var menus = Menu.findSystem({id: 1}, function (data, getResponseHeaders) {
+    //    console.log(menus);
+    //    var menu = menus[0];
+    //    console.log(menu);
+    //    console.log(menu.$save({test: 'object'}));
+    //    console.log(data);
+    //    console.log(getResponseHeaders);
+    //});
+    //
+    //var menu = new Menu({id: 12});
+    //console.log(menu);
+    //menu.$save();
+    //console.log(menu);
+}]);

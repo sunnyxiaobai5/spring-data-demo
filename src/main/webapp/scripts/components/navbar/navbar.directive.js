@@ -29,7 +29,7 @@ angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', funct
                 $scope.isAuthenticated = newValue;
                 if (newValue) {
                     Menu.findSystem(null, function (data) {
-                        $scope.menuList = data.result;
+                        $scope.menuList = data;
                     });
                 } else {
                     $scope.menuList = [];

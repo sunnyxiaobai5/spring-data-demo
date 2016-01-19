@@ -30,6 +30,10 @@ angular.module('clapseApp', ['ui.router', 'ngResource'])
     })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
+        //enable CSRF
+        $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
+
         $urlRouterProvider.otherwise('/');
         $stateProvider.state('site', {
             abstract: true,
