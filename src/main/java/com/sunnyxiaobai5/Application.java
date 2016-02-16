@@ -1,12 +1,14 @@
 /*******************************************************************************
- * Project: spring-data-demo
- * FileName:Application.java
- * Author:  Xiangyong Zeng
- * Date:    2015/10/12 16:02
- * Copyright: 2015 www.yineng.com.cn Inc. All rights reserved.
- * Description:
+ * sunnyxiaobai5@gmail.com
+ * <p>
+ * <li>项目名称: spring-data-demo</li>
+ * <li>完整包名: com.sunnyxiaobai5</li>
+ * <li>文件名称: Application.java</li>
+ * <li>内容摘要: </li>
+ * <li>内容描述: </li>
+ * <li>其他说明: </li>
+ * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-
 package com.sunnyxiaobai5;
 
 import com.sunnyxiaobai5.config.ApplicationProperties;
@@ -17,12 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Project: spring-data-demo

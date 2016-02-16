@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2014 www.yineng.com
+ * sunnyxiaobai5@gmail.com
  * <p>
  * <li>项目名称: spring-data-demo</li>
  * <li>完整包名: com.sunnyxiaobai5.common</li>

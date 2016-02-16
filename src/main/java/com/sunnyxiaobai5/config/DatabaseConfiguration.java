@@ -1,10 +1,13 @@
 ///*******************************************************************************
-// * Project: spring-data-demo
-// * FileName:DatabaseConfiguration.java
-// * Author:  Xiangyong Zeng
-// * Date:    2015/10/13 11:37
-// * Copyright: 2015 www.yineng.com.cn Inc. All rights reserved.
-// * Description:
+// * sunnyxiaobai5@gmail.com
+// * <p>
+// * <li>项目名称: spring-data-demo</li>
+// * <li>完整包名: com.sunnyxiaobai5.config</li>
+// * <li>文件名称: DatabaseConfiguration.java</li>
+// * <li>内容摘要: </li>
+// * <li>内容描述: </li>
+// * <li>其他说明: </li>
+// * <li>@author Xiangyong Zeng</li>
 // ******************************************************************************/
 //
 //package com.sunnyxiaobai5.config;
