@@ -11,5 +11,9 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.service;
 
-public interface UserService {
+import com.sunnyxiaobai5.common.BaseService;
+import com.sunnyxiaobai5.domain.User;
+import com.sunnyxiaobai5.web.rest.dto.UserDTO;
+
+public interface UserService extends BaseService<User, UserDTO, Long> {
 }

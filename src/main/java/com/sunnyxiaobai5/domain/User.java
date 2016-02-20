@@ -11,12 +11,14 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.domain;
 
+import com.sunnyxiaobai5.common.BaseEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
