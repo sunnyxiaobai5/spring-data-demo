@@ -12,6 +12,8 @@
 package com.sunnyxiaobai5.common;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -40,11 +42,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
         try {
             t = tClass.newInstance();
             BeanUtils.copyProperties(t, k);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return t;
@@ -52,15 +50,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public K convert(T t) {
-        K k= null;
+        K k = null;
         try {
             k = kClass.newInstance();
             BeanUtils.copyProperties(k, t);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return k;
@@ -68,7 +62,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public List<T> fromDTO(List<K> kList) {
-        return new ArrayList<>(kList.stream().map(k -> convert(k)).collect(Collectors.toCollection(ArrayList::new)));
+        return new ArrayList<>(kList.stream().map(this::convert).collect(Collectors.toCollection(ArrayList::new)));
 
 //        List<T> tList = new ArrayList<>();
 //        if (!CollectionUtils.isEmpty(kList)) {
@@ -79,7 +73,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public List<K> fromEntity(List<T> tList) {
-        return new ArrayList<>(tList.stream().map(t -> convert(t)).collect(Collectors.toCollection(ArrayList::new)));
+        return new ArrayList<>(tList.stream().map(this::convert).collect(Collectors.toCollection(ArrayList::new)));
 
 //        List<K> kList = new ArrayList<>();
 //        if (!CollectionUtils.isEmpty(tList)) {
@@ -100,11 +94,71 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public List<T> findAll() {
-        return (List<T>) getBaseRepository().findAll();
+        return getBaseRepository().findAll();
     }
 
     @Override
     public List<K> findAllDTO() {
-        return fromEntity((List<T>) getBaseRepository().findAll());
+        return fromEntity(getBaseRepository().findAll());
+    }
+
+    @Override
+    public T save(T t) {
+        return null;
+    }
+
+    @Override
+    public T save(K k) {
+        return null;
+    }
+
+    @Override
+    public List<T> saveAll(List<T> tList) {
+        return null;
+    }
+
+    @Override
+    public List<T> saveAllDTO(List<K> kList) {
+        return null;
+    }
+
+    @Override
+    public List<T> findAll(List<ID> ids) {
+        return null;
+    }
+
+    @Override
+    public List<K> findAllDTO(List<ID> ids) {
+        return null;
+    }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<K> findAllDTO(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public void delete(ID id) {
+
+    }
+
+    @Override
+    public void delete(T entity) {
+
+    }
+
+    @Override
+    public void deleteAllByID(List<ID> ids) {
+
+    }
+
+    @Override
+    public void deleteAll(List<T> tList) {
+
     }
 }
