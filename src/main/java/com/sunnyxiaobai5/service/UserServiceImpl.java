@@ -11,8 +11,19 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.service;
 
+import com.sunnyxiaobai5.common.BaseRepository;
+import com.sunnyxiaobai5.common.BaseServiceImpl;
+import com.sunnyxiaobai5.domain.User;
+import com.sunnyxiaobai5.web.rest.dto.UserDTO;
+import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Transactional
-public class UserServiceImpl {
+@Service("userService")
+public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, Long> implements UserService {
+    @Override
+    protected BaseRepository<User, Long> getBaseRepository() {
+        return null;
+    }
 }

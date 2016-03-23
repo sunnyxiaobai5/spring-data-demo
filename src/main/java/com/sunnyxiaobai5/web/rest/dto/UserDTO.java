@@ -13,5 +13,5 @@ package com.sunnyxiaobai5.web.rest.dto;
 
 import com.sunnyxiaobai5.common.BaseDTO;
 
-public class UserDTO extends BaseDTO{
+public class UserDTO extends BaseDTO<Long> {
 }

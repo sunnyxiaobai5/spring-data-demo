@@ -16,7 +16,8 @@ import com.sunnyxiaobai5.common.annotation.ExportAnnotation;
 
 import java.util.List;
 
-public class MenuDTO extends BaseDTO {
+public class MenuDTO extends BaseDTO<Long> {
+
     @ExportAnnotation(name = "菜单名称")
     private String name;
 

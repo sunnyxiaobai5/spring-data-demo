@@ -13,16 +13,14 @@ package com.sunnyxiaobai5.domain;
 
 import com.sunnyxiaobai5.common.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER")
-public class User extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false)
-    private Long id;
+public class User extends BaseEntity<Long>{
 
     @NotNull
     private String name;
@@ -41,15 +39,6 @@ public class User extends BaseEntity{
     @NotNull
     @Column(name = "IS_ACTIVE")
     private Boolean isActive;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

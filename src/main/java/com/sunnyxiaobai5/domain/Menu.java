@@ -18,7 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "Menu")
-public class Menu extends BaseEntity {
+public class Menu extends BaseEntity<Long> {
+
     /**
      * 菜单名称
      */
