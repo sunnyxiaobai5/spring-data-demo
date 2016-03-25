@@ -1,7 +1,21 @@
-<div class="col-md-2">
-    <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="(key, menu) in menuList" ui-sref-active="active">
-            <a ng-bind="menu.name" ui-sref="{{menu.state}}"></a>
-        </li>
-    </ul>
+<div class="panel-group" id="sidebar">
+    <div class="panel panel-default" ng-repeat="(key, menu) in menus">
+        <div class="panel-heading" ui-sref="{{menu.state}}" ui-sref-active="active-module">
+            <h4 class="panel-title">
+                <a class="collapsed block" role="button" data-toggle="collapse" data-parent="#sidebar" data-target="#{{menu.id}}">
+                    <b>{{menu.name}}</b>
+                    <span class="glyphicon pull-right glyphicon-chevron-right" ng-show="menu.menuDTOs.length > 0"></span>
+                </a>
+            </h4>
+        </div>
+        <div id="{{menu.id}}" class="panel-collapse collapse" ng-show="menu.menuDTOs.length > 0">
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="(subKey,subMenu) in menu.menuDTOs" ui-sref="{{subMenu.state}}" ui-sref-active="active-menu">
+                        <a class="block">{{subMenu.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

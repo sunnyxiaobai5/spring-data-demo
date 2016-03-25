@@ -62,7 +62,7 @@ public class Menu extends BaseEntity<Long> {
      */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID", insertable = false, updatable = false)
-    private List<Menu> menuList;
+    private List<Menu> menus;
 
     public String getName() {
         return name;
@@ -112,11 +112,11 @@ public class Menu extends BaseEntity<Long> {
         this.menu = menu;
     }
 
-    public List<Menu> getMenuList() {
-        return menuList;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }

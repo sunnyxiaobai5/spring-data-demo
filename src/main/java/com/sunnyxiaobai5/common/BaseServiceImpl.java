@@ -37,7 +37,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
     }
 
     @Override
-    public T convert(K k) {
+    public T fromDTO(K k) {
         T t = null;
         try {
             t = tClass.newInstance();
@@ -49,7 +49,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
     }
 
     @Override
-    public K convert(T t) {
+    public K fromEntity(T t) {
         K k = null;
         try {
             k = kClass.newInstance();
@@ -62,7 +62,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public List<T> fromDTO(List<K> kList) {
-        return new ArrayList<>(kList.stream().map(this::convert).collect(Collectors.toCollection(ArrayList::new)));
+        return new ArrayList<>(kList.stream().map(this::fromDTO).collect(Collectors.toCollection(ArrayList::new)));
 
 //        List<T> tList = new ArrayList<>();
 //        if (!CollectionUtils.isEmpty(kList)) {
@@ -73,7 +73,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public List<K> fromEntity(List<T> tList) {
-        return new ArrayList<>(tList.stream().map(this::convert).collect(Collectors.toCollection(ArrayList::new)));
+        return new ArrayList<>(tList.stream().map(this::fromEntity).collect(Collectors.toCollection(ArrayList::new)));
 
 //        List<K> kList = new ArrayList<>();
 //        if (!CollectionUtils.isEmpty(tList)) {
@@ -89,7 +89,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public K findOneDTO(ID id) {
-        return convert(getBaseRepository().findOne(id));
+        return fromEntity(getBaseRepository().findOne(id));
     }
 
     @Override

@@ -15,16 +15,16 @@ angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Me
         restrict: 'E',
         scope: true,
         templateUrl: basePath + '/scripts/components/sidebar/sidebar.html',
-        link: function (scope, iElement, iAttrs, controller) {
+        link: function ($scope, iElement, iAttrs, controller) {
 
-            scope.$watch(
+            $scope.$watch(
                 function () {
                     return $state.current;
                 },
                 function (newValue, oldValue) {
                     if (newValue && newValue.parent == 'main' && newValue.data && newValue.data.id) {
                         Menu.findByParentId({id: newValue.data.id}, function (data) {
-                            scope.menuList = data;
+                            $scope.menus = data;
                         });
                     }
                 });

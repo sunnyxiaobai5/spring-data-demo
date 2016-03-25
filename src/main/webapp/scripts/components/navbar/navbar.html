@@ -1,51 +1,49 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a ui-sref="home" class="navbar-brand">Home</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="(index, menu) in menuList" ui-sref-active="active">
-                <a ng-bind="menu.name" ui-sref="{{menu.state}}"></a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" ng-switch="isAuthenticated">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="glyphicon glyphicon-user"></span>
-                    Account
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" ng-switch-when="true">
-                    <li>
-                        <a href="#">
-                            <span class="glyphicon glyphicon-home"></span>
-                            个人中心
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="" ng-click="logout()">
-                            <span class="glyphicon glyphicon-log-in"></span>
-                            退出
-                        </a>
-                    </li>
-                </ul>
-                <ul class="dropdown-menu" ng-switch-when="false">
-                    <li>
-                        <a ui-sref="login">
-                            <span class="glyphicon glyphicon-log-in"></span>
-                            登录
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="" ng-click="register()">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            注册
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div class="navbar-header">
+        <a ui-sref="home" class="navbar-brand">Home</a>
     </div>
+    <ul class="nav navbar-nav">
+        <li ng-repeat="(index, menu) in menuList" ui-sref-active="active">
+            <a ng-bind="menu.name" ui-sref="{{menu.state}}"></a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" ng-switch="isAuthenticated">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="glyphicon glyphicon-user"></span>
+                Account
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" ng-switch-when="true">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-home"></span>
+                        个人中心
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="" ng-click="logout()">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        退出
+                    </a>
+                </li>
+            </ul>
+            <ul class="dropdown-menu" ng-switch-when="false">
+                <li>
+                    <a ui-sref="login">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        登录
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="" ng-click="register()">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        注册
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </nav>

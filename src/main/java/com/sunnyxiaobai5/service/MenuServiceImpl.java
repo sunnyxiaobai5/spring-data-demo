@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -36,9 +37,17 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     @Override
     public List<MenuDTO> findByParentId(Long id) {
 
-        List<Menu> menuList = menuRepository.findOne(id).getMenuList();
+        List<Menu> menuList = menuRepository.findOne(id).getMenus();
 
-        return fromEntity(menuList);
+        final List<MenuDTO> menuDTOs = new ArrayList<>();
+
+        menuList.parallelStream().sequential().forEach(menu -> {
+            MenuDTO menuDTO = this.fromEntity(menu);
+            menuDTO.setMenuDTOs(fromEntity(menu.getMenus()));
+            menuDTOs.add(menuDTO);
+        });
+
+        return menuDTOs;
     }
 
     @Override

@@ -15,16 +15,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
-import java.sql.Savepoint;
 import java.util.List;
 
 public interface BaseService<T extends BaseEntity, K extends BaseDTO, ID extends Serializable> {
 
-    T convert(K k);
-
-    K convert(T t);
+    T fromDTO(K k);
 
     List<T> fromDTO(List<K> kList);
+
+    K fromEntity(T t);
 
     List<K> fromEntity(List<T> tList);
 

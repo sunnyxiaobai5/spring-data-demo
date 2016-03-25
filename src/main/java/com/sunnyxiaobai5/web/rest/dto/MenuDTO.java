@@ -35,7 +35,7 @@ public class MenuDTO extends BaseDTO<Long> {
 
     private MenuDTO menuDTO;
 
-    private List<MenuDTO> menuDTOList;
+    private List<MenuDTO> menuDTOs;
 
     public String getName() {
         return name;
@@ -85,11 +85,11 @@ public class MenuDTO extends BaseDTO<Long> {
         this.menuDTO = menuDTO;
     }
 
-    public List<MenuDTO> getMenuDTOList() {
-        return menuDTOList;
+    public List<MenuDTO> getMenuDTOs() {
+        return menuDTOs;
     }
 
-    public void setMenuDTOList(List<MenuDTO> menuDTOList) {
-        this.menuDTOList = menuDTOList;
+    public void setMenuDTOs(List<MenuDTO> menuDTOs) {
+        this.menuDTOs = menuDTOs;
     }
 }

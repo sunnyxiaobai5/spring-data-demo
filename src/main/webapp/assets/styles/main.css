@@ -1,5 +1,12 @@
+/* ==========================================================================
+Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
+========================================================================== */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 body {
-    padding-top: 70px;
+    padding-top: 50px;
     background-color: #f7f7f7
 }
 
@@ -7,13 +14,86 @@ body {
     clear: both;
 }
 
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
 .main {
     min-height: 600px;
 }
 
-/* ==========================================================================
-Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
-========================================================================== */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
+#sidebar {
+    min-height: 1000px;
+    border: 1px solid #ddd;
+    clear: both;
 }
+
+#sidebar, #sidebar .panel {
+    margin: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#sidebar .panel {
+    border-top: none;
+    border-right: none;
+}
+
+#sidebar .panel a {
+    text-decoration: none;
+}
+
+#sidebar .panel .active-module,
+#sidebar .panel .panel-heading:hover {
+    background-color: #d9edf7;
+    cursor: pointer;
+}
+
+#sidebar .panel .panel-heading {
+    padding: 0;
+}
+
+#sidebar .panel .panel-heading a {
+    padding: 10px 15px;
+}
+
+#sidebar .panel .panel-body .active-menu,
+#sidebar .panel .panel-body ul li:hover {
+    background-color: #dff0d8;
+    cursor: pointer;
+}
+
+#sidebar .panel .panel-body {
+    padding: 0;
+}
+
+#sidebar .panel .panel-body .list-group {
+    margin: 0;
+}
+
+#sidebar .panel .panel-body .list-group .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 5px 15px;
+}
+
+#sidebar .panel .panel-body .list-group .list-group-item:first-child {
+    border-top: none;
+}
+
+#sidebar .panel .panel-body .list-group .list-group-item:last-child {
+    border-bottom: none;
+}
+

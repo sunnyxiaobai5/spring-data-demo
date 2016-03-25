@@ -29,6 +29,21 @@ angular.module('clapseApp')
             .state('system1.module1', {
                 parent: 'system1',
                 url: '/module1',
+                data: {}
+            })
+            .state('system1.module2', {
+                parent: 'system1',
+                url: '/module2',
+                data: {}
+            })
+            .state('system1.module3', {
+                parent: 'system1',
+                url: '/module3',
+                data: {}
+            })
+            .state('system1.module1.menu1', {
+                parent: 'system1.module1',
+                url: '/menu1',
                 data: {},
                 views: {
                     'content@': {
@@ -36,9 +51,19 @@ angular.module('clapseApp')
                     }
                 }
             })
-            .state('system1.module2', {
-                parent: 'system1',
-                url: '/module2',
+            .state('system1.module1.menu2', {
+                parent: 'system1.module1',
+                url: '/menu2',
+                data: {},
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/main/main.html'
+                    }
+                }
+            })
+            .state('system1.module1.menu3', {
+                parent: 'system1.module1',
+                url: '/menu3',
                 data: {},
                 views: {
                     'content@': {
