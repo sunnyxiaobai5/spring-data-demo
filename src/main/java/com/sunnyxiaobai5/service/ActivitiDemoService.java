@@ -65,5 +65,11 @@ public interface ActivitiDemoService {
      */
     ProcessInstance startInstanceByKey(String processDefinitionKey, String businessKey, Map<String, Object> variables);
 
+    /**
+     * 查询task
+     *
+     * @param assignee 指定的用户
+     * @return
+     */
     List<Task> getTasks(String assignee);
 }

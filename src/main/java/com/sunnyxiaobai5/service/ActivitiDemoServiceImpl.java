@@ -15,12 +15,10 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,7 +45,7 @@ public class ActivitiDemoServiceImpl implements ActivitiDemoService {
      * 根据xml文件部署流程
      *
      * @param resource xml文件路径
-     * @return
+     * @return Deployment
      */
     @Override
     public Deployment deploy(String resource) {
@@ -58,7 +56,7 @@ public class ActivitiDemoServiceImpl implements ActivitiDemoService {
      * 根据流程定义key启动一个最新版本的流程
      *
      * @param processDefinitionKey 流程定义key
-     * @return
+     * @return 刚启动流程实例
      */
     @Override
     public ProcessInstance startInstanceByKey(String processDefinitionKey) {
@@ -71,9 +69,8 @@ public class ActivitiDemoServiceImpl implements ActivitiDemoService {
      * 根据流程定义key启动一个最新版本的流程
      *
      * @param processDefinitionKey 流程定义key
-     * @param businessKey          a key that uniquely identifies the process instance in the context
-     *                             or the given process definition.
-     * @return
+     * @param businessKey          在上下文或者给定流程定义中唯一标识流程实例的key
+     * @return 刚启动流程实例
      */
     @Override
     public ProcessInstance startInstanceByKey(String processDefinitionKey, String businessKey) {
@@ -87,7 +84,7 @@ public class ActivitiDemoServiceImpl implements ActivitiDemoService {
      *
      * @param processDefinitionKey 流程定义key
      * @param variables            流程变量
-     * @return
+     * @return 刚启动流程实例
      */
     @Override
     public ProcessInstance startInstanceByKey(String processDefinitionKey, Map<String, Object> variables) {
@@ -100,16 +97,23 @@ public class ActivitiDemoServiceImpl implements ActivitiDemoService {
      * 根据流程定义key启动一个最新版本的流程
      *
      * @param processDefinitionKey 流程定义key
-     * @param businessKey          a key that uniquely identifies the process instance in the context
-     *                             or the given process definition.
+     * @param businessKey          在上下文或者给定流程定义中唯一标识流程实例的key
      * @param variables            流程变量
-     * @return
+     * @return 刚启动流程实例
      */
     @Override
     public ProcessInstance startInstanceByKey(String processDefinitionKey, String businessKey, Map<String, Object> variables) {
-        return runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variables);
+        Log.info("【Activiti】Start new Instance! Count:" + runtimeService.createProcessInstanceQuery().count());
+        return processInstance;
     }
 
+    /**
+     * 查询task
+     *
+     * @param assignee 指定的用户
+     * @return List<Task>
+     */
     @Override
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
