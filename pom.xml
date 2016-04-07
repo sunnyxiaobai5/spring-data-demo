@@ -19,6 +19,7 @@
         <activiti.version>5.19.0</activiti.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!--<spring-data-redis.version>1.6.4.RELEASE</spring-data-redis.version>-->
     </properties>
 
     <dependencies>
@@ -46,9 +47,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <version>1.6.4.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
         </dependency>
 
         <dependency>
