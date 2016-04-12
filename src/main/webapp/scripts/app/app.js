@@ -34,17 +34,8 @@ angular.module('clapseApp', ['ui.router', 'ngResource'])
         $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
 
-        $urlRouterProvider.otherwise('/');
-        $stateProvider.state('site', {
-            abstract: true,
-            views: {
-                'navbar@': {
-                    template: '<navbar></navbar>'
-                },
-                'footer@': {
-                    template: '<footer></footer>'
-                }
-            }
-        });
+        $urlRouterProvider.otherwise('/home');
+
+
     });
 

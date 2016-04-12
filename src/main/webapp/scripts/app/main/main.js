@@ -11,14 +11,13 @@
 'use strict';
 
 angular.module('clapseApp')
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider) {
 
         $stateProvider
             .state('main', {
                 abstract: true,
-                parent: 'site',
                 views: {
-                    'main@': {
+                    '': {
                         templateUrl: 'scripts/app/main/main.html'
                     }
                 }

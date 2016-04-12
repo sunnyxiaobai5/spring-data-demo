@@ -12,15 +12,15 @@
 
 angular.module('clapseApp')
     .config(function ($stateProvider) {
-        $stateProvider.state('login', {
-            parent: 'account',
-            url: '/login',
-            views: {
-                'main@': {
-                    templateUrl: 'scripts/app/account/login/login.html',
-                    controller: 'LoginController'
-                },
-                resolve: {}
-            }
-        });
+
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                views: {
+                    '': {
+                        templateUrl: 'scripts/app/account/login/login.html',
+                        controller: 'LoginController'
+                    }
+                }
+            });
     });

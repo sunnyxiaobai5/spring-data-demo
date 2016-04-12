@@ -9,14 +9,7 @@
 </head>
 <body ng-app="clapseApp">
 
-<div ui-view="navbar" class="ng-cloak" ng-cloak="">路由替换前的navbar</div>
-<!--<navbar></navbar>-->
-
-<div ui-view="main" class="ng-cloak main" ng-cloak="">路由替换前的main</div>
-<!--<sidebar></sidebar>-->
-
-<!--<footer></footer>-->
-<div ui-view="footer" class="ng-cloak" ng-cloak="">路由替换前的footer</div>
+<div ui-view></div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -33,6 +26,7 @@
 <script src="scripts/components/sidebar/sidebar.directive.js"></script>
 <script src="scripts/components/footer/footer.directive.js"></script>
 
+<script src="scripts/app/error/error.js"></script>
 <script src="scripts/app/main/main.js"></script>
 <script src="scripts/app/home/home.js"></script>
 <script src="scripts/app/system1/system1.js"></script>
@@ -40,7 +34,6 @@
 <script src="scripts/app/system3/system3.js"></script>
 <script src="scripts/app/system4/system4.js"></script>
 
-<script src="scripts/app/account/account.js"></script>
 <script src="scripts/app/account/login/login.js"></script>
 <script src="scripts/app/account/login/login.controller.js"></script>
 <script src="scripts/app/home/home.controller.js"></script>

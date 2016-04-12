@@ -22,7 +22,7 @@ angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', funct
 
             $scope.logout = function () {
                 Auth.logout();
-                $state.go('home');
+                $state.go('login');
             };
 
             $scope.$watch(Auth.isAuthenticated, function (newValue, oldValue) {
