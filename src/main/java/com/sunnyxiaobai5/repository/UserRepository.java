@@ -14,6 +14,11 @@ package com.sunnyxiaobai5.repository;
 import com.sunnyxiaobai5.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends CrudRepository<User, Long> {
-    public User findByName(String name);
+
+    User findByName(String name);
+
+    Optional<User> findOneByName(String login);
 }

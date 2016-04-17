@@ -6,18 +6,26 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import javax.inject.Inject;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Inject
+    private UserDetailsService userDetailsService;
+
     @Autowired
     public void configureGlobal(
             AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication()
-                .withUser("admin").password("123456").roles("USER")
-                .and().withUser("user").password("123456").roles("USER", "ADMIN");
+                .userDetailsService(userDetailsService);
+//                .passwordEncoder(passwordEncoder());
+//                .inMemoryAuthentication()
+//                .withUser("admin").password("123456").roles("USER")
+//                .and().withUser("user").password("123456").roles("USER", "ADMIN");
     }
 
     @Override
