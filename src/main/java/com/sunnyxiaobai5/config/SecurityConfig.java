@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Inject
     private UserDetailsService userDetailsService;
