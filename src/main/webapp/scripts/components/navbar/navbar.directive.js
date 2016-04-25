@@ -14,7 +14,7 @@ angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', funct
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: basePath + '/scripts/components/navbar/navbar.html',
+        templateUrl: 'scripts/components/navbar/navbar.html',
         link: function (scope, iElement, iAttrs, controller) {
 
         },

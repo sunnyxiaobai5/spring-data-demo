@@ -14,7 +14,7 @@ angular.module('clapseApp').directive('footer', [function () {
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: basePath + '/scripts/components/footer/footer.html',
+        templateUrl: 'scripts/components/footer/footer.html',
         link: function (scope, iElement, iAttrs, controller) {
 
         },

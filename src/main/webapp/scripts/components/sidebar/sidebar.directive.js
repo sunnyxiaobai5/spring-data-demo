@@ -14,7 +14,7 @@ angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Me
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: basePath + '/scripts/components/sidebar/sidebar.html',
+        templateUrl: 'scripts/components/sidebar/sidebar.html',
         link: function ($scope, iElement, iAttrs, controller) {
 
             $scope.$watch(

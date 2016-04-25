@@ -11,8 +11,6 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.util;
 
-import com.itextpdf.text.Paragraph;
-import org.apache.commons.collections.ArrayStack;
 import org.apache.poi.hssf.usermodel.HSSFHeader;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -113,59 +111,59 @@ public class ExcelUtils {
         return styles;
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IOException, IllegalAccessException {
-        class DTO {
-            private String name;
-            private Integer age;
-            private Date birthDay;
-            private List<?> dynamic;
-
-            public void setDynamic(List<?> dynamic) {
-                this.dynamic = dynamic;
-            }
-
-            public DTO(String name, Integer age) {
-                this.name = name;
-                this.age = age;
-            }
-
-            public DTO(String name, Integer age, Date birthDay) {
-                this.name = name;
-                this.age = age;
-                this.birthDay = birthDay;
-            }
-        }
-        class Dynamic {
-            private String field;
-            private String value;
-
-            public Dynamic(String field, String value) {
-                this.field = field;
-                this.value = value;
-            }
-        }
-
-        Map<String, String> wbDefMap = new LinkedHashMap<>();
-        wbDefMap.put("name", "姓名");
-        wbDefMap.put("birthDay", "出生日期");
-        int dynamicNum = 3;
-        wbDefMap.put("dynamic", "动态数据");
-        for (int i = 0; i < dynamicNum; i++) {
-            wbDefMap.put("dynamicField" + i, "动态列头" + i);
-        }
-
-        List dataList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            DTO dto = new DTO("name" + i, i, new Date());
-            List dynamics = new ArrayList<>();
-            for (int j = 0; j < dynamicNum; j++) {
-                dynamics.add(new Dynamic("dynamicField" + j, "动态列值_" + i + "_" + j));
-            }
-            dto.setDynamic(dynamics);
-            dataList.add(dto);
-        }
-        createWorkbook("WorkbookTest.xls", wbDefMap, dataList, 2);
-    }
+//    public static void main(String[] args) throws FileNotFoundException, IOException, IllegalAccessException {
+//        class DTO {
+//            private String name;
+//            private Integer age;
+//            private Date birthDay;
+//            private List<?> dynamic;
+//
+//            public void setDynamic(List<?> dynamic) {
+//                this.dynamic = dynamic;
+//            }
+//
+//            public DTO(String name, Integer age) {
+//                this.name = name;
+//                this.age = age;
+//            }
+//
+//            public DTO(String name, Integer age, Date birthDay) {
+//                this.name = name;
+//                this.age = age;
+//                this.birthDay = birthDay;
+//            }
+//        }
+//        class Dynamic {
+//            private String field;
+//            private String value;
+//
+//            public Dynamic(String field, String value) {
+//                this.field = field;
+//                this.value = value;
+//            }
+//        }
+//
+//        Map<String, String> wbDefMap = new LinkedHashMap<>();
+//        wbDefMap.put("name", "姓名");
+//        wbDefMap.put("birthDay", "出生日期");
+//        int dynamicNum = 3;
+//        wbDefMap.put("dynamic", "动态数据");
+//        for (int i = 0; i < dynamicNum; i++) {
+//            wbDefMap.put("dynamicField" + i, "动态列头" + i);
+//        }
+//
+//        List dataList = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            DTO dto = new DTO("name" + i, i, new Date());
+//            List dynamics = new ArrayList<>();
+//            for (int j = 0; j < dynamicNum; j++) {
+//                dynamics.add(new Dynamic("dynamicField" + j, "动态列值_" + i + "_" + j));
+//            }
+//            dto.setDynamic(dynamics);
+//            dataList.add(dto);
+//        }
+//        createWorkbook("WorkbookTest.xls", wbDefMap, dataList, 2);
+//    }
 
     public static void createWorkbook(String filePath, List<Map<String, String>> colMapList) throws FileNotFoundException, IOException {
         Workbook wb = new HSSFWorkbook();
