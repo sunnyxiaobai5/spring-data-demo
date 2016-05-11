@@ -17,7 +17,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Menu")
+@Table(name = "MENU")
 public class Menu extends BaseEntity<Long> {
 
     /**
