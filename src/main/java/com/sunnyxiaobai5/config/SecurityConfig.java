@@ -18,14 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    public void configureGlobal(
-            AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService);
-//                .passwordEncoder(passwordEncoder());
-//                .inMemoryAuthentication()
-//                .withUser("admin").password("123456").roles("USER")
-//                .and().withUser("user").password("123456").roles("USER", "ADMIN");
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -37,13 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                        //允许用户通过表单认证
+                //允许用户通过表单认证
                 .formLogin()
 ////                .loginPage("/scripts/app/account/login/login.html")
                 .permitAll();
-//                .and()
-//                //允许用户通过Http Basic认证
-//                .httpBasic()
 //                .and()
 //                .logout()
 //                .logoutUrl("/logout");
