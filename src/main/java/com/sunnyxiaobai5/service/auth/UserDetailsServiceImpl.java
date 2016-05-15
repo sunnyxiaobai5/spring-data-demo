@@ -9,10 +9,10 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-package com.sunnyxiaobai5.service;
+package com.sunnyxiaobai5.service.auth;
 
-import com.sunnyxiaobai5.domain.User;
-import com.sunnyxiaobai5.repository.UserRepository;
+import com.sunnyxiaobai5.domain.auth.Account;
+import com.sunnyxiaobai5.repository.auth.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,14 +30,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Inject
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         log.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase();
-        Optional<User> userFromDatabase = userRepository.findOneByName(lowercaseLogin);
-        return userFromDatabase.map(user -> {
+        Optional<Account> accountFromDatabase = accountRepository.findOneByLogin(lowercaseLogin);
+        return accountFromDatabase.map(user -> {
 
 //            List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 //                    .map(authority -> new SimpleGrantedAuthority(authority.getName()))

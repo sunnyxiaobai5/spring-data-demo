@@ -13,7 +13,7 @@ package com.sunnyxiaobai5.web.rest.resource;
 
 import com.itextpdf.text.DocumentException;
 import com.sunnyxiaobai5.common.exception.BaseException;
-import com.sunnyxiaobai5.service.MenuService;
+import com.sunnyxiaobai5.service.auth.MenuService;
 import com.sunnyxiaobai5.util.PdfTableUtils;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
 import org.springframework.http.HttpStatus;
@@ -89,9 +89,7 @@ public class MenuResource {
                 throw new BaseException(e.getMessage());
             }
             e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
     }

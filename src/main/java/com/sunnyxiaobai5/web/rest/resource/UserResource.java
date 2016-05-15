@@ -12,7 +12,7 @@
 package com.sunnyxiaobai5.web.rest.resource;
 
 import com.sunnyxiaobai5.common.Pageable;
-import com.sunnyxiaobai5.service.UserService;
+import com.sunnyxiaobai5.service.auth.UserService;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

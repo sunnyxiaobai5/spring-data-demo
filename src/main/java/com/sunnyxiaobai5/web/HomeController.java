@@ -11,8 +11,8 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web;
 
-import com.sunnyxiaobai5.domain.User;
-import com.sunnyxiaobai5.repository.UserRepository;
+import com.sunnyxiaobai5.domain.auth.User;
+import com.sunnyxiaobai5.repository.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
