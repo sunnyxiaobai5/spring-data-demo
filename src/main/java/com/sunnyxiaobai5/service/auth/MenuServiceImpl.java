@@ -13,8 +13,9 @@ package com.sunnyxiaobai5.service;
 
 import com.sunnyxiaobai5.common.BaseRepository;
 import com.sunnyxiaobai5.common.BaseServiceImpl;
-import com.sunnyxiaobai5.domain.Menu;
-import com.sunnyxiaobai5.repository.MenuRepository;
+import com.sunnyxiaobai5.domain.auth.Menu;
+import com.sunnyxiaobai5.repository.auth.MenuRepository;
+import com.sunnyxiaobai5.service.auth.MenuService;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service("menuService")
@@ -37,13 +40,13 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     @Override
     public List<MenuDTO> findByParentId(Long id) {
 
-        List<Menu> menuList = menuRepository.findOne(id).getMenus();
+        Set<Menu> menus = menuRepository.findOne(id).getChildren();
 
         final List<MenuDTO> menuDTOs = new ArrayList<>();
 
-        menuList.parallelStream().sequential().forEach(menu -> {
+        menus.parallelStream().sequential().forEach(menu -> {
             MenuDTO menuDTO = this.fromEntity(menu);
-            menuDTO.setMenuDTOs(fromEntity(menu.getMenus()));
+            menuDTO.setMenuDTOs(fromEntity(menu.getChildren().stream().collect(Collectors.toList())));
             menuDTOs.add(menuDTO);
         });
 
@@ -53,7 +56,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     @Override
     public List<MenuDTO> findSystem() {
 
-        List<Menu> menuList = menuRepository.findByMenuIdIsNull();
+        List<Menu> menuList = menuRepository.findByParentIdIsNull();
 
         return fromEntity(menuList);
     }
