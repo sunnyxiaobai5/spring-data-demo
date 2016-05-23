@@ -8,34 +8,35 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-var basePath = "../../..";
+    var basePath = "../../..";
 
-angular.module('clapseApp', ['ui.router', 'ngResource'])
-    .run(function ($rootScope, $window, $state) {
-        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-            $rootScope.toState = toState;
-            $rootScope.toStateParams = toParams;
+    angular.module('clapseApp', ['ui.router', 'ngResource'])
+        .run(function ($rootScope, $window, $state) {
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                $rootScope.toState = toState;
+                $rootScope.toStateParams = toParams;
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                $rootScope.previousStateName = fromState.name;
+                $rootScope.previousStateParams = fromParams;
+                if (toState && toState.data && toState.data.pageTitle) {
+                    $window.document.title = toState.data.pageTitle;
+                }
+            });
+
+        })
+        .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+
+            //enable CSRF
+            $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
+            $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
+
+            $urlRouterProvider.otherwise('/home');
+
         });
-
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            $rootScope.previousStateName = fromState.name;
-            $rootScope.previousStateParams = fromParams;
-            if (toState && toState.data && toState.data.pageTitle) {
-                $window.document.title = toState.data.pageTitle;
-            }
-        });
-
-    })
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-
-        //enable CSRF
-        $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
-        $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
-
-        $urlRouterProvider.otherwise('/home');
-
-
-    });
+})();
 

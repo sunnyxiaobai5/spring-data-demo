@@ -8,21 +8,14 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').controller('HomeController', ['$scope', '$state', 'Menu', 'Auth', function ($scope, $state, Menu, Auth) {
+    angular.module('clapseApp').controller('HomeController', ['$scope', '$state', 'Menu', function ($scope, $state, Menu) {
 
-    //var menus = Menu.findSystem({id: 1}, function (data, getResponseHeaders) {
-    //    console.log(menus);
-    //    var menu = menus[0];
-    //    console.log(menu);
-    //    console.log(menu.$save({test: 'object'}));
-    //    console.log(data);
-    //    console.log(getResponseHeaders);
-    //});
-    //
-    //var menu = new Menu({id: 12});
-    //console.log(menu);
-    //menu.$save();
-    //console.log(menu);
-}]);
+        $scope.systems = Menu.findSystem(null, function (data) {
+
+        });
+
+    }]);
+})();

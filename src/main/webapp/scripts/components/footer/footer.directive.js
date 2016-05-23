@@ -8,18 +8,20 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').directive('footer', [function () {
-    return {
-        restrict: 'E',
-        scope: true,
-        templateUrl: 'scripts/components/footer/footer.html',
-        link: function (scope, iElement, iAttrs, controller) {
+    angular.module('clapseApp').directive('footer', [function () {
+        return {
+            restrict: 'E',
+            scope: true,
+            templateUrl: 'scripts/components/footer/footer.html',
+            link: function (scope, iElement, iAttrs, controller) {
 
-        },
-        controller: function ($scope, $element, $attrs, $transclude) {
+            },
+            controller: function ($scope, $element, $attrs, $transclude) {
 
-        }
-    }
-}]);
+            }
+        };
+    }]);
+})();

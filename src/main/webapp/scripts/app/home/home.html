@@ -1,6 +1,7 @@
-<div class="container">
-    <a ui-sref="system1">系统1</a>
-    <a ui-sref="system2">系统2</a>
-    <a ui-sref="system3">系统3</a>
-    <a ui-sref="system4">系统4</a>
+<div class="container home">
+    <div class="row">
+        <ul>
+            <li ng-repeat="item in systems"><a ui-sref="{{item.state}}">{{item.name}}</a></li>
+        </ul>
+    </div>
 </div>

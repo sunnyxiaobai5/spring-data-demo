@@ -8,18 +8,20 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').factory('User', ['$resource', function () {
-    return $resource('user/:id', {}, {
-        'query': {method: 'GET', isArray: false},
-        'get': {
-            method: 'GET',
-            transformResponse: function (data) {
-                data = angular.fromJson(data);
-                return data;
-            }
-        },
-        'update': {method: 'PUT'}
-    });
-}]);
+    angular.module('clapseApp').factory('User', ['$resource', function () {
+        return $resource('user/:id', {}, {
+            'query': {method: 'GET', isArray: false},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'update': {method: 'PUT'}
+        });
+    }]);
+})();

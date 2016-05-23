@@ -8,22 +8,24 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp')
-    .config(function ($stateProvider, $urlRouterProvider) {
+    angular.module('clapseApp')
+        .config(function ($stateProvider) {
 
-        $stateProvider
-            .state('system3', {
-                parent: 'main',
-                url: '/system3',
-                data: {
-                    id: 3
-                },
-                views: {
-                    'content@main': {
-                        templateUrl: 'scripts/app/system3/system3.html'
+            $stateProvider
+                .state('SITE_3', {
+                    parent: 'main',
+                    url: '/SITE_3',
+                    data: {
+                        id: 3
+                    },
+                    views: {
+                        'content@main': {
+                            templateUrl: 'scripts/app/system3/system3.html'
+                        }
                     }
-                }
-            });
-    });
+                });
+        });
+})();

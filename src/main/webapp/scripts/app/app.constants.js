@@ -8,9 +8,9 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp')
-    .constant('VERSION', '0.0.1-SNAPSHOT')
-;
-
+    angular.module('clapseApp')
+        .constant('VERSION', '0.0.1-SNAPSHOT');
+})();

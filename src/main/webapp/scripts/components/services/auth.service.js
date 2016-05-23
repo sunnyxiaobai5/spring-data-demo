@@ -8,40 +8,42 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').factory('Auth', ['$resource', function () {
-    var identity, _authenticated = false;
+    angular.module('clapseApp').factory('Auth', ['$resource', function () {
+        var identity, _authenticated = false;
 
-    return {
-        login: function () {
-            _authenticated = true;
-            console.log("login");
-        },
+        return {
+            login: function () {
+                _authenticated = true;
+                console.log("login");
+            },
 
-        logout: function () {
-            _authenticated = false;
-            console.log("logout");
-        },
+            logout: function () {
+                _authenticated = false;
+                console.log("logout");
+            },
 
-        isAuthenticated: function () {
-            return _authenticated;
-        },
+            isAuthenticated: function () {
+                return _authenticated;
+            },
 
-        createAccount: function () {
-            console.log("createAccount");
-        },
+            createAccount: function () {
+                console.log("createAccount");
+            },
 
-        updateAccount: function () {
-            console.log("updateAccount");
-        },
+            updateAccount: function () {
+                console.log("updateAccount");
+            },
 
-        activeAccount: function () {
-            console.log("activeAccount");
-        },
+            activeAccount: function () {
+                console.log("activeAccount");
+            },
 
-        changePassword: function () {
-            console.log("changePassword");
-        }
-    }
-}]);
+            changePassword: function () {
+                console.log("changePassword");
+            }
+        };
+    }]);
+})();

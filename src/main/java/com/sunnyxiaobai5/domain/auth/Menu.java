@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "MENU")
-public class Menu extends BaseEntity<Long>{
+public class Menu extends BaseEntity<Long> {
     /**
      * 菜单名称
      */
@@ -26,6 +26,13 @@ public class Menu extends BaseEntity<Long>{
     @NotNull
     @Column(name = "IS_SYSTEM", nullable = false)
     private Boolean isSystem = false;
+
+    /**
+     * 路由名称
+     */
+    @Size(min = 1, max = 100)
+    @Column(length = 100)
+    private String state;
 
     /**
      * 菜单图标 URL
@@ -78,12 +85,20 @@ public class Menu extends BaseEntity<Long>{
         this.name = name;
     }
 
-    public Boolean getSystem() {
+    public Boolean getIsSystem() {
         return isSystem;
     }
 
-    public void setSystem(Boolean system) {
-        isSystem = system;
+    public void setIsSystem(Boolean isSystem) {
+        this.isSystem = isSystem;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getIconUrl() {
@@ -94,12 +109,12 @@ public class Menu extends BaseEntity<Long>{
         this.iconUrl = iconUrl;
     }
 
-    public Boolean getShortcut() {
+    public Boolean getIsShortcut() {
         return isShortcut;
     }
 
-    public void setShortcut(Boolean shortcut) {
-        isShortcut = shortcut;
+    public void setIsShortcut(Boolean isShortcut) {
+        this.isShortcut = isShortcut;
     }
 
     public String getDescription() {

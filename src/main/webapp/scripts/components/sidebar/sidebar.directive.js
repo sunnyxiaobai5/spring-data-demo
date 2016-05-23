@@ -8,26 +8,28 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Menu, $state) {
-    return {
-        restrict: 'E',
-        scope: true,
-        templateUrl: 'scripts/components/sidebar/sidebar.html',
-        link: function ($scope, iElement, iAttrs, controller) {
+    angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Menu, $state) {
+        return {
+            restrict: 'E',
+            scope: true,
+            templateUrl: 'scripts/components/sidebar/sidebar.html',
+            link: function ($scope, iElement, iAttrs, controller) {
 
-            $scope.$watch(
-                function () {
-                    return $state.current;
-                },
-                function (newValue, oldValue) {
-                    if (newValue && newValue.parent == 'main' && newValue.data && newValue.data.id) {
-                        Menu.findByParentId({id: newValue.data.id}, function (data) {
-                            $scope.menus = data;
-                        });
-                    }
-                });
-        }
-    }
-}]);
+                $scope.$watch(
+                    function () {
+                        return $state.current;
+                    },
+                    function (newValue, oldValue) {
+                        if (newValue && newValue.parent == 'main' && newValue.data && newValue.data.id) {
+                            Menu.findByParentId({id: newValue.data.id}, function (data) {
+                                $scope.menus = data;
+                            });
+                        }
+                    });
+            }
+        };
+    }]);
+})();

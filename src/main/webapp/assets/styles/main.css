@@ -34,6 +34,34 @@ body {
     min-height: 600px;
 }
 
+.home ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.home ul li {
+    margin: auto;
+    list-style: none;
+    display: inline-block;
+}
+
+.home ul li a {
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    line-height: 150px;
+    font-weight: 700;
+    text-decoration: none;
+    margin: 10px;
+    background-color: #EEEEEE;
+    border: solid 1px pink;
+    display: inline-block;
+}
+.home ul li a:hover {
+    background-color: #DDDDDD;
+}
+
 #sidebar {
     min-height: 1000px;
     border: 1px solid #ddd;

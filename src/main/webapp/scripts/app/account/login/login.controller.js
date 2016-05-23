@@ -8,11 +8,13 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').controller('LoginController', ['$scope', '$state', 'Auth', function ($scope, $state, Auth) {
-    $scope.login = function () {
-        Auth.login();
-        $state.go('home');
-    };
-}]);
+    angular.module('clapseApp').controller('LoginController', ['$scope', '$state', 'Auth', function ($scope, $state, Auth) {
+        $scope.login = function () {
+            Auth.login();
+            $state.go('home');
+        };
+    }]);
+})();

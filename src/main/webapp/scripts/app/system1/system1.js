@@ -8,67 +8,69 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp')
-    .config(function ($stateProvider, $urlRouterProvider) {
+    angular.module('clapseApp')
+        .config(function ($stateProvider) {
 
-        $stateProvider
-            .state('system1', {
-                parent: 'main',
-                url: '/system1',
-                data: {
-                    id: 1
-                },
-                views: {
-                    'content@main': {
-                        templateUrl: 'scripts/app/system1/system1.html'
+            $stateProvider
+                .state('SITE_1', {
+                    parent: 'main',
+                    url: '/SITE_1',
+                    data: {
+                        id: 1
+                    },
+                    views: {
+                        'content@main': {
+                            templateUrl: 'scripts/app/system1/system1.html'
+                        }
                     }
-                }
-            })
-            .state('system1.module1', {
-                parent: 'system1',
-                url: '/module1',
-                data: {}
-            })
-            .state('system1.module2', {
-                parent: 'system1',
-                url: '/module2',
-                data: {}
-            })
-            .state('system1.module3', {
-                parent: 'system1',
-                url: '/module3',
-                data: {}
-            })
-            .state('system1.module1.menu1', {
-                parent: 'system1.module1',
-                url: '/menu1',
-                data: {},
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/main/main.html'
+                })
+                .state('SITE_1_1', {
+                    parent: 'SITE_1',
+                    url: '/SITE_1_1',
+                    data: {}
+                })
+                .state('SITE_1_2', {
+                    parent: 'SITE_1',
+                    url: '/SITE_1_2',
+                    data: {}
+                })
+                .state('SITE_1_3', {
+                    parent: 'SITE_1',
+                    url: '/SITE_1_3',
+                    data: {}
+                })
+                .state('SITE_1_1_1', {
+                    parent: 'SITE_1_1',
+                    url: '/SITE_1_1_1',
+                    data: {},
+                    views: {
+                        'content@': {
+                            templateUrl: 'scripts/app/main/main.html'
+                        }
                     }
-                }
-            })
-            .state('system1.module1.menu2', {
-                parent: 'system1.module1',
-                url: '/menu2',
-                data: {},
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/main/main.html'
+                })
+                .state('SITE_1_1_2', {
+                    parent: 'SITE_1_1',
+                    url: '/SITE_1_1_2',
+                    data: {},
+                    views: {
+                        'content@': {
+                            templateUrl: 'scripts/app/main/main.html'
+                        }
                     }
-                }
-            })
-            .state('system1.module1.menu3', {
-                parent: 'system1.module1',
-                url: '/menu3',
-                data: {},
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/main/main.html'
+                })
+                .state('SITE_1_1_3', {
+                    parent: 'SITE_1_1',
+                    url: '/SITE_1_1_3',
+                    data: {},
+                    views: {
+                        'content@': {
+                            templateUrl: 'scripts/app/main/main.html'
+                        }
                     }
-                }
-            });
-    });
+                });
+        });
+})();

@@ -8,33 +8,35 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-'use strict';
+(function () {
+    'use strict';
 
-angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', function ($state, Menu, Auth) {
-    return {
-        restrict: 'E',
-        scope: true,
-        templateUrl: 'scripts/components/navbar/navbar.html',
-        link: function (scope, iElement, iAttrs, controller) {
+    angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', function ($state, Menu, Auth) {
+        return {
+            restrict: 'E',
+            scope: true,
+            templateUrl: 'scripts/components/navbar/navbar.html',
+            link: function (scope, iElement, iAttrs, controller) {
 
-        },
-        controller: function ($scope, $element, $attrs, $transclude) {
+            },
+            controller: function ($scope, $element, $attrs, $transclude) {
 
-            $scope.logout = function () {
-                Auth.logout();
-                $state.go('login');
-            };
+                $scope.logout = function () {
+                    Auth.logout();
+                    $state.go('login');
+                };
 
-            $scope.$watch(Auth.isAuthenticated, function (newValue, oldValue) {
-                $scope.isAuthenticated = newValue;
-                if (newValue) {
-                    Menu.findSystem(null, function (data) {
-                        $scope.menuList = data;
-                    });
-                } else {
-                    $scope.menuList = [];
-                }
-            });
-        }
-    }
-}]);
+                $scope.$watch(Auth.isAuthenticated, function (newValue, oldValue) {
+                    $scope.isAuthenticated = newValue;
+                    if (newValue) {
+                        Menu.findSystem(null, function (data) {
+                            $scope.menuList = data;
+                        });
+                    } else {
+                        $scope.menuList = [];
+                    }
+                });
+            }
+        };
+    }]);
+})();
