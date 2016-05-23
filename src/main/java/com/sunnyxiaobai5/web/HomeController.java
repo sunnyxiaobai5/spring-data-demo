@@ -19,6 +19,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URL;
+
 /**
  * Project: spring-data-demo
  * Package: com.sunnyxiaobai5.web.home
@@ -28,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Version: 1.0
  */
 @Controller
-//@RequestMapping("/")
+@RequestMapping("/")
 public class HomeController {
 
     @Autowired
@@ -63,4 +68,54 @@ public class HomeController {
         }
         return "not exists";
     }
+
+    /**
+     * pdf预览下载
+     *
+     * @param fileName  预览文件路径
+     * @param request
+     * @param response
+     * @param isPreview 预览/下载 true：预览，false：下载
+     * @param fname
+     * @throws IOException
+     */
+    @RequestMapping("/previewPdf")
+    public void previewPdf(String fileName, HttpServletRequest request, HttpServletResponse response,
+                           boolean isPreview, String fname) throws IOException {
+
+        fileName = "1.pdf";
+        //文件路径，需要动态获取
+        String filePath = "D:\\02-workspace\\spring-data-demo\\target\\classes\\" + fileName;
+
+        //是否在线预览 true：在线预览，false：下载
+        isPreview = true;
+
+        File f = new File(filePath);
+        if (!f.exists()) {
+            response.sendError(404, "File not found!");
+            return;
+        }
+        BufferedInputStream br = new BufferedInputStream(new FileInputStream(f));
+        byte[] bs = new byte[1024];
+        int len = 0;
+        response.reset(); // 非常重要
+
+        if (isPreview) {
+            URL u = new URL("file:///" + filePath);
+            String contentType = u.openConnection().getContentType();
+            response.setContentType(contentType);
+            response.setHeader("Content-Disposition", "inline;filename=" + fname);
+        } else {
+            response.setContentType("application/x-msdownload");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fname);
+        }
+        OutputStream out = response.getOutputStream();
+        while ((len = br.read(bs)) > 0) {
+            out.write(bs, 0, len);
+        }
+        out.flush();
+        out.close();
+        br.close();
+    }
+
 }
