@@ -22,6 +22,46 @@ body {
     padding: 0;
 }
 
+.margin-10 {
+    margin: 10px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.margin-right-25 {
+    margin-right: 25px;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.padding-10 {
+    padding: 10px;
+}
+
+.padding-15 {
+    padding: 15px;
+}
+
 .block {
     display: block;
 }
@@ -58,6 +98,7 @@ body {
     border: solid 1px pink;
     display: inline-block;
 }
+
 .home ul li a:hover {
     background-color: #DDDDDD;
 }
@@ -123,5 +164,31 @@ body {
 
 #sidebar .panel .panel-body .list-group .list-group-item:last-child {
     border-bottom: none;
+}
+
+.bread {
+    background-color: #CFD7EF;
+}
+
+.grid button {
+    margin-right: 5px;
+}
+
+.grid .table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.grid .pagination {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.grid .column-control {
+    padding: 0;
+}
+
+.grid .sort {
+    cursor: pointer;
 }
 

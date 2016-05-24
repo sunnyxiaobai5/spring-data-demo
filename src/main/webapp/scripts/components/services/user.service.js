@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').factory('User', ['$resource', function () {
+    angular.module('elapseApp').factory('User', ['$resource', function () {
         return $resource('user/:id', {}, {
             'query': {method: 'GET', isArray: false},
             'get': {

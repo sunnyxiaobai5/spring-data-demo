@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').factory('Auth', ['$resource', function () {
+    angular.module('elapseApp').factory('Auth', ['$resource', function () {
         var identity, _authenticated = false;
 
         return {

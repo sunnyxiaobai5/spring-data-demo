@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').controller('HomeController', ['$scope', '$state', 'Menu', function ($scope, $state, Menu) {
+    angular.module('elapseApp').controller('HomeController', ['$scope', '$state', 'Menu', function ($scope, $state, Menu) {
 
         $scope.systems = Menu.findSystem(null, function (data) {
 

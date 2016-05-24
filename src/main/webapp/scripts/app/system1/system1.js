@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp')
+    angular.module('elapseApp')
         .config(function ($stateProvider) {
 
             $stateProvider
@@ -40,7 +40,12 @@
                 .state('SITE_1_3', {
                     parent: 'SITE_1',
                     url: '/SITE_1_3',
-                    data: {}
+                    data: {},
+                    views: {
+                        'content@main': {
+                            templateUrl: 'scripts/app/system1/account/account-query.html'
+                        }
+                    }
                 })
                 .state('SITE_1_1_1', {
                     parent: 'SITE_1_1',

@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').factory('Menu', ['$resource', function ($resource) {
+    angular.module('elapseApp').factory('Menu', ['$resource', function ($resource) {
         return $resource('menu/:id', {}, {
             'query': {method: 'GET', isArray: true},
             'get': {

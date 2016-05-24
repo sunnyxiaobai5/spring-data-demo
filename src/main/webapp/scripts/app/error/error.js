@@ -10,7 +10,7 @@
  ******************************************************************************/
 'use strict';
 
-angular.module('clapseApp')
+angular.module('elapseApp')
     .config(function ($stateProvider) {
 
         $stateProvider

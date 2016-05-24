@@ -11,11 +11,11 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').directive('sidebar', ['Menu', '$state', function (Menu, $state) {
+    angular.module('elapse.ui').directive('sidebar', ['Menu', '$state', function (Menu, $state) {
         return {
             restrict: 'E',
             scope: true,
-            templateUrl: 'scripts/components/sidebar/sidebar.html',
+            templateUrl: 'scripts/components/03-sidebar/sidebar.html',
             link: function ($scope, iElement, iAttrs, controller) {
 
                 $scope.$watch(

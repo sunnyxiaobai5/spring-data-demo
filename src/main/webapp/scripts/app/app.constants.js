@@ -11,6 +11,6 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp')
+    angular.module('elapseApp')
         .constant('VERSION', '0.0.1-SNAPSHOT');
 })();

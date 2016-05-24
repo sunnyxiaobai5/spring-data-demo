@@ -11,11 +11,11 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').directive('navbar', ['$state', 'Menu', 'Auth', function ($state, Menu, Auth) {
+    angular.module('elapse.ui').directive('navbar', ['$state', 'Menu', 'Auth', function ($state, Menu, Auth) {
         return {
             restrict: 'E',
             scope: true,
-            templateUrl: 'scripts/components/navbar/navbar.html',
+            templateUrl: 'scripts/components/01-navbar/navbar.html',
             link: function (scope, iElement, iAttrs, controller) {
 
             },

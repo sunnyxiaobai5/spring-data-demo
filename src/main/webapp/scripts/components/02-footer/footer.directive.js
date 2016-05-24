@@ -11,11 +11,11 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').directive('footer', [function () {
+    angular.module('elapse.ui').directive('footer', [function () {
         return {
             restrict: 'E',
             scope: true,
-            templateUrl: 'scripts/components/footer/footer.html',
+            templateUrl: 'scripts/components/02-footer/footer.html',
             link: function (scope, iElement, iAttrs, controller) {
 
             },

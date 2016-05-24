@@ -11,7 +11,7 @@
 (function () {
     'use strict';
 
-    angular.module('clapseApp').controller('LoginController', ['$scope', '$state', 'Auth', function ($scope, $state, Auth) {
+    angular.module('elapseApp').controller('LoginController', ['$scope', '$state', 'Auth', function ($scope, $state, Auth) {
         $scope.login = function () {
             Auth.login();
             $state.go('home');
