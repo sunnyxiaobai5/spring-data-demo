@@ -70,6 +70,10 @@ body {
     display: inline-block;
 }
 
+.btn-link:disabled {
+    color: #777;
+}
+
 .main {
     min-height: 600px;
 }
@@ -167,7 +171,9 @@ body {
 }
 
 .bread {
-    background-color: #CFD7EF;
+    border-radius: 0;
+    border-bottom: solid 1px #DDD;
+    padding: 9px 15px;
 }
 
 .grid button {

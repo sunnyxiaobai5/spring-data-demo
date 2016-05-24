@@ -7,76 +7,52 @@
             // name: '',
             // priority: 1,
             // terminal: true,
-            // scope: {}, // {} = isolate, true = child, false/undefined = no change
+            scope: {
+                options: '=',
+                ngModel: '='
+            }, // {} = isolate, true = child, false/undefined = no change
             // controller: function($scope, $element, $attrs, $transclude) {},
-            // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+            require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
             restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
-            // template: '<div>你好</div>',
+            // template: '<input type="text"/>',
             templateUrl: 'scripts/components/04-grid/ui-grid.html',
             replace: true,
             // transclude: true,
             // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
-            link: function ($scope, iElm, iAttrs, controller) {
+            link: function ($scope, iElement, iAttrs, ngModel) {
 
-                $scope.options = {};
+                //默认ID排序
+                var defaultOptions = {
+                    sortBy: 'id'
+                };
 
-                $scope.sortBy = 'name';
+                //合并配置
+                $scope.options = angular.extend({}, defaultOptions, $scope.options);
 
+                //默认升序
                 $scope.orderAsc = true;
 
+                //是否全部选中
                 $scope.checkAllFlag = false;
 
+                //选中的ID
                 $scope.checkIds = [];
 
+                //选中的数据
                 $scope.checkItems = [];
 
+                //所有数据
                 $scope.allItems = [];
 
-                /************** 模拟数据 start **************/
-                $scope.options.columns = [
-                    {'field': 'id', 'displayName': 'id'},
-                    {'field': 'name', 'displayName': '<b class="text-primary">姓名</b>'},
-                    {'field': 'age', 'displayName': '年龄'}
-                ];
-
-                $scope.rowList = [
-                    {'id': 1, 'name': 'name1', age: 54},
-                    {'id': 2, 'name': 'name2', age: 56},
-                    {'id': 4, 'name': 'name4', age: 67},
-                    {'id': 3, 'name': 'name3', age: 51},
-                    {'id': 5, 'name': 'name5', age: 48}
-                ];
+                //传入的数据
+                $scope.rowList = $scope.ngModel;
 
                 angular.copy($scope.rowList, $scope.allItems);
 
-                $scope.options.topActions = [
-                    {
-                        name: '导出',
-                        action: function (ids, checkItems, allItems, event) {
-                            console.log(ids);
-                            console.log(checkItems);
-                            console.log(allItems);
-                        }
-                    },
-                    {
-                        name: '打印',
-                        dropdowns: [
-                            {'name': '打印所选'},
-                            {'name': '打印全部'}
-                        ]
-                    },
-                    {name: '删除'},
-                    {name: '审核'}
-                ];
-
-                $scope.options.botActions = [
-                    {name: '导出'},
-                    {name: '打印'},
-                    {name: '删除'}
-                ];
-                /*************** 模拟数据 end ***************/
-
                 /************** 控制逻辑 start **************/
+                /**
+                 * 选中全部
+                 */
                 $scope.checkAll = function () {
                     $scope.checkIds = [];
                     $scope.checkItems = [];
@@ -89,6 +65,9 @@
                     });
                 };
 
+                /**
+                 * 选中一个
+                 */
                 $scope.checkOne = function () {
                     $scope.checkIds = [];
                     $scope.checkItems = $scope.rowList.filter(function (row) {
@@ -98,25 +77,20 @@
                     $scope.checkItems.forEach(function (item) {
                         $scope.checkIds.push(item.id);
                     });
-
-                    //for (var i = 0; i < $scope.rowList.length; i++) {
-                    //    if (!$scope.rowList[i].checked) {
-                    //        $scope.checkAllFlag = false;
-                    //        return;
-                    //    }
-                    //}
-                    //$scope.checkAllFlag = true;
-
                 };
 
+                /**
+                 * 改变排序字段
+                 * @param field
+                 */
                 $scope.changeSortField = function (field) {
-                    if ($scope.sortBy !== field) {
-                        $scope.sortBy = field;
+                    if ($scope.options.sortBy !== field) {
+                        $scope.options.sortBy = field;
                         $scope.orderAsc = true;
                     } else {
                         $scope.orderAsc = !$scope.orderAsc;
                     }
-                    console.log($scope.sortBy)
+                    console.log($scope.options.sortBy)
                     console.log($scope.orderAsc)
                 };
                 /*************** 控制逻辑 end ***************/
@@ -124,8 +98,8 @@
         };
     }]).filter('to_trusted', ['$sce', function ($sce) {
         return function (text) {
-            console.log(text)
-            console.log(typeof text)
+            // console.log(text)
+            // console.log(typeof text)
             if (typeof text == 'string')
                 return $sce.trustAsHtml(text);
             else

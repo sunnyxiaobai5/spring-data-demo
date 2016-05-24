@@ -1,5 +1,5 @@
 <div class="grid">
-	<!-- 顶部 start -->
+	<!-- top start -->
 	<div class="row">
 		<div class="col-md-12">
 			<!-- <div> -->
@@ -43,24 +43,23 @@
 
 		</div>
 	</div>
-	<!-- 顶部 end -->
+	<!-- top end -->
 
-	<!-- 表格 start -->
+	<!-- table start -->
 	<div class="row">
 		<div class="col-md-12">
 			<div>
 				<table class="table table-striped table-bordered table-hover table-condensed">
-					<!-- 表头 start -->
 					<thead>
-						<tr>
+						<tr class="info">
 							<th><input type="checkbox" ng-model="checkAllFlag" ng-change="checkAll()"/></th>
 							<th><span>序号</span></th>
 							<th ng-repeat="column in options.columns track by $index">
 								<span ng-bind-html="column.displayName | to_trusted"></span>
-								<span class="glyphicon sort" ng-click="changeSortField(column.field)" ng-class="{'glyphicon-sort' : !sortBy || sortBy != column.field,'glyphicon-sort-by-order' : !!sortBy && sortBy == column.field && !!orderAsc,'glyphicon-sort-by-order-alt' : !!sortBy && sortBy == column.field && !orderAsc}"></span>
+								<span class="glyphicon sort" ng-click="changeSortField(column.field)" ng-class="{'glyphicon-sort' : !options.sortBy || options.sortBy != column.field,'glyphicon-sort-by-order' : !!options.sortBy && options.sortBy == column.field && !!orderAsc,'glyphicon-sort-by-order-alt' : !!options.sortBy && options.sortBy == column.field && !orderAsc}"></span>
 							</th>
 							<th>
-								<div class="pull-left">操作{{sortBy}}--{{!!orderAsc}}</div>
+								<div class="pull-left">操作{{options.sortBy}}--{{!!orderAsc}}</div>
 								<div class="pull-right">
 									<div class="btn-group">
 										<a class="btn column-control" href="javascript:void(0)" data-toggle="dropdown">
@@ -77,14 +76,12 @@
 						                        年龄
 						                    </label>
 						                </div>
-						            </div>    
+						            </div>
 								</div>
 							</th>
 						</tr>
 					</thead>
-					<!-- 表头 end -->
 
-					<!-- 脚注 start -->
 					<!-- <tfoot>
 						<tr>
 							<td></td>
@@ -93,16 +90,17 @@
 							<td></td>
 						</tr>
 					</tfoot> -->
-					<!-- 脚注 end -->
 
 					<!-- 无单元格合并 start -->
 					<tbody>
-						<tr ng-repeat="(rowIndex, row) in rowList | orderBy:sortBy : !orderAsc">
+						<tr ng-repeat="(rowIndex, row) in rowList | orderBy:options.sortBy : !orderAsc">
 							<td><input type="checkbox" ng-model="row.checked" ng-change="checkOne()" /></td>
 							<td ng-bind="rowIndex+1"></td>
 							<!-- <td ng-if="typeof(row[col['field']])==string" ng-repeat="(colIndex, col) in options.columns" ng-bind-html="row[col['field']] | to_trusted"></td> -->
 							<td ng-repeat="(colIndex, col) in options.columns">{{row[col['field']]}}</td>
-							<td>{{typeof('niaho')}}</td>
+							<td>
+                                <button class="btn btn-xs btn-link" ng-repeat="action in options.rowActions" ng-click="action.handler()" ng-disabled="!!action.disabled" ng-bind="action.name"></button>
+                            </td>
 						</tr>
 					</tbody>
 					<!-- 无单元格合并 end -->
@@ -117,8 +115,8 @@
 						</tr>
 					</tbody> -->
 					<!-- 有单元格合并 end -->
-			
-					<!-- 数据异常 start -->
+
+					<!-- exception start -->
 <!-- 					<tbody>
 						<tr>
 							<td></td>
@@ -127,14 +125,14 @@
 							<td></td>
 						</tr>
 					</tbody> -->
-					<!-- 数据异常 end -->
+					<!-- exception end -->
 				</table>
 			</div>
 		</div>
 	</div>
-	<!-- 表格end -->
+	<!-- table end -->
 
-	<!-- 底部 start -->
+	<!-- bottom start -->
 	<div class="row">
 		<div class="col-md-12">
 
@@ -165,8 +163,7 @@
 					</ul>
 				</nav>
 			</div>
-
 		</div>
 	</div>
-	<!-- 底部 end -->
+	<!-- bottom end -->
 </div>

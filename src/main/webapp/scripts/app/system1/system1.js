@@ -43,7 +43,8 @@
                     data: {},
                     views: {
                         'content@main': {
-                            templateUrl: 'scripts/app/system1/account/account-query.html'
+                            templateUrl: 'scripts/app/system1/user/user-query.html',
+                            controller: 'UserController'
                         }
                     }
                 })
