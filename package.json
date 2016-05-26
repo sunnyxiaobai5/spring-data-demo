@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/sunnyxiaobai5/spring-data-demo/issues"
   },
-  "homepage": "https://github.com/sunnyxiaobai5/spring-data-demo#readme"
+  "homepage": "https://github.com/sunnyxiaobai5/spring-data-demo#readme",
+  "devDependencies": {
+    "jshint": "^2.9.2"
+  }
 }
