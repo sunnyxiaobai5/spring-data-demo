@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').controller('UserController', ['$scope', function ($scope) {
+    angular.module('elapseApp').controller('UserController', ['$scope', 'User', function ($scope, User) {
 
         $scope.options = {
             columns: [
@@ -61,5 +61,7 @@
             {'id': 3, 'name': 'name3', age: 51},
             {'id': 5, 'name': 'name5', age: 48}
         ];
+
+        $scope.users = User.query();
     }]);
 })();

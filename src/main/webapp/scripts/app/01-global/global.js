@@ -23,7 +23,7 @@
                     },
                     views: {
                         'content@main': {
-                            templateUrl: 'scripts/app/system1/system1.html'
+                            templateUrl: 'scripts/app/01-global/global.html'
                         }
                     }
                 })
@@ -43,7 +43,7 @@
                     data: {},
                     views: {
                         'content@main': {
-                            templateUrl: 'scripts/app/system1/user/user-query.html',
+                            templateUrl: 'scripts/app/01-global/user/user-query.html',
                             controller: 'UserController'
                         }
                     }

@@ -1,6 +1,8 @@
 package com.sunnyxiaobai5.domain.auth;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunnyxiaobai5.common.BaseEntity;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "USER")
+@Where(clause = "IS_DELETE='false'")
 public class User extends BaseEntity<Long> {
     /**
      * 用户名称
@@ -24,10 +27,16 @@ public class User extends BaseEntity<Long> {
     @Column
     private String description;
 
+    /**
+     * 性别 1：男，2：女
+     */
     @NotNull
     @Column(name = "GENDER_CODE")
     private Byte genderCode;
 
+    /**
+     * 电子邮箱
+     */
     @Column(name = "EMAIL")
     private String email;
 
@@ -36,12 +45,14 @@ public class User extends BaseEntity<Long> {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCOUNT_ID")
+    @JsonIgnore
     private Account account;
 
     /**
      * 是否逻辑删除
      */
     @NotNull
+    @JsonIgnore
     @Column(name = "IS_DELETE", nullable = false)
     private Boolean isDelete = false;
 
@@ -59,6 +70,22 @@ public class User extends BaseEntity<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Byte getGenderCode() {
+        return genderCode;
+    }
+
+    public void setGenderCode(Byte genderCode) {
+        this.genderCode = genderCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Account getAccount() {

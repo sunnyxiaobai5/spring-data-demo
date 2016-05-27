@@ -12,6 +12,8 @@
   "esversion": 5,
   "jquery": true,
   "predef": [
-    "angular"
+    "console",
+    "angular",
+    "$resource"
   ]
 }

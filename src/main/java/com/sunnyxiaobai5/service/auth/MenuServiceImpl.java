@@ -9,13 +9,12 @@
  * <li>其他说明: </li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
-package com.sunnyxiaobai5.service;
+package com.sunnyxiaobai5.service.auth;
 
 import com.sunnyxiaobai5.common.BaseRepository;
 import com.sunnyxiaobai5.common.BaseServiceImpl;
 import com.sunnyxiaobai5.domain.auth.Menu;
 import com.sunnyxiaobai5.repository.auth.MenuRepository;
-import com.sunnyxiaobai5.service.auth.MenuService;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
 import org.springframework.stereotype.Service;
 

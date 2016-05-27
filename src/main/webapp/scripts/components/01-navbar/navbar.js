@@ -26,15 +26,12 @@
                     $state.go('login');
                 };
 
+                Menu.findSystem(null, function (data) {
+                    $scope.menuList = data;
+                });
+
                 $scope.$watch(Auth.isAuthenticated, function (newValue, oldValue) {
                     $scope.isAuthenticated = newValue;
-                    if (newValue) {
-                        Menu.findSystem(null, function (data) {
-                            $scope.menuList = data;
-                        });
-                    } else {
-                        $scope.menuList = [];
-                    }
                 });
             }
         };

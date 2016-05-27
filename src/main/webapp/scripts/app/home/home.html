@@ -1,7 +1,14 @@
 <div class="container home">
     <div class="row">
-        <ul>
-            <li ng-repeat="item in systems"><a ui-sref="{{item.state}}">{{item.name}}</a></li>
-        </ul>
+        <div class="col-sm-3 col-md-2" ng-repeat="item in systems track by $index">
+            <div class="thumbnail clearfix" ui-sref="{{item.state}}">
+                <a href="#">
+                    <img class="float-left" ng-src="assets/images/{{$index+1}}.jpg" alt="全局管理">
+                    <div class="caption home-sys-desc">
+                        <h5 class="text-center no-margin"><b>{{item.name}}</b></h5>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>

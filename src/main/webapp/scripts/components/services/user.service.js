@@ -11,9 +11,9 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').factory('User', ['$resource', function () {
+    angular.module('elapseApp').factory('User', ['$resource', function ($resource) {
         return $resource('user/:id', {}, {
-            'query': {method: 'GET', isArray: false},
+            'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

@@ -6,7 +6,7 @@
             restrict: 'E',
             scope: true,
             templateUrl: 'scripts/components/06-query/query.html',
-            link: function (scope, iElement, iAttrs, controller) {
+            link: function ($scope, iElement, iAttrs, controller) {
 
             },
             controller: function ($scope, $element, $attrs, $transclude) {

@@ -13,6 +13,7 @@ package com.sunnyxiaobai5.common;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
@@ -26,9 +27,9 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     protected abstract BaseRepository<T, ID> getBaseRepository();
 
-    protected Class<T> tClass;
+    private Class<T> tClass;
 
-    protected Class<K> kClass;
+    private Class<K> kClass;
 
     @SuppressWarnings("unchecked")
     public BaseServiceImpl() {
@@ -63,23 +64,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
     @Override
     public List<T> fromDTO(List<K> kList) {
         return new ArrayList<>(kList.stream().map(this::fromDTO).collect(Collectors.toCollection(ArrayList::new)));
-
-//        List<T> tList = new ArrayList<>();
-//        if (!CollectionUtils.isEmpty(kList)) {
-//            kList.parallelStream().sequential().forEach(t -> tList.add(convert(t)));
-//        }
-//        return tList;
     }
 
     @Override
     public List<K> fromEntity(List<T> tList) {
         return new ArrayList<>(tList.stream().map(this::fromEntity).collect(Collectors.toCollection(ArrayList::new)));
-
-//        List<K> kList = new ArrayList<>();
-//        if (!CollectionUtils.isEmpty(tList)) {
-//            tList.parallelStream().sequential().forEach(t -> kList.add(convert(t)));
-//        }
-//        return kList;
     }
 
     @Override
@@ -104,61 +93,63 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public T save(T t) {
-        return null;
+        return getBaseRepository().save(t);
     }
 
     @Override
     public T save(K k) {
-        return null;
+        return getBaseRepository().save(fromDTO(k));
     }
 
     @Override
     public List<T> saveAll(List<T> tList) {
-        return null;
+        return getBaseRepository().save(tList);
     }
 
     @Override
     public List<T> saveAllDTO(List<K> kList) {
-        return null;
+        return getBaseRepository().save(fromDTO(kList));
     }
 
     @Override
     public List<T> findAll(List<ID> ids) {
-        return null;
+        return getBaseRepository().findAll(ids);
     }
 
     @Override
     public List<K> findAllDTO(List<ID> ids) {
-        return null;
+        return fromEntity(getBaseRepository().findAll(ids));
     }
 
     @Override
     public Page<T> findAll(Pageable pageable) {
-        return null;
+        List<T> tList = getBaseRepository().findAll();
+        return new PageImpl<>(tList, pageable, tList.size());
     }
 
     @Override
     public Page<K> findAllDTO(Pageable pageable) {
-        return null;
+        List<T> tList = getBaseRepository().findAll();
+        return new PageImpl<>(fromEntity(tList), pageable, tList.size());
     }
 
     @Override
     public void delete(ID id) {
-
+        getBaseRepository().delete(id);
     }
 
     @Override
     public void delete(T entity) {
-
+        getBaseRepository().delete(entity);
     }
 
     @Override
     public void deleteAllByID(List<ID> ids) {
-
+        ids.stream().forEach(id -> getBaseRepository().delete(id));
     }
 
     @Override
     public void deleteAll(List<T> tList) {
-
+        getBaseRepository().delete(tList);
     }
 }

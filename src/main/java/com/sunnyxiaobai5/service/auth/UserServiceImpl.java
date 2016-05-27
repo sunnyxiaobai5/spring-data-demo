@@ -14,16 +14,21 @@ package com.sunnyxiaobai5.service.auth;
 import com.sunnyxiaobai5.common.BaseRepository;
 import com.sunnyxiaobai5.common.BaseServiceImpl;
 import com.sunnyxiaobai5.domain.auth.User;
+import com.sunnyxiaobai5.repository.auth.UserRepository;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 @Transactional
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, Long> implements UserService {
+    @Resource
+    private UserRepository userRepository;
+
     @Override
     protected BaseRepository<User, Long> getBaseRepository() {
-        return null;
+        return userRepository;
     }
 }

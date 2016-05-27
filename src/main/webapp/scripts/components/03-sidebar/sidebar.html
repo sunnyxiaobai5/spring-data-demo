@@ -3,7 +3,10 @@
         <div class="panel-heading" ui-sref="{{menu.state}}" ui-sref-active="active-module">
             <h4 class="panel-title">
                 <a class="collapsed block" role="button" data-toggle="collapse" data-parent="#sidebar" data-target="#{{menu.id}}">
-                    <b>{{menu.name}}</b>
+                    <b>
+                        <span class="glyphicon glyphicon-cloud"></span>
+                        <span>{{menu.name}}</span>
+                    </b>
                     <span class="glyphicon pull-right glyphicon-chevron-right" ng-show="menu.menuDTOs.length > 0"></span>
                 </a>
             </h4>
@@ -12,7 +15,10 @@
             <div class="panel-body">
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="(subKey,subMenu) in menu.menuDTOs" ui-sref="{{subMenu.state}}" ui-sref-active="active-menu">
-                        <a class="block">{{subMenu.name}}</a>
+                        <a class="block">
+                            <span class="glyphicon glyphicon-asterisk margin-left-10"></span>
+                            <span>{{subMenu.name}}</span>
+                        </a>
                     </li>
                 </ul>
             </div>

@@ -18,17 +18,22 @@
             templateUrl: 'scripts/components/03-sidebar/sidebar.html',
             link: function ($scope, iElement, iAttrs, controller) {
 
-                $scope.$watch(
-                    function () {
-                        return $state.current;
-                    },
-                    function (newValue, oldValue) {
-                        if (newValue && newValue.parent == 'main' && newValue.data && newValue.data.id) {
-                            Menu.findByParentId({id: newValue.data.id}, function (data) {
-                                $scope.menus = data;
-                            });
-                        }
-                    });
+                var getSystemState = function () {
+                    var state = $state.current;
+                    while (state.parent !== 'main') {
+                        state = $state.get(state.parent);
+                    }
+                    return state;
+                };
+
+
+                $scope.$watch(getSystemState, function (newValue, oldValue) {
+                    if (newValue.data && newValue.data.id) {
+                        Menu.findByParentId({id: newValue.data.id}, function (data) {
+                            $scope.menus = data;
+                        });
+                    }
+                });
             }
         };
     }]);
