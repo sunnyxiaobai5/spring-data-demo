@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').controller('UserController', ['$scope', 'User', function ($scope, User) {
+    angular.module('elapseApp').controller('UserController', ['$scope', 'User', '$q', function ($scope, User, $q) {
 
         $scope.options = {
             columns: [
@@ -54,14 +54,11 @@
             sortBy: 'name'
         };
 
-        $scope.users = [
-            {'id': 1, 'name': 'name1', age: 54},
-            {'id': 2, 'name': 'name2', age: 56},
-            {'id': 4, 'name': 'name4', age: 67},
-            {'id': 3, 'name': 'name3', age: 51},
-            {'id': 5, 'name': 'name5', age: 48}
-        ];
-
-        $scope.users = User.query();
+        $scope.users = [];
+        User.query({number: 0, size: 20}, function (result) {
+            angular.forEach(result, function (user) {
+                $scope.users.push(user);
+            });
+        });
     }]);
 })();

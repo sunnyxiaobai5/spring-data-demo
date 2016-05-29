@@ -18,12 +18,12 @@ import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import com.sunnyxiaobai5.web.rest.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -49,11 +49,11 @@ public class UserResource {
 
     //查询所有
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<Page<UserDTO>> findAll(@RequestParam(value = "number", required = false) Integer number,
+    public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value = "number", required = false) Integer number,
                                                  @RequestParam(value = "size", required = false) Integer size) {
         Page<User> page = userService.findAll(new Pageable(number, size));
 
-        Page<UserDTO> result = new PageImpl<>(userMapper.userToUserDTO(page.getContent()), new Pageable(number, size), page.getTotalElements());
+        List<UserDTO> result = userMapper.userToUserDTO(page.getContent());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
