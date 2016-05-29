@@ -16,6 +16,7 @@ import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.service.auth.UserService;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import com.sunnyxiaobai5.web.rest.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class UserResource {
     @Resource
     private UserService userService;
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
 
     //增
