@@ -28,7 +28,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, Long> implem
     private UserRepository userRepository;
 
     @Override
-    protected BaseRepository<User, Long> getBaseRepository() {
+    protected BaseRepository<User, Long> getRepository() {
         return userRepository;
     }
 }
