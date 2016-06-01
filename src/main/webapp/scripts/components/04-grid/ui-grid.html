@@ -3,18 +3,18 @@
 	<div class="row">
 		<div class="col-md-12">
 			<!-- <div> -->
-				<!-- <button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, topAction) in options.topActions" ng-if="!topAction.dropdowns || topAction.dropdowns.length==0" ng-click="topAction.action(checkIds,checkItems,allItems,$event)" ng-bind-html="topAction.name | to_trusted"></button> -->
+				<!-- <button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, topAction) in options.topActions" ng-if="!topAction.dropdown || topAction.dropdown.length==0" ng-click="topAction.action(checkIds,checkItems,allItems,$event)" ng-bind-html="topAction.name | to_trusted"></button> -->
 			<!-- </div> -->
 			<div class="pull-left">
 				<div class="btn-group" ng-repeat="(actionIndex, topAction) in options.topActions">
-					<button type="button" ng-if="!topAction.dropdowns || topAction.dropdowns.length === 0" class="btn btn-sm btn-primary" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">{{topAction.name}}</button>
+					<button type="button" ng-if="!topAction.dropdown || topAction.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">{{topAction.name}}</button>
 
-					<button type="button" ng-if="!!topAction.dropdowns && topAction.dropdowns.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">
+					<button type="button" ng-if="!!topAction.dropdown && topAction.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">
 					 	{{topAction.name}}
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu" ng-if="!!topAction.dropdowns && topAction.dropdowns.length>0">
-						<li ng-repeat="(dropdownIndex, dropdown) in topAction.dropdowns"><a href="">{{dropdown.name}}</a></li>
+					<ul class="dropdown-menu" ng-if="!!topAction.dropdown && topAction.dropdown.length>0">
+						<li ng-repeat="(dropdownIndex, dropdown) in topAction.dropdown"><a href="">{{dropdown.name}}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 								<span class="glyphicon sort" ng-click="changeSortField(column.field)" ng-class="{'glyphicon-sort' : !options.sortBy || options.sortBy != column.field,'glyphicon-sort-by-order' : !!options.sortBy && options.sortBy == column.field && !!orderAsc,'glyphicon-sort-by-order-alt' : !!options.sortBy && options.sortBy == column.field && !orderAsc}"></span>
 							</th>
 							<th>
-								<div class="pull-left">操作{{options.sortBy}}--{{!!orderAsc}}</div>
+								<div class="pull-left">操作</div>
 								<div class="pull-right">
 									<div class="btn-group">
 										<a class="btn column-control" href="javascript:void(0)" data-toggle="dropdown">

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapse.ui').directive('uiGrid', ['$http', function ($http) {
+    angular.module('elapse.ui').directive('uiGrid', [function () {
         // Runs during compile
         return {
             // name: '',
@@ -11,14 +11,13 @@
                 options: '=',
                 ngModel: '='
             }, // {} = isolate, true = child, false/undefined = no change
-            // controller: function($scope, $element, $attrs, $transclude) {},
             require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-            restrict: 'AE', // E = Element, A = Attribute, C = Class, M = Comment
-            // template: '<input type="text"/>',
+            restrict: 'AE',
             templateUrl: 'scripts/components/04-grid/ui-grid.html',
             replace: true,
             // transclude: true,
-            // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+            controller: function ($scope, $element, $attrs, $transclude) {
+            },
             link: function ($scope, iElement, iAttrs, ngModel) {
 
                 //默认ID排序
@@ -90,20 +89,17 @@
                     } else {
                         $scope.orderAsc = !$scope.orderAsc;
                     }
-                    console.log($scope.options.sortBy)
-                    console.log($scope.orderAsc)
                 };
                 /*************** 控制逻辑 end ***************/
             }
         };
     }]).filter('to_trusted', ['$sce', function ($sce) {
         return function (text) {
-            // console.log(text)
-            // console.log(typeof text)
-            if (typeof text == 'string')
+            if (typeof text === 'string') {
                 return $sce.trustAsHtml(text);
-            else
+            } else {
                 return text;
+            }
         };
     }]);
 })();

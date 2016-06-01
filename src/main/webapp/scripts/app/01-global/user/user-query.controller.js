@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').controller('UserController', ['$scope', 'User', '$q', function ($scope, User, $q) {
+    angular.module('elapseApp').controller('UserController', ['$scope', 'User', function ($scope, User) {
 
         $scope.options = {
             columns: [
@@ -16,11 +16,12 @@
                         console.log(ids);
                         console.log(checkItems);
                         console.log(allItems);
+                        console.log(event);
                     }
                 },
                 {
                     name: '打印',
-                    dropdowns: [
+                    dropdown: [
                         {'name': '打印所选'},
                         {'name': '打印全部'}
                     ]
