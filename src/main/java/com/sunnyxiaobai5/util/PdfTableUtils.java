@@ -21,6 +21,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.sunnyxiaobai5.common.annotation.ExportAnnotation;
 import com.sunnyxiaobai5.common.enumeration.ExceptionEnum;
 import com.sunnyxiaobai5.common.exception.BaseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.util.FieldUtils;
 
 import java.io.File;
@@ -31,6 +33,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PdfTableUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(PdfTableUtils.class);
+
     //字体文件地址
     private static final String FONT = ClassLoader.getSystemResource("").toString() + "/fonts/YaHei.Consolas.1.12.ttf";
 
@@ -42,30 +47,27 @@ public class PdfTableUtils {
      * 获取字体
      *
      * @param size 字体大小
-     * @return
+     * @return Font
      * @throws DocumentException
      * @throws IOException
      */
     private static Font getFont(float size) throws DocumentException, IOException {
         BaseFont baseFont = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, false);
-        Font font = new Font(baseFont, size);
-        return font;
+
+        return new Font(baseFont, size);
     }
 
     /**
      * 创建pdf文件
      *
      * @param dest     生成文件地址
-     * @param title    表格标题
      * @param headers  表格表头
      * @param dataList 数据列表
-     * @throws BaseException     外部异常
-     * @throws DocumentException
-     * @throws IOException
+     * @throws BaseException 外部异常
      */
-    public static void createPdf(String dest, String title, List<String> headers, List<String> fieldNames, List<?> dataList) throws BaseException {
+    public static void createPdf(String dest, List<String> headers, List<String> fieldNames, List<?> dataList) throws BaseException {
         //列长度为0时抛出外部异常
-        if (headers.size() == 0) {
+        if (headers.isEmpty()) {
             throw new BaseException(-1, ExceptionEnum.EXPORT_NO_COLUMN.getMessage());
         }
 
@@ -102,11 +104,9 @@ public class PdfTableUtils {
             //将Table添加到Document中
             document.add(table);
 
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (DocumentException | IOException | IllegalAccessException e) {
+            log.error("create pdf error");
+            log.warn("context", e);
             e.printStackTrace();
         } finally {
             //关闭Document
@@ -132,12 +132,12 @@ public class PdfTableUtils {
         ObjInfo objInfo = PdfTableUtils.ObjInfo.getObjInfo(clazz);
 
         //列长度为0时抛出内部异常
-        if (objInfo.getHeaders().size() == 0) {
+        if (objInfo.getHeaders().isEmpty()) {
             throw new BaseException(-1, ExceptionEnum.EXPORT_NO_ANNOTATION.getMessage());
         }
 
         //创建pdf文件
-        createPdf(dest, title, objInfo.getHeaders(), objInfo.getFieldNames(), dataList);
+        createPdf(dest, objInfo.getHeaders(), objInfo.getFieldNames(), dataList);
     }
 
     /**
@@ -158,14 +158,14 @@ public class PdfTableUtils {
          * 从Class 中获取表格列头和导出的字段名称
          *
          * @param clazz <? extends Object>
-         * @return
+         * @return ObjInfo
          */
         private static ObjInfo getObjInfo(Class<?> clazz) {
             ObjInfo objInfo = new ObjInfo();
 
             //获取类的Field（属性）
             Arrays.asList(clazz.getDeclaredFields()).parallelStream().sequential()
-                    .filter(field -> (field.getAnnotation(ExportAnnotation.class) != null))
+                    .filter(field -> field.getAnnotation(ExportAnnotation.class) != null)
                     .forEach(field -> {
                                 objInfo.headers.add(field.getAnnotation(ExportAnnotation.class).name());
                                 objInfo.fieldNames.add(field.getName());
