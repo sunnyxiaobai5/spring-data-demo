@@ -76,7 +76,7 @@ public class HomeController {
      * @param request
      * @param response
      * @param isPreview 预览/下载 true：预览，false：下载
-     * @param fname
+     * @param fname     文件名
      * @throws IOException
      */
     @RequestMapping("/previewPdf")
@@ -86,9 +86,6 @@ public class HomeController {
         fileName = "1.pdf";
         //文件路径，需要动态获取
         String filePath = "D:\\02-workspace\\spring-data-demo\\target\\classes\\" + fileName;
-
-        //是否在线预览 true：在线预览，false：下载
-        isPreview = true;
 
         File f = new File(filePath);
         if (!f.exists()) {
