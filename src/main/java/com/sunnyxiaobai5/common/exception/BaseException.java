@@ -13,29 +13,25 @@ package com.sunnyxiaobai5.common.exception;
 
 public class BaseException extends Exception {
 
-    private Integer status;
+    private final Integer status;
 
-    public BaseException() {
-    }
-
+    /**
+     * @param status 异常状态码
+     */
     public BaseException(Integer status) {
         this.status = status;
     }
 
-    public BaseException(String message) {
-        super(message);
-    }
-
-    public BaseException(Integer status, String message) {
+    /**
+     * @param message 异常说明
+     * @param status  异常状态码
+     */
+    public BaseException(String message, Integer status) {
         super(message);
         this.status = status;
     }
 
     public Integer getStatus() {
         return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }
