@@ -16,6 +16,8 @@ import com.sunnyxiaobai5.common.exception.BaseException;
 import com.sunnyxiaobai5.service.auth.MenuService;
 import com.sunnyxiaobai5.util.PdfTableUtils;
 import com.sunnyxiaobai5.web.rest.dto.MenuDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 public class MenuResource {
+
+
+    private static final Logger log = LoggerFactory.getLogger(MenuResource.class);
 
     @Resource
     private MenuService menuService;
@@ -77,20 +82,16 @@ public class MenuResource {
     }
 
     @RequestMapping(value = "export", method = RequestMethod.GET)
-    public void export() throws BaseException {
+    public void export() {
         //表格标题
         String title = "表格标题";
 
         try {
             PdfTableUtils.createPdf("pdf/simple_table.pdf", title, MenuDTO.class, menuService.findAllDTO());
         } catch (BaseException e) {
-            //外部异常
             if (e.getStatus() > 10000) {
-                throw new BaseException(e.getMessage());
+                log.info("export fail", e);
             }
-            e.printStackTrace();
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
         }
     }
 }

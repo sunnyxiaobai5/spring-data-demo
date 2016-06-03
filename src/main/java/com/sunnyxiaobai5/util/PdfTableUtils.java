@@ -106,8 +106,7 @@ public class PdfTableUtils {
 
         } catch (DocumentException | IOException | IllegalAccessException e) {
             log.error("create pdf error");
-            log.warn("context", e);
-            e.printStackTrace();
+            log.error("context", e);
         } finally {
             //关闭Document
             if (null != document) {
@@ -127,7 +126,7 @@ public class PdfTableUtils {
      * @throws DocumentException
      * @throws IOException
      */
-    public static void createPdf(String dest, String title, Class<?> clazz, List<?> dataList) throws BaseException, DocumentException, IOException {
+    public static void createPdf(String dest, String title, Class<?> clazz, List<?> dataList) throws BaseException {
         //获取要导出的相关信息
         ObjInfo objInfo = PdfTableUtils.ObjInfo.getObjInfo(clazz);
 

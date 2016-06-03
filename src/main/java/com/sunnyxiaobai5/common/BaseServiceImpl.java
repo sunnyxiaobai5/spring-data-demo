@@ -11,7 +11,6 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.common;
 
-import com.sunnyxiaobai5.service.auth.UserDetailsServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 
 public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, ID extends Serializable> implements BaseService<T, K, ID> {
 
-    private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(BaseServiceImpl.class);
 
     protected abstract BaseRepository<T, ID> getRepository();
 
@@ -50,7 +49,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
             BeanUtils.copyProperties(t, k);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             log.error("convert error:" + kClass.getName() + "-->" + tClass.getName());
-            log.warn("context", e);
+            log.error("context", e);
         }
         return t;
     }
@@ -63,7 +62,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
             BeanUtils.copyProperties(k, t);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             log.error("convert error:" + tClass.getName() + "-->" + kClass.getName());
-            log.warn("context", e);
+            log.error("context", e);
         }
         return k;
     }
