@@ -119,12 +119,11 @@ public class PdfTableUtils {
      * 根据表格对应的定义类创建pdf文件
      *
      * @param dest     生成文件地址
-     * @param title    表格标题
      * @param clazz    表格对应的类定义
      * @param dataList 数据列表
-     * @throws BaseException     内部异常
+     * @throws BaseException 内部异常
      */
-    public static void createPdf(String dest, String title, Class<?> clazz, List<?> dataList) throws BaseException {
+    public static void createPdf(String dest, Class<?> clazz, List<?> dataList) throws BaseException {
         //获取要导出的相关信息
         ObjInfo objInfo = PdfTableUtils.ObjInfo.getObjInfo(clazz);
 
@@ -178,13 +177,6 @@ public class PdfTableUtils {
 
         public List<String> getFieldNames() {
             return fieldNames;
-        }
-
-        @Override
-        public String toString() {
-            headers.forEach(System.out::println);
-            fieldNames.forEach(System.out::println);
-            return "";
         }
     }
 }

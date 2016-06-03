@@ -11,7 +11,6 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
 
-import com.itextpdf.text.DocumentException;
 import com.sunnyxiaobai5.common.exception.BaseException;
 import com.sunnyxiaobai5.service.auth.MenuService;
 import com.sunnyxiaobai5.util.PdfTableUtils;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -87,7 +85,7 @@ public class MenuResource {
         String title = "表格标题";
 
         try {
-            PdfTableUtils.createPdf("pdf/simple_table.pdf", title, MenuDTO.class, menuService.findAllDTO());
+            PdfTableUtils.createPdf("pdf/simple_table.pdf", MenuDTO.class, menuService.findAllDTO());
         } catch (BaseException e) {
             if (e.getStatus() > 10000) {
                 log.info("export fail", e);
