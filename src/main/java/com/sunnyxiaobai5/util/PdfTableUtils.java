@@ -123,8 +123,6 @@ public class PdfTableUtils {
      * @param clazz    表格对应的类定义
      * @param dataList 数据列表
      * @throws BaseException     内部异常
-     * @throws DocumentException
-     * @throws IOException
      */
     public static void createPdf(String dest, String title, Class<?> clazz, List<?> dataList) throws BaseException {
         //获取要导出的相关信息
