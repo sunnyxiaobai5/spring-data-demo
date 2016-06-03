@@ -51,7 +51,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             log.error("convert error:" + kClass.getName() + "-->" + tClass.getName());
             log.warn("context", e);
-            e.printStackTrace();
         }
         return t;
     }
@@ -65,7 +64,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             log.error("convert error:" + tClass.getName() + "-->" + kClass.getName());
             log.warn("context", e);
-            e.printStackTrace();
         }
         return k;
     }
@@ -154,7 +152,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public void deleteAllByID(List<ID> ids) {
-        ids.stream().forEach(id -> getRepository().delete(id));
+        ids.parallelStream().forEach(getRepository()::delete);
     }
 
     @Override
