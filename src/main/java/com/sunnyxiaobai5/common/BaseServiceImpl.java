@@ -12,6 +12,8 @@
 package com.sunnyxiaobai5.common;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +27,9 @@ import java.util.stream.Collectors;
 
 public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, ID extends Serializable> implements BaseService<T, K, ID> {
 
-    protected abstract BaseRepository<T, ID> getBaseRepository();
+    private final Logger log = LoggerFactory.getLogger(BaseServiceImpl.class);
+
+    protected abstract BaseRepository<T, ID> getRepository();
 
     private Class<T> tClass;
 
@@ -44,7 +48,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
             t = tClass.newInstance();
             BeanUtils.copyProperties(t, k);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            log.error("convert error:" + kClass.getName() + "-->" + tClass.getName());
+            log.error("context", e);
         }
         return t;
     }
@@ -56,7 +61,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
             k = kClass.newInstance();
             BeanUtils.copyProperties(k, t);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            log.error("convert error:" + tClass.getName() + "-->" + kClass.getName());
+            log.error("context", e);
         }
         return k;
     }
@@ -73,83 +79,83 @@ public abstract class BaseServiceImpl<T extends BaseEntity, K extends BaseDTO, I
 
     @Override
     public T findOne(ID id) {
-        return getBaseRepository().findOne(id);
+        return getRepository().findOne(id);
     }
 
     @Override
     public K findOneDTO(ID id) {
-        return fromEntity(getBaseRepository().findOne(id));
+        return fromEntity(getRepository().findOne(id));
     }
 
     @Override
     public List<T> findAll() {
-        return getBaseRepository().findAll();
+        return getRepository().findAll();
     }
 
     @Override
     public List<K> findAllDTO() {
-        return fromEntity(getBaseRepository().findAll());
+        return fromEntity(getRepository().findAll());
     }
 
     @Override
     public T save(T t) {
-        return getBaseRepository().save(t);
+        return getRepository().save(t);
     }
 
     @Override
     public T save(K k) {
-        return getBaseRepository().save(fromDTO(k));
+        return getRepository().save(fromDTO(k));
     }
 
     @Override
     public List<T> saveAll(List<T> tList) {
-        return getBaseRepository().save(tList);
+        return getRepository().save(tList);
     }
 
     @Override
     public List<T> saveAllDTO(List<K> kList) {
-        return getBaseRepository().save(fromDTO(kList));
+        return getRepository().save(fromDTO(kList));
     }
 
     @Override
     public List<T> findAll(List<ID> ids) {
-        return getBaseRepository().findAll(ids);
+        return getRepository().findAll(ids);
     }
 
     @Override
     public List<K> findAllDTO(List<ID> ids) {
-        return fromEntity(getBaseRepository().findAll(ids));
+        return fromEntity(getRepository().findAll(ids));
     }
 
     @Override
     public Page<T> findAll(Pageable pageable) {
-        List<T> tList = getBaseRepository().findAll();
+        List<T> tList = getRepository().findAll();
         return new PageImpl<>(tList, pageable, tList.size());
     }
 
     @Override
     public Page<K> findAllDTO(Pageable pageable) {
-        List<T> tList = getBaseRepository().findAll();
+        List<T> tList = getRepository().findAll();
         return new PageImpl<>(fromEntity(tList), pageable, tList.size());
     }
 
     @Override
     public void delete(ID id) {
-        getBaseRepository().delete(id);
+        getRepository().delete(id);
     }
 
     @Override
     public void delete(T entity) {
-        getBaseRepository().delete(entity);
+        getRepository().delete(entity);
     }
 
     @Override
     public void deleteAllByID(List<ID> ids) {
-        ids.stream().forEach(id -> getBaseRepository().delete(id));
+        ids.parallelStream().forEach(getRepository()::delete);
     }
 
     @Override
     public void deleteAll(List<T> tList) {
-        getBaseRepository().delete(tList);
+        getRepository().delete(tList);
     }
 }

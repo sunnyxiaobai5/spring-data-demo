@@ -32,7 +32,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     private MenuRepository menuRepository;
 
     @Override
-    protected BaseRepository<Menu, Long> getBaseRepository() {
+    protected BaseRepository<Menu, Long> getRepository() {
         return menuRepository;
     }
 
