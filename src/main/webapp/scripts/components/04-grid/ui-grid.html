@@ -7,14 +7,14 @@
 			<!-- </div> -->
 			<div class="pull-left">
 				<div class="btn-group" ng-repeat="(actionIndex, topAction) in options.topActions">
-					<button type="button" ng-if="!topAction.dropdown || topAction.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">{{topAction.name}}</button>
+					<button type="button" ng-if="!topAction.dropdown || topAction.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="topAction.handler(checkIds,checkItems,allItems,$event)">{{topAction.name}}</button>
 
-					<button type="button" ng-if="!!topAction.dropdown && topAction.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="topAction.action(checkIds,checkItems,allItems,$event)">
+					<button type="button" ng-if="!!topAction.dropdown && topAction.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="topAction.handler(checkIds,checkItems,allItems,$event)">
 					 	{{topAction.name}}
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" ng-if="!!topAction.dropdown && topAction.dropdown.length>0">
-						<li ng-repeat="(dropdownIndex, dropdown) in topAction.dropdown"><a href="">{{dropdown.name}}</a></li>
+						<li ng-repeat="(dropdownIndex, dropdown) in topAction.dropdown" ng-click="dropdown.handler(checkIds,checkItems,allItems,$event)"><a href="">{{dropdown.name}}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -138,7 +138,7 @@
 
 			<div class="pull-left">
 				<div class="btn-group">
-					<button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, botAction) in options.botActions" ng-click="botAction.action(checkIds,checkItems,allItems,$event)" ng-bind-html="botAction.name | to_trusted"></button>
+					<button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, botAction) in options.botActions" ng-click="botAction.handler(checkIds,checkItems,allItems,$event)" ng-bind-html="botAction.name | to_trusted"></button>
 				</div>
 			</div>
 

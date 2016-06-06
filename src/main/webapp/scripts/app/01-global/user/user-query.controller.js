@@ -1,36 +1,55 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').controller('UserController', ['$scope', 'User', function ($scope, User) {
+    angular.module('elapseApp').controller('UserController', ['$scope', 'User', '$http', function ($scope, User, $http) {
 
         $scope.options = {
             columns: [
-                {'field': 'id', 'displayName': 'id'},
-                {'field': 'name', 'displayName': '<b class="text-primary">姓名</b>'},
-                {'field': 'age', 'displayName': '年龄'}
+                {field: 'id', displayName: 'id'},
+                {field: 'name', displayName: '<b class="text-primary">姓名</b>'},
+                {field: 'age', displayName: '年龄'}
             ],
             topActions: [
                 {
                     name: '导出',
-                    action: function (ids, checkItems, allItems, event) {
-                        console.log(ids);
-                        console.log(checkItems);
-                        console.log(allItems);
-                        console.log(event);
+                    handler: function (ids, checkItems, allItems, event) {
+                        if (ids.length === 0) {
+                            window.alert("请选择！");
+                            return;
+                        }
+                        window.open("user/exportExcel?ids=" + ids);
                     }
                 },
                 {
                     name: '打印',
                     dropdown: [
-                        {'name': '打印所选'},
-                        {'name': '打印全部'}
+                        {
+                            name: '打印所选',
+                            handler: function (ids, checkItems, allItems, event) {
+                                console.log('打印所选');
+                                console.log(ids);
+                                console.log(checkItems);
+                                console.log(allItems);
+                                console.log(event);
+                            }
+                        },
+                        {name: '打印全部'}
                     ]
                 },
                 {name: '删除'},
                 {name: '审核'}
             ],
             botActions: [
-                {name: '导出'},
+                {
+                    name: '导出',
+                    handler: function (ids, checkItems, allItems, event) {
+                        console.log('导出');
+                        console.log(ids);
+                        console.log(checkItems);
+                        console.log(allItems);
+                        console.log(event);
+                    }
+                },
                 {name: '打印'},
                 {name: '删除'}
             ],

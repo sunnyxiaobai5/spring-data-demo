@@ -11,23 +11,28 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
 
+import com.alibaba.fastjson.JSONArray;
+import com.sunnyxiaobai5.common.BaseExcelView;
 import com.sunnyxiaobai5.common.Pageable;
 import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.service.auth.UserService;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import com.sunnyxiaobai5.web.rest.mapper.UserMapper;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -115,5 +120,27 @@ public class UserResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@PathVariable Long id) {
         userService.delete(id);
+    }
+
+    /**
+     * 导出excel
+     *
+     * @param ids
+     */
+    @RequestMapping(value = "/exportExcel")
+    public ModelAndView exportExcel(Long[] ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map<String, Object> model = new HashMap<>();
+
+        JSONArray headers = new JSONArray();
+
+        List<User> users = userService.findAll(Arrays.asList(ids));
+        model.put("title", "导出Demo");
+        model.put("headers", headers);
+        model.put("dataList", users);
+
+        BaseExcelView view = new BaseExcelView();
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        view.buildExcelDocument(model, workbook, request, response);
+        return new ModelAndView(view, model);
     }
 }
