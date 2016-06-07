@@ -11,14 +11,12 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
 
-import com.alibaba.fastjson.JSONArray;
 import com.sunnyxiaobai5.common.BaseExcelView;
 import com.sunnyxiaobai5.common.Pageable;
 import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.service.auth.UserService;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import com.sunnyxiaobai5.web.rest.mapper.UserMapper;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -129,18 +127,23 @@ public class UserResource {
      */
     @RequestMapping(value = "/exportExcel")
     public ModelAndView exportExcel(Long[] ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         Map<String, Object> model = new HashMap<>();
 
-        JSONArray headers = new JSONArray();
+        Map<String, String> headerMap = new LinkedHashMap<>();
+        headerMap.put("name", "姓名");
+        headerMap.put("description", "描述");
+        headerMap.put("genderCode", "性别");
+        headerMap.put("email", "邮箱");
 
         List<User> users = userService.findAll(Arrays.asList(ids));
-        model.put("title", "导出Demo");
-        model.put("headers", headers);
+        model.put("title", "导出ExcelDemo");
+        model.put("headerMap", headerMap);
         model.put("dataList", users);
 
         BaseExcelView view = new BaseExcelView();
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        view.buildExcelDocument(model, workbook, request, response);
         return new ModelAndView(view, model);
     }
+
+
 }
