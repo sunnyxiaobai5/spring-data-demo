@@ -39,12 +39,25 @@ public class BaseExcelView extends AbstractExcelView {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String title = (String) model.get("title");
         Map<String, String> headerMap = (Map<String, String>) model.get("headerMap");
         String[] fieldArray = headerMap.keySet().toArray(new String[0]);
         String[] headerArray = headerMap.values().toArray(new String[0]);
         List dataList = (List) model.get("dataList");
+
+        HSSFSheet sheet = buildSheet(workbook, title);
+
+        int row = buildTitle(workbook, sheet, title, fieldArray.length);
+
+        row = buildHeader(workbook, sheet, headerArray, row);
+
+        buildData(sheet, fieldArray, dataList, row);
+    }
+
+    public void buildExcelDocument(String title, Map<String, String> headerMap, List<?> dataList, HSSFWorkbook workbook) throws Exception {
+        String[] fieldArray = headerMap.keySet().toArray(new String[0]);
+        String[] headerArray = headerMap.values().toArray(new String[0]);
 
         HSSFSheet sheet = buildSheet(workbook, title);
 
@@ -68,7 +81,7 @@ public class BaseExcelView extends AbstractExcelView {
      * @param mergeColNum 标题所占列数量
      * @return 已使用行数
      */
-    private int buildTitle(HSSFWorkbook workbook, HSSFSheet sheet, String title, int mergeColNum) {
+    protected int buildTitle(HSSFWorkbook workbook, HSSFSheet sheet, String title, int mergeColNum) {
         HSSFCell cell = getCell(sheet, 0, 0);
         setText(cell, title);
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, mergeColNum - 1));

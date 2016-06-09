@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').controller('UserController', ['$scope', 'User', '$http', function ($scope, User, $http) {
+    angular.module('elapseApp').controller('UserController', ['$scope', 'User', 'Notify', function ($scope, User, Notify) {
 
         $scope.options = {
             columns: [
@@ -12,9 +12,9 @@
             topActions: [
                 {
                     name: '导出',
-                    handler: function (ids, checkItems, allItems, event) {
+                    handler: function (ids) {
                         if (ids.length === 0) {
-                            window.alert("请选择！");
+                            Notify.notify('请至少勾选一项！');
                             return;
                         }
                         window.open("user/exportExcel?ids=" + ids);
@@ -25,19 +25,23 @@
                     dropdown: [
                         {
                             name: '打印所选',
-                            handler: function (ids, checkItems, allItems, event) {
-                                console.log('打印所选');
-                                console.log(ids);
-                                console.log(checkItems);
-                                console.log(allItems);
-                                console.log(event);
+                            handler: function (ids) {
+                                Notify.alert('打印失败！', '没有选择数据！');
                             }
                         },
                         {name: '打印全部'}
                     ]
                 },
-                {name: '删除'},
-                {name: '审核'}
+                {
+                    name: '删除',
+                    handler: function (ids) {
+                        if (ids.length === 0) {
+                            Notify.notify('请至少勾选一项！');
+                            return;
+                        }
+                        Notify.confirm('确认要删除所选吗？', '删除后无法恢复！');
+                    }
+                }
             ],
             botActions: [
                 {
