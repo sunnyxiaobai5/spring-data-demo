@@ -11,8 +11,6 @@
 (function () {
     'use strict';
 
-    var basePath = "../../..";
-
     angular.module('elapseApp', ['ui.router', 'ngResource', 'elapse.ui'])
         .run(function ($rootScope, $window, $state) {
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
