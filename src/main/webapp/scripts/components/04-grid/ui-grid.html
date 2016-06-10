@@ -2,19 +2,18 @@
 	<!-- top start -->
 	<div class="row">
 		<div class="col-md-12">
-			<!-- <div> -->
-				<!-- <button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, topAction) in options.topActions" ng-if="!topAction.dropdown || topAction.dropdown.length==0" ng-click="topAction.action(checkIds,checkItems,allItems,$event)" ng-bind-html="topAction.name | to_trusted"></button> -->
-			<!-- </div> -->
 			<div class="pull-left">
-				<div class="btn-group" ng-repeat="(actionIndex, topAction) in options.topActions">
-					<button type="button" ng-if="!topAction.dropdown || topAction.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="topAction.handler(checkIds,checkItems,allItems,$event)">{{topAction.name}}</button>
+				<div class="btn-group" ng-repeat="(index, action) in options.topActions">
+					<button type="button" ng-if="!action.dropdown || action.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="action.handler(checkIds,checkItems,allItems,$event)">
+						<span class="{{action.auth.icon}}" aria-hidden="true"></span> {{action.name}}
+					</button>
 
-					<button type="button" ng-if="!!topAction.dropdown && topAction.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="topAction.handler(checkIds,checkItems,allItems,$event)">
-					 	{{topAction.name}}
+					<button type="button" ng-if="!!action.dropdown && action.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="action.handler(checkIds,checkItems,allItems,$event)">
+						<span class="{{action.auth.icon}}" aria-hidden="true"></span> {{action.name}}
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu" ng-if="!!topAction.dropdown && topAction.dropdown.length>0">
-						<li ng-repeat="(dropdownIndex, dropdown) in topAction.dropdown" ng-click="dropdown.handler(checkIds,checkItems,allItems,$event)"><a href="">{{dropdown.name}}</a></li>
+					<ul class="dropdown-menu" ng-if="!!action.dropdown && action.dropdown.length>0">
+						<li ng-repeat="(dropdownIndex, dropdown) in action.dropdown" ng-click="dropdown.handler(checkIds,checkItems,allItems,$event)"><a href="">{{dropdown.name}}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -99,7 +98,9 @@
 							<!-- <td ng-if="typeof(row[col['field']])==string" ng-repeat="(colIndex, col) in options.columns" ng-bind-html="row[col['field']] | to_trusted"></td> -->
 							<td ng-repeat="(colIndex, col) in options.columns">{{row[col['field']]}}</td>
 							<td>
-                                <button class="btn btn-xs btn-link" ng-repeat="action in options.rowActions" ng-click="action.handler()" ng-disabled="!!action.disabled" ng-bind="action.name"></button>
+                                <button class="btn btn-default btn-xs" ng-repeat="action in options.rowActions" ng-click="action.handler()" ng-disabled="!!action.disabled">
+									<span class="{{action.auth.icon}}" aria-hidden="true"></span> {{action.name}}
+								</button>
                             </td>
 						</tr>
 					</tbody>
@@ -137,8 +138,18 @@
 		<div class="col-md-12">
 
 			<div class="pull-left">
-				<div class="btn-group">
-					<button type="button" class="btn btn-sm btn-primary" ng-repeat="(actionIndex, botAction) in options.botActions" ng-click="botAction.handler(checkIds,checkItems,allItems,$event)" ng-bind-html="botAction.name | to_trusted"></button>
+				<div class="btn-group" ng-repeat="(index, action) in options.botActions">
+					<button type="button" ng-if="!action.dropdown || action.dropdown.length === 0" class="btn btn-sm btn-primary" ng-click="action.handler(checkIds,checkItems,allItems,$event)">
+						<span class="{{action.auth.icon}}" aria-hidden="true"></span> {{action.name}}
+					</button>
+
+					<button type="button" ng-if="!!action.dropdown && action.dropdown.length>0" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" ng-click="action.handler(checkIds,checkItems,allItems,$event)">
+						<span class="{{action.auth.icon}}" aria-hidden="true"></span> {{action.name}}
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" ng-if="!!action.dropdown && action.dropdown.length>0">
+						<li ng-repeat="(dropdownIndex, dropdown) in action.dropdown" ng-click="dropdown.handler(checkIds,checkItems,allItems,$event)"><a href="">{{dropdown.name}}</a></li>
+					</ul>
 				</div>
 			</div>
 

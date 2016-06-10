@@ -12,7 +12,9 @@
     'use strict';
 
     angular.module('elapseApp', ['ui.router', 'ngResource', 'elapse.ui'])
-        .run(function ($rootScope, $window, $state) {
+        .run(function ($rootScope, $window, AUTH) {
+            $rootScope.AUTH = AUTH;
+
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 $rootScope.toState = toState;
                 $rootScope.toStateParams = toParams;
