@@ -40,7 +40,6 @@ public class UserResource {
     private UserService userService;
 
     @Resource
-    @Inject
     private UserMapper userMapper;
 
     /**
