@@ -25,15 +25,7 @@ public enum ResourceEnum {
         return key;
     }
 
-    public void setkey(Byte key) {
-        this.key = key;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

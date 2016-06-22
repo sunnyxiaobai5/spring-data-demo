@@ -68,7 +68,7 @@ public class PdfTableUtils {
     public static void createPdf(String dest, List<String> headers, List<String> fieldNames, List<?> dataList) throws BaseException {
         //列长度为0时抛出外部异常
         if (headers.isEmpty()) {
-            throw new BaseException(ExceptionEnum.EXPORT_NO_COLUMN.getMessage(), -1);
+            throw new BaseException(ExceptionEnum.EXPORT_NO_COLUMN.getMessage(), ExceptionEnum.EXPORT_NO_COLUMN.getKey());
         }
 
         //创建pdf文件目录
@@ -129,7 +129,7 @@ public class PdfTableUtils {
 
         //列长度为0时抛出内部异常
         if (objInfo.getHeaders().isEmpty()) {
-            throw new BaseException(ExceptionEnum.EXPORT_NO_ANNOTATION.getMessage(), -1);
+            throw new BaseException(ExceptionEnum.EXPORT_NO_ANNOTATION.getMessage(), ExceptionEnum.EXPORT_NO_ANNOTATION.getKey());
         }
 
         //创建pdf文件
