@@ -24,6 +24,8 @@
                     $scope.rowList = $scope.ngModel;
 
                     $scope.allItems = angular.copy($scope.rowList);
+
+                    //TODO 初始全选状态
                 }, true);
 
                 //默认ID排序
