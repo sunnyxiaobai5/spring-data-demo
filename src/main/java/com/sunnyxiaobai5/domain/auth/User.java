@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "USER")
-@Where(clause = "IS_DELETE='false'")
+@Where(clause = "IS_DELETE=0")
 public class User extends BaseEntity<Long> {
     /**
      * 用户名称
