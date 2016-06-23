@@ -3,6 +3,8 @@
 
     angular.module('elapseApp').controller('UserController', ['$scope', 'User', 'Notify', 'AUTH', function ($scope, User, Notify, AUTH) {
 
+        $scope.users = [];
+
         //列定义
         var columns = [
             {field: 'id', displayName: 'id'},
@@ -92,11 +94,15 @@
             botActions: botActions
         };
 
-        $scope.users = [];
-        User.query({number: 0, size: 20}, function (result) {
-            angular.forEach(result, function (user) {
-                $scope.users.push(user);
+        $scope.refresh = function () {
+            $scope.users = [];
+            User.query({number: 0, size: 20}, function (result) {
+                angular.forEach(result, function (user) {
+                    $scope.users.push(user);
+                });
             });
-        });
+        };
+
+        $scope.refresh();
     }]);
 })();

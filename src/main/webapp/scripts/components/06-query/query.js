@@ -4,7 +4,9 @@
     angular.module('elapse.ui').directive('uiQuery', [function () {
         return {
             restrict: 'E',
-            scope: true,
+            scope: {
+                search: '&'
+            },
             templateUrl: 'scripts/components/06-query/query.html',
             link: function ($scope, iElement, iAttrs, controller) {
 

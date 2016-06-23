@@ -18,7 +18,13 @@
             // transclude: true,
             controller: function ($scope, $element, $attrs, $transclude) {
             },
-            link: function ($scope, iElement, iAttrs, ngModel) {
+            link: function ($scope, iElement, iAttrs, ngModelCtrl) {
+
+                $scope.$watch('ngModel', function (newValue, oldValue) {
+                    $scope.rowList = $scope.ngModel;
+
+                    $scope.allItems = angular.copy($scope.rowList);
+                }, true);
 
                 //默认ID排序
                 var defaultOptions = {
@@ -39,14 +45,6 @@
 
                 //选中的数据
                 $scope.checkItems = [];
-
-                //所有数据
-                $scope.allItems = [];
-
-                //传入的数据
-                $scope.rowList = $scope.ngModel;
-
-                angular.copy($scope.rowList, $scope.allItems);
 
                 /************** 控制逻辑 start **************/
                 /**
