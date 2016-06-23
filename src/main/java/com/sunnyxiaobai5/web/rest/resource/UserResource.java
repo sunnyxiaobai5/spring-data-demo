@@ -12,12 +12,12 @@
 package com.sunnyxiaobai5.web.rest.resource;
 
 import com.sunnyxiaobai5.common.BaseExcelView;
-import com.sunnyxiaobai5.common.Pageable;
 import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.service.auth.UserService;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 import com.sunnyxiaobai5.web.rest.mapper.UserMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -88,7 +85,7 @@ public class UserResource {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value = "number", required = false) Integer number,
                                                  @RequestParam(value = "size", required = false) Integer size) {
-        Page<User> page = userService.findAll(new Pageable(number, size));
+        Page<User> page = userService.findAll(new PageRequest(number, size));
 
         List<UserDTO> result = userMapper.userToUserDTO(page.getContent());
 
@@ -125,7 +122,7 @@ public class UserResource {
      * @param ids
      */
     @RequestMapping(value = "/exportExcel")
-    public ModelAndView exportExcel(Long[] ids, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView exportExcel(Long[] ids) throws Exception {
 
         Map<String, Object> model = new HashMap<>();
 
