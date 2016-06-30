@@ -72,7 +72,7 @@ public interface ActivitiService {
      * @param task   流程Task
      * @param userId 领取人ID
      */
-    void claim(Task task, String userId);
+    void claimTask(Task task, String userId);
 
     /**
      * 查询某人领取的任务列表（Task List）

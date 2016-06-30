@@ -120,7 +120,7 @@ public class ActivitiServiceImpl implements ActivitiService {
      * @param userId 领取人ID
      */
     @Override
-    public void claim(Task task, String userId) {
+    public void claimTask(Task task, String userId) {
         taskService.claim(task.getId(), userId);
     }
 
