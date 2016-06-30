@@ -3,7 +3,7 @@
  * <p>
  * <li>项目名称: spring-data-demo</li>
  * <li>完整包名: com.sunnyxiaobai5.web.rest.resource</li>
- * <li>文件名称: ActivitiDemoResource.java</li>
+ * <li>文件名称: ActivitiResource.java</li>
  * <li>内容摘要: </li>
  * <li>内容描述: </li>
  * <li>其他说明: </li>
@@ -11,7 +11,7 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
 
-import com.sunnyxiaobai5.service.ActivitiDemoService;
+import com.sunnyxiaobai5.service.ActivitiService;
 import com.sunnyxiaobai5.web.rest.dto.ActivitiTaskDTO;
 import org.activiti.engine.task.Task;
 import org.springframework.http.MediaType;
@@ -28,14 +28,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/activiti")
-public class ActivitiDemoResource {
+public class ActivitiResource {
 
     @Resource
-    private ActivitiDemoService activitiDemoService;
+    private ActivitiService activitiService;
 
     @RequestMapping(value = "/startInstanceByKey", method = RequestMethod.GET)
     public void startInstance(@RequestParam String processDefinitionKey) {
-        activitiDemoService.startInstanceByKey(processDefinitionKey);
+        activitiService.startInstanceByKey(processDefinitionKey);
     }
 
     @RequestMapping(value = "/startInstanceByKeyAndVariables", method = RequestMethod.GET)
@@ -45,12 +45,12 @@ public class ActivitiDemoResource {
         variables.put("numberOfDays", 3);
         variables.put("vacationMotivation", "请假测试");
 
-        activitiDemoService.startInstanceByKey(processDefinitionKey, variables);
+        activitiService.startInstanceByKey(processDefinitionKey, variables);
     }
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ActivitiTaskDTO> getTasks(@RequestParam String assignee) {
-        List<Task> tasks = activitiDemoService.getTasks(assignee);
+        List<Task> tasks = activitiService.getTasks(assignee);
         List<ActivitiTaskDTO> dtos = new ArrayList<>();
         for (Task task : tasks) {
             dtos.add(new ActivitiTaskDTO(task.getId(), task.getName()));

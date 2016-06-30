@@ -3,7 +3,7 @@
  * <p>
  * <li>项目名称: spring-data-demo</li>
  * <li>完整包名: com.sunnyxiaobai5.service</li>
- * <li>文件名称: ActivitiDemoService.java</li>
+ * <li>文件名称: ActivitiService.java</li>
  * <li>内容摘要: </li>
  * <li>内容描述: </li>
  * <li>其他说明: </li>
@@ -18,7 +18,7 @@ import org.activiti.engine.task.Task;
 import java.util.List;
 import java.util.Map;
 
-public interface ActivitiDemoService {
+public interface ActivitiService {
 
     /**
      * 根据xml文件部署流程

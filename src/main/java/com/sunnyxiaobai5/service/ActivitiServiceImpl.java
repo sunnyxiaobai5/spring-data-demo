@@ -3,7 +3,7 @@
  * <p>
  * <li>项目名称: spring-data-demo</li>
  * <li>完整包名: com.sunnyxiaobai5.service</li>
- * <li>文件名称: ActivitiDemoServiceImpl.java</li>
+ * <li>文件名称: ActivitiServiceImpl.java</li>
  * <li>内容摘要: </li>
  * <li>内容描述: </li>
  * <li>其他说明: </li>
@@ -28,9 +28,9 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class ActivitiDemoServiceImpl implements ActivitiDemoService {
+public class ActivitiServiceImpl implements ActivitiService {
 
-    Logger Log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger Log = LoggerFactory.getLogger(ActivitiServiceImpl.class);
 
     @Resource
     private RepositoryService repositoryService;
