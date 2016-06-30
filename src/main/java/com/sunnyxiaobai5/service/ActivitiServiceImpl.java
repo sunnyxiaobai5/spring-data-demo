@@ -11,9 +11,11 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.service;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -40,6 +42,9 @@ public class ActivitiServiceImpl implements ActivitiService {
 
     @Resource
     private TaskService taskService;
+
+    @Resource
+    private HistoryService historyService;
 
     /**
      * 根据xml文件部署流程
@@ -109,13 +114,45 @@ public class ActivitiServiceImpl implements ActivitiService {
     }
 
     /**
-     * 查询task
+     * 领取任务（Task）
      *
-     * @param assignee 指定的用户
+     * @param task   流程Task
+     * @param userId 领取人ID
+     */
+    @Override
+    public void claim(Task task, String userId) {
+        taskService.claim(task.getId(), userId);
+    }
+
+    /**
+     * 查询某人领取的任务列表（Task List）
+     *
+     * @param assignee 用户ID
      * @return List<Task>
      */
     @Override
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
+    }
+
+    /**
+     * 完成任务（Task）
+     *
+     * @param task 流程Task
+     */
+    @Override
+    public void completeTask(Task task) {
+        taskService.complete(task.getId());
+    }
+
+    /**
+     * 查询流程历史实例
+     *
+     * @param processInstanceId 流程实例ID
+     * @return HistoricProcessInstance
+     */
+    @Override
+    public HistoricProcessInstance getHistoryProcessInstance(String processInstanceId) {
+        return historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
     }
 }

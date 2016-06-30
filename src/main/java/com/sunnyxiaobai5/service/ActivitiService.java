@@ -11,6 +11,7 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.service;
 
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -66,10 +67,33 @@ public interface ActivitiService {
     ProcessInstance startInstanceByKey(String processDefinitionKey, String businessKey, Map<String, Object> variables);
 
     /**
-     * 查询task
+     * 领取任务（Task）
      *
-     * @param assignee 指定的用户
-     * @return
+     * @param task   流程Task
+     * @param userId 领取人ID
+     */
+    void claim(Task task, String userId);
+
+    /**
+     * 查询某人领取的任务列表（Task List）
+     *
+     * @param assignee 用户ID
+     * @return List<Task>
      */
     List<Task> getTasks(String assignee);
+
+    /**
+     * 完成任务（Task）
+     *
+     * @param task 流程Task
+     */
+    void completeTask(Task task);
+
+    /**
+     * 查询流程历史实例
+     *
+     * @param processInstanceId 流程实例ID
+     * @return HistoricProcessInstance
+     */
+    HistoricProcessInstance getHistoryProcessInstance(String processInstanceId);
 }
