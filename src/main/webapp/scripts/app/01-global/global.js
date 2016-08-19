@@ -35,7 +35,13 @@
                 .state('SITE_1_2', {
                     parent: 'SITE_1',
                     url: '/SITE_1_2',
-                    data: {}
+                    data: {},
+                    views: {
+                        'content@main': {
+                            templateUrl: 'scripts/app/01-global/auth/auth-query.html',
+                            controller: 'AuthController'
+                        }
+                    }
                 })
                 .state('SITE_1_3', {
                     parent: 'SITE_1',

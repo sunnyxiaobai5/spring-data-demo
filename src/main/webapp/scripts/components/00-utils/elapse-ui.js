@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('elapse.ui', ['ngDialog'])
+    angular.module('elapse.ui', ['ngDialog', 'ngCookies'])
         //ngDialog默认配置
         .config(['ngDialogProvider', function (ngDialogProvider) {
             ngDialogProvider.setDefaults({

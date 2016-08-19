@@ -10,6 +10,10 @@ body {
     background-color: #f7f7f7
 }
 
+.none {
+    display: none;
+}
+
 .clearfix {
     clear: both;
 }
@@ -221,4 +225,20 @@ body {
 .grid .sort {
     cursor: pointer;
 }
+
+.uploader-container {
+    width: 300px;
+}
+
+.webuploader-pick {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.uploader-info-item {
+    border-bottom:1px solid pink;
+}
+
 

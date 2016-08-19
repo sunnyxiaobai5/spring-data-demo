@@ -1,0 +1,20 @@
+<div id="uploader" class="uploader-container">
+    <!--用来存放文件信息-->
+    <div class="uploader-list" ng-class="{'none':filesInfo.length===0}">
+        <div class="panel panel-default margin-bottom-10">
+            <div class="panel-body">
+                <div id="{{item.id}}" class="item uploader-info-item" ng-repeat="item in filesInfo track by $index">
+                    <h6 class="info">{{item.name}} ({{item.size}} byte)</h6>
+                    <p class="state inline-block">{{item.statusText}}</p>
+                    <button class="btn btn-xs btn-link float-right" ng-click="delete(item.id, $index)">删除</button>
+                    <button class="btn btn-xs btn-link float-right" ng-click="cancel(item.id, $index)">取消</button>
+                    <button class="btn btn-xs btn-link float-right" ng-click="retry(item.id, $index)">重试</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btns">
+        <div id="picker" class="float-left margin-right-10">选择文件</div>
+        <button id="ctlBtn" class="btn btn-default" ng-click="upload()">开始上传</button>
+    </div>
+</div>
