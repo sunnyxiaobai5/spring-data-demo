@@ -11,12 +11,9 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AttachmentDTO {
     private String id;
@@ -27,17 +24,6 @@ public class AttachmentDTO {
     private Integer chunks;
     private Integer chunk;
     private MultipartFile file;
-
-    private String downloadPath;
-    private String filePath;
-
-    private MultipartInfo multipartInfo;
-
-    public void buildMultipartInfo() {
-        if (null != getChunks()) {
-            this.multipartInfo = new MultipartInfo(getFilename(), getChunks(), getChunk());
-        }
-    }
 
     public String getId() {
         return id;
@@ -103,31 +89,6 @@ public class AttachmentDTO {
         this.file = file;
     }
 
-    public String getDownloadPath() {
-        return downloadPath;
-    }
-
-    public void setDownloadPath(String downloadPath) {
-        this.downloadPath = downloadPath;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public MultipartInfo getMultipartInfo() {
-        return multipartInfo;
-    }
-
-    public void setMultipartInfo(MultipartInfo multipartInfo) {
-        this.multipartInfo = multipartInfo;
-    }
-
-    @JsonIgnore
     public String getExt() {
         int dotIndex = getFile().getOriginalFilename().lastIndexOf(".");
         if (dotIndex <= 0) {
@@ -136,71 +97,16 @@ public class AttachmentDTO {
         return getFile().getOriginalFilename().substring(dotIndex);
     }
 
-    @JsonIgnore
     public String getFilename() {
         return getFile().getOriginalFilename();
     }
 
-    public class MultipartInfo {
-        private String key;
-        private String tempDir;
-        private String filename;
-        private Integer chunks = 0;
-        private Integer chunk;
-        private Set<Integer> chunkNos = new HashSet<>();
-
-        MultipartInfo(String key, Integer chunks, Integer chunk) {
-            this.key = key;
-            this.chunks = chunks;
-            this.chunk = chunk;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getTempDir() {
-            return tempDir;
-        }
-
-        public void setTempDir(String tempDir) {
-            this.tempDir = tempDir;
-        }
-
-        public String getFilename() {
-            return filename;
-        }
-
-        public void setFilename(String filename) {
-            this.filename = filename;
-        }
-
-        public Integer getChunks() {
-            return chunks;
-        }
-
-        public void setChunks(Integer chunks) {
-            this.chunks = chunks;
-        }
-
-        public Integer getChunk() {
-            return chunk;
-        }
-
-        public void setChunk(Integer chunk) {
-            this.chunk = chunk;
-        }
-
-        public void addChunk(Integer chunkNo) {
-            this.chunkNos.add(chunkNo);
-        }
-
-        public boolean isComplete() {
-            return this.getChunks() == this.chunkNos.size();
-        }
+    public AttachmentInfo buildAttachmentInfo() {
+        AttachmentInfo attachmentInfo = new AttachmentInfo();
+        attachmentInfo.setExt(getExt());
+        attachmentInfo.setFilename(getFilename());
+        attachmentInfo.setFileSize(size);
+        attachmentInfo.setChunked(null != chunks);
+        return attachmentInfo;
     }
 }

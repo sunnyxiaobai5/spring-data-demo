@@ -41,6 +41,12 @@ public class Attachment extends BaseStringEntity<String> {
     private String filePath;
 
     /**
+     * 下载路径
+     */
+    @Column(name = "DOWNLOAD_PATH")
+    private String downloadPath;
+
+    /**
      * 文件大小（单位：byte）
      */
     @NotNull
@@ -77,6 +83,14 @@ public class Attachment extends BaseStringEntity<String> {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getDownloadPath() {
+        return downloadPath;
+    }
+
+    public void setDownloadPath(String downloadPath) {
+        this.downloadPath = downloadPath;
     }
 
     public Long getFileSize() {

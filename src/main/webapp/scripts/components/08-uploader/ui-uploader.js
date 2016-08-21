@@ -100,10 +100,14 @@
                 });
 
                 //上传成功
-                uploader.on('uploadSuccess', function (file) {
+                uploader.on('uploadSuccess', function (file, attachmentInfo) {
                     angular.element('#' + file.id).find('p.state').addClass('text-success');
                     file.setStatus('complete', "上传成功");
                     $scope.$apply();
+                    //若已分片，则合并
+                    if (attachmentInfo.chunked) {
+                        $http.post("attachment/mergeToServer", attachmentInfo);
+                    }
                 });
 
                 //上传失败

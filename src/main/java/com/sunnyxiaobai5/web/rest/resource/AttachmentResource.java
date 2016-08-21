@@ -4,12 +4,10 @@ import com.sunnyxiaobai5.domain.Attachment;
 import com.sunnyxiaobai5.service.AttachmentService;
 import com.sunnyxiaobai5.util.SecurityUtils;
 import com.sunnyxiaobai5.web.rest.dto.AttachmentDTO;
+import com.sunnyxiaobai5.web.rest.dto.AttachmentInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -75,30 +73,27 @@ public class AttachmentResource {
             uploadToFs(attachmentDTO.getFile());
         }
         //保存文件信息到数据库
-        saveInfo(attachmentDTO);
+//        saveInfo(attachmentDTO);
     }
 
     @RequestMapping(value = "/uploadToServer", method = RequestMethod.POST)
-    public synchronized AttachmentDTO uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException {
+    public synchronized AttachmentInfo uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd" + File.separator + "hh-mm-ss");
 
+        AttachmentInfo info = attachmentDTO.buildAttachmentInfo();
+
         if (null != attachmentDTO.getChunks()) {
-            attachmentDTO.buildMultipartInfo();
-            String key = getKey(attachmentDTO.getMultipartInfo().getKey());
-            AttachmentDTO.MultipartInfo multipartInfo = (AttachmentDTO.MultipartInfo) request.getSession().getAttribute(key);
+            String key = getKey(attachmentDTO.getFilename());
+            String value = (String) request.getSession().getAttribute(key);
 
             //如果value有值，则表明不是第一次，使用旧的，否者新生成路径
             String tempDir;
-            if (null != multipartInfo) {
-                tempDir = multipartInfo.getTempDir();
+            if (null != value) {
+                tempDir = value;
             } else {
                 tempDir = dateFormat.format(new Date());
-                multipartInfo = attachmentDTO.getMultipartInfo();
-                multipartInfo.setTempDir(tempDir);
+                request.getSession().setAttribute(key, tempDir);
             }
-            multipartInfo.addChunk(attachmentDTO.getChunk());
-            attachmentDTO.setMultipartInfo(multipartInfo);
-            request.getSession().setAttribute(key, multipartInfo);
 
             String tempDirPath = AttachmentResource.UPLOAD_DIR + File.separator + tempDir;
             String realDirPath = request.getSession().getServletContext().getRealPath("/" + tempDirPath);
@@ -106,7 +101,8 @@ public class AttachmentResource {
 
             String filename = UUID.randomUUID().toString() + attachmentDTO.getExt();
             String filePath = realDirPath + File.separator + filename;
-            attachmentDTO.setFilePath(filePath);
+            info.setFilePath(filePath);
+            info.setDownloadPath(downloadPath);
 
             //创建目录
             File directory = new File(realDirPath);
@@ -118,18 +114,6 @@ public class AttachmentResource {
             File dest = new File(filePath);
             attachmentDTO.getFile().transferTo(dest);
 
-            //合并
-            File file = mergeToServer(attachmentDTO);
-
-            //若合并完成，保存最终文件并保存文件相关信息
-            if (null != file) {
-                //保存文件
-                saveToServer(file);
-                //保存文件信息
-                attachmentDTO.setDownloadPath(downloadPath);
-                saveInfo(attachmentDTO);
-                request.getSession().removeAttribute(key);
-            }
         } else {
             String tempDirPath = AttachmentResource.UPLOAD_DIR + File.separator + dateFormat.format(new Date());
             String realDirPath = request.getSession().getServletContext().getRealPath("/" + tempDirPath);
@@ -149,24 +133,27 @@ public class AttachmentResource {
             attachmentDTO.getFile().transferTo(dest);
 
             //保存文件信息
-            attachmentDTO.setDownloadPath(downloadPath);
-            saveInfo(attachmentDTO);
+            info.setFilePath(dest.getCanonicalPath());
+            info.setDownloadPath(downloadPath);
+            saveInfo(info);
         }
-        attachmentDTO.setFile(null);
-        return attachmentDTO;
+        return info;
     }
 
     /**
      * 分片上传合并（从本地文件系统合并）
      *
-     * @param attachmentDTO
+     * @param info
      * @return 合并后的文件
      */
-    private File mergeToServer(AttachmentDTO attachmentDTO) {
-        if (attachmentDTO.getMultipartInfo().isComplete()) {
-            return new File(attachmentDTO.getFilePath());
-        }
-        return null;
+    @RequestMapping(value = "mergeToServer", method = RequestMethod.POST)
+    public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfo info) {
+        File file = new File(info.getFilePath());
+        //保存文件
+        saveToServer(file);
+        //保存文件信息
+        saveInfo(info);
+        request.getSession().removeAttribute(getKey(info.getFilename()));
     }
 
     @RequestMapping(value = "uploadToServer")
@@ -217,14 +204,15 @@ public class AttachmentResource {
     /**
      * 保存文件信息到数据库
      *
-     * @param attachmentDTO
+     * @param info
      */
-    private void saveInfo(AttachmentDTO attachmentDTO) {
+    private void saveInfo(AttachmentInfo info) {
         Attachment attachment = new Attachment();
-        attachment.setExt(attachmentDTO.getExt());
-        attachment.setFilename(attachmentDTO.getFilename());
-        attachment.setFilePath(attachmentDTO.getDownloadPath());
-        attachment.setFileSize(attachmentDTO.getSize());
+        attachment.setExt(info.getExt());
+        attachment.setFilename(info.getFilename());
+        attachment.setFilePath(info.getFilePath());
+        attachment.setDownloadPath(info.getDownloadPath());
+        attachment.setFileSize(info.getFileSize());
         attachmentService.save(attachment);
     }
 
