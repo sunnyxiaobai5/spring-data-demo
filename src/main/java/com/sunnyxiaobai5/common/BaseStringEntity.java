@@ -2,8 +2,8 @@
  * sunnyxiaobai5@gmail.com
  * <p>
  * <li>项目名称: spring-data-demo</li>
- * <li>完整包名: com.sunnyxiaobai5.domain</li>
- * <li>文件名称: BaseEntity.java</li>
+ * <li>完整包名: com.sunnyxiaobai5.common</li>
+ * <li>文件名称: BaseStringEntity.java</li>
  * <li>内容摘要: </li>
  * <li>内容描述: </li>
  * <li>其他说明: </li>
@@ -11,17 +11,22 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.common;
 
-import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class BaseEntity<T> {
-
+public abstract class BaseStringEntity<T>{
     /**
      * 主键ID
      */
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
+    @GeneratedValue(generator = "uuidGenerator")
     protected T id;
 
     public T getId() {
@@ -35,9 +40,9 @@ public abstract class BaseEntity<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BaseEntity)) return false;
+        if (!(o instanceof BaseStringEntity)) return false;
 
-        BaseEntity<?> that = (BaseEntity<?>) o;
+        BaseStringEntity<?> that = (BaseStringEntity<?>) o;
 
         return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
 

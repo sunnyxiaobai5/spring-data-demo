@@ -56,7 +56,7 @@
                     // fileSingleSizeLimit:
 
                     //上传地址
-                    server: 'uploader/upload',
+                    server: 'attachment/uploadToServer',
 
                     //选择文件的按钮。可选。
                     //内部根据当前运行是创建，可能是input元素，也可能是flash.

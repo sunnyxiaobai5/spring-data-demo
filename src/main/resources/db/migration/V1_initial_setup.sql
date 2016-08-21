@@ -47,6 +47,21 @@ CREATE TABLE IF NOT EXISTS `MENU` (
 ENGINE = InnoDB
 COMMENT = '菜单表';
 
+-- -----------------------------------------------------
+-- Table `ATTACHMENT`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ATTACHMENT` ;
+
+CREATE TABLE IF NOT EXISTS `ATTACHMENT` (
+  `ID` CHAR(32) NOT NULL COMMENT '主键',
+  `EXT` VARCHAR(50) NULL COMMENT '文件扩展名',
+  `FILENAME` VARCHAR(255) NOT NULL COMMENT '文件名',
+  `FILE_PATH` VARCHAR(255) NOT NULL COMMENT '文件路径（包括文件名）',
+  `FILE_SIZE` BIGINT(11) NULL COMMENT '文件大小（单位：byte）',
+  `IS_DELETE` TINYINT(1) NULL COMMENT '是否逻辑删除',
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB
+COMMENT = '文件信息表';
 
 INSERT INTO `ACCOUNT` (`ID`, `LOGIN`, `PASSWORD`, `DESCRIPTION`, `IS_ACTIVE`, `IS_DELETE`) VALUES (1, 'admin', '123456', '超级管理员', TRUE, FALSE);
 INSERT INTO `ACCOUNT` (`ID`, `LOGIN`, `PASSWORD`, `DESCRIPTION`, `IS_ACTIVE`, `IS_DELETE`) VALUES (2, 'test', '123456', '测试管理员', TRUE, FALSE);
