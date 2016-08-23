@@ -11,11 +11,33 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RedisUtils {
     private RedisUtils() {
     }
 
-    public String getRedisKey(String prefix) {
+    public static String getRedisKey(String prefix, String identity) {
         return SecurityUtils.getCurrentLogin() + prefix;
+    }
+
+    public static void listLeftPush(String key, Object o) {
+    }
+
+    public static void listRightPush(String key, Object o) {
+
+    }
+
+    public static <T> T listLeftPop(String key) {
+        return null;
+    }
+
+    public static <T> T listRightPop(String key) {
+        return null;
+    }
+
+    public static <T> List<T> listPopAll(String key) {
+        return new ArrayList<>();
     }
 }

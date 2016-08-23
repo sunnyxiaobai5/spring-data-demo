@@ -1,24 +1,26 @@
 package com.sunnyxiaobai5.web.rest.resource;
 
+import com.sunnyxiaobai5.common.enumeration.RedisKeyPrefixEnum;
+import com.sunnyxiaobai5.config.DirectoryProperties;
 import com.sunnyxiaobai5.domain.Attachment;
 import com.sunnyxiaobai5.service.AttachmentService;
+import com.sunnyxiaobai5.util.RedisUtils;
 import com.sunnyxiaobai5.util.SecurityUtils;
 import com.sunnyxiaobai5.web.rest.dto.AttachmentDTO;
 import com.sunnyxiaobai5.web.rest.dto.AttachmentInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,9 +31,8 @@ public class AttachmentResource {
     @Resource
     private AttachmentService attachmentService;
 
-    private static final String UPLOAD_DIR = "upload";
-
-    private static final String UPLOAD_DIR_TMP = "upload_tmp";
+    @Resource
+    private DirectoryProperties directoryProperties;
 
     /**
      * 文件上传
@@ -48,37 +49,22 @@ public class AttachmentResource {
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(AttachmentDTO attachmentDTO) throws IOException {
+        AttachmentInfo info = attachmentDTO.buildAttachmentInfo();
         if (null != attachmentDTO.getChunks()) {
-            //分片上传，先将分片缓存到redis
-            boolean complete = cache(attachmentDTO);
-            //分片未上传完成，返回
-            if (!complete) {
-                return;
-            }
-
-            //分片上传完成，合并
-            File file = merge(attachmentDTO);
-            //合并未成功，返回
-            if (null == file) {
-                return;
-            }
-            //合并成功，上传文件服务器
-            boolean success = uploadToFs(file);
-
-            //上传成功，清空redis缓存
-            if (success) {
-                clearCache(attachmentDTO);
-            }
+            String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD_KEY.getKey(), attachmentDTO.getFilename());
+            RedisUtils.listLeftPush(key, attachmentDTO);
         } else {
             //非分片上传，直接上传到文件服务器
-            uploadToFs(attachmentDTO.getFile());
+            String fastDfsID = uploadToFs(attachmentDTO.getFile());
+            //TODO 拼接下载路径
+            info.setDownloadPath(fastDfsID);
+            //保存文件信息到数据库
+            saveInfo(info);
         }
-        //保存文件信息到数据库
-//        saveInfo(attachmentDTO);
     }
 
     @RequestMapping(value = "/uploadToServer", method = RequestMethod.POST)
-    public synchronized AttachmentInfo uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException {
+    public synchronized AttachmentInfo uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException, NoSuchAlgorithmException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd" + File.separator + "hh-mm-ss");
 
         AttachmentInfo info = attachmentDTO.buildAttachmentInfo();
@@ -96,7 +82,7 @@ public class AttachmentResource {
                 request.getSession().setAttribute(key, tempDir);
             }
 
-            String tempDirPath = AttachmentResource.UPLOAD_DIR + File.separator + tempDir;
+            String tempDirPath = directoryProperties.getFileupload() + File.separator + tempDir;
             String realDirPath = request.getSession().getServletContext().getRealPath("/" + tempDirPath);
             String downloadPath = File.separator + tempDirPath + File.separator + attachmentDTO.getFilename();
 
@@ -117,7 +103,7 @@ public class AttachmentResource {
             attachmentDTO.getFile().transferTo(dest);
 
         } else {
-            String tempDirPath = AttachmentResource.UPLOAD_DIR + File.separator + dateFormat.format(new Date());
+            String tempDirPath = directoryProperties.getFileupload() + File.separator + dateFormat.format(new Date());
             String realDirPath = request.getSession().getServletContext().getRealPath("/" + tempDirPath);
             String downloadPath = File.separator + tempDirPath + File.separator + attachmentDTO.getFilename();
 
@@ -146,7 +132,6 @@ public class AttachmentResource {
      * 分片上传合并（从本地文件系统合并）
      *
      * @param info
-     * @return 合并后的文件
      */
     @RequestMapping(value = "mergeToServer", method = RequestMethod.POST)
     public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfo info) throws IOException {
@@ -157,32 +142,83 @@ public class AttachmentResource {
         request.getSession().removeAttribute(getKey(info.getFilename()));
     }
 
-    @RequestMapping(value = "uploadToServer")
-    public void uploadToServer(HttpServletRequest request) {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        //得到上传的文件map集合对象
-        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-
-        //获取分片序号
-        String chunkStr = request.getParameter("chunk");
-        Integer chunk = null;
-        if (StringUtils.isNotBlank(chunkStr)) {
-            chunk = Integer.parseInt(chunkStr);
-        }
-
-        //循环遍历存放上传对象
-        for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
-            MultipartFile multipartFile = entity.getValue();
-
-            String uuid = UUID.randomUUID().toString();
-            Attachment attachment = new Attachment();
-            attachment.setFilename(multipartFile.getOriginalFilename());
-            attachment.setFilePath(multipartFile.getOriginalFilename());
-//            chunkStreamVO.setKey(uuid);
-//            chunkStreamVO.setValue(multipartFile.getBytes());
-            attachmentService.save(attachment);
-        }
+    /**
+     * 上传到文件服务器
+     *
+     * @param info
+     * @throws IOException
+     */
+    @RequestMapping(value = "uploadToFs", method = RequestMethod.POST)
+    private String uploadToFs(@RequestBody AttachmentInfo info) throws IOException {
+        File file = merge(info);
+        //TODO 拼接下载路径
+        String fastDfsID = uploadToFs(file);
+        info.setDownloadPath(fastDfsID);
+        //保存文件信息到数据库
+        saveInfo(info);
+        return fastDfsID;
     }
+
+    /**
+     * 分片上传合并（从redis中合并）
+     *
+     * @param info
+     * @return 合并后的文件
+     */
+    private File merge(@RequestBody AttachmentInfo info) throws IOException {
+        String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD_KEY.getKey(), info.getFilename());
+        List<AttachmentDTO> attachmentDTOs = RedisUtils.listPopAll(key);
+        attachmentDTOs.sort((o1, o2) -> o1.getChunk() - o2.getChunk());
+        File result = new File(info.getFilePath());
+        FileOutputStream fos = new FileOutputStream(result);
+        attachmentDTOs.stream().forEach(attachmentDTO -> {
+            try {
+                fos.write(attachmentDTO.getFile().getBytes());
+            } catch (IOException e) {
+                //TODO 异常处理
+                e.printStackTrace();
+            }
+        });
+        fos.close();
+        return result;
+    }
+
+    /**
+     * 上传到文件服务器
+     *
+     * @param file
+     * @throws IOException
+     */
+    private String uploadToFs(File file) throws IOException {
+        return null;
+    }
+
+    /**
+     * 上传到文件服务器
+     *
+     * @param file
+     * @throws IOException
+     */
+    private String uploadToFs(MultipartFile file) throws IOException {
+        return null;
+    }
+
+
+    /**
+     * 保存文件信息到数据库
+     *
+     * @param info 文件相关信息
+     */
+    private void saveInfo(AttachmentInfo info) {
+        Attachment attachment = new Attachment();
+        attachment.setExt(info.getExt());
+        attachment.setFilename(info.getFilename());
+        attachment.setFilePath(info.getFilePath());
+        attachment.setDownloadPath(info.getDownloadPath());
+        attachment.setFileSize(info.getFileSize());
+        attachmentService.save(attachment);
+    }
+
 
     /**
      * 删除文件
@@ -200,60 +236,6 @@ public class AttachmentResource {
      * @param attachmentDTO
      */
     private void clearCache(AttachmentDTO attachmentDTO) {
-    }
-
-    /**
-     * 保存文件信息到数据库
-     *
-     * @param info
-     */
-    private void saveInfo(AttachmentInfo info) {
-        Attachment attachment = new Attachment();
-        attachment.setExt(info.getExt());
-        attachment.setFilename(info.getFilename());
-        attachment.setFilePath(info.getFilePath());
-        attachment.setDownloadPath(info.getDownloadPath());
-        attachment.setFileSize(info.getFileSize());
-        attachmentService.save(attachment);
-    }
-
-    /**
-     * 上传到文件服务器
-     *
-     * @param multipartFile
-     * @throws IOException
-     */
-    private boolean uploadToFs(MultipartFile multipartFile) throws IOException {
-        return false;
-    }
-
-    /**
-     * 上传到文件服务器
-     *
-     * @param file
-     * @throws IOException
-     */
-    private boolean uploadToFs(File file) throws IOException {
-        return false;
-    }
-
-    /**
-     * 分片上传时，先缓存到redis中
-     *
-     * @param attachmentDTO
-     */
-    private boolean cache(AttachmentDTO attachmentDTO) {
-        return false;
-    }
-
-    /**
-     * 分片上传合并（从redis中合并）
-     *
-     * @param attachmentDTO
-     * @return 合并后的文件
-     */
-    private File merge(AttachmentDTO attachmentDTO) {
-        return null;
     }
 
     /**
