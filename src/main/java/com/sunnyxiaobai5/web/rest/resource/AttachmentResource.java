@@ -14,12 +14,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/attachment")
@@ -99,8 +100,9 @@ public class AttachmentResource {
             String realDirPath = request.getSession().getServletContext().getRealPath("/" + tempDirPath);
             String downloadPath = File.separator + tempDirPath + File.separator + attachmentDTO.getFilename();
 
-            String filename = UUID.randomUUID().toString() + attachmentDTO.getExt();
-            String filePath = realDirPath + File.separator + filename;
+            String partName = UUID.randomUUID().toString() + "." + attachmentDTO.getChunk() + attachmentDTO.getExt();
+            String partPath = realDirPath + File.separator + partName;
+            String filePath = realDirPath + File.separator + attachmentDTO.getFilename();
             info.setFilePath(filePath);
             info.setDownloadPath(downloadPath);
 
@@ -111,7 +113,7 @@ public class AttachmentResource {
             }
 
             //保存临时文件
-            File dest = new File(filePath);
+            File dest = new File(partPath);
             attachmentDTO.getFile().transferTo(dest);
 
         } else {
@@ -147,10 +149,9 @@ public class AttachmentResource {
      * @return 合并后的文件
      */
     @RequestMapping(value = "mergeToServer", method = RequestMethod.POST)
-    public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfo info) {
-        File file = new File(info.getFilePath());
+    public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfo info) throws IOException {
         //保存文件
-        saveToServer(file);
+        saveToServer(info);
         //保存文件信息
         saveInfo(info);
         request.getSession().removeAttribute(getKey(info.getFilename()));
@@ -258,10 +259,45 @@ public class AttachmentResource {
     /**
      * 保存文件（本地文件系统）
      *
-     * @param file 要保存的文件
+     * @param info 要保存的文件
      */
-    private void saveToServer(File file) {
+    private void saveToServer(AttachmentInfo info) throws IOException {
+        File file = new File(info.getFilePath());
+        File dir = new File(file.getParent());
+        File[] parts = dir.listFiles();
 
+        //TODO 异常
+        if (null == parts || parts.length == 0) {
+            throw new RuntimeException("分片文件不存在");
+        }
+
+        parts = Arrays.asList(parts).stream().sorted((file1, file2) -> {
+            try {
+                String filename1 = file1.getCanonicalPath();
+                String filename2 = file2.getCanonicalPath();
+                Integer file1Chunk = Integer.parseInt(filename1.substring(0, filename1.lastIndexOf(".")).substring(filename1.substring(0, filename1.lastIndexOf(".")).lastIndexOf(".") + 1));
+                Integer file2Chunk = Integer.parseInt(filename2.substring(0, filename2.lastIndexOf(".")).substring(filename2.substring(0, filename2.lastIndexOf(".")).lastIndexOf(".") + 1));
+                return file1Chunk - file2Chunk;
+            } catch (IOException e) {
+                //TODO 异常
+                e.printStackTrace();
+            }
+            return 0;
+        }).collect(Collectors.toList()).toArray(new File[0]);
+
+
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+        for (File part : parts) {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(part));
+            int n;
+            byte[] buff = new byte[1024];
+            while ((n = in.read(buff)) != -1) {
+                out.write(buff, 0, n);
+            }
+            in.close();
+            part.delete();
+        }
+        out.close();
     }
 
     /**
