@@ -13,7 +13,14 @@
 
     angular.module('elapseApp').factory('User', ['$resource', function ($resource) {
         return $resource('user/:id', {}, {
-            'query': {method: 'GET', isArray: true},
+            'query': {
+                method: 'GET', isArray: true, interceptor: {
+                    //TODO 具体异常处理DEMO
+                    responseError: function (rejection) {
+                        console.log(rejection)
+                    }
+                }
+            },
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

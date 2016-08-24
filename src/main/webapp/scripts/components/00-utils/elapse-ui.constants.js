@@ -43,5 +43,9 @@
                 name: '查看',
                 icon: 'glyphicon glyphicon-eye-open'
             }
+        })
+        .constant('UPLOADER', {
+            //TODO 上传文件前判断文件大小是否超出（改值与后端配置相同）
+            MAX_SIZE: 2 * 1024 * 1024 * 1024    //2G
         });
 })();

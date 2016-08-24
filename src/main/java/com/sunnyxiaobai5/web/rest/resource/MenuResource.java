@@ -87,7 +87,7 @@ public class MenuResource {
         try {
             PdfTableUtils.createPdf("pdf/simple_table.pdf", MenuDTO.class, menuService.findAllDTO());
         } catch (BaseException e) {
-            if (e.getStatus() > 10000) {
+            if (e.getCode() > 10000) {
                 log.info("export fail", e);
             }
         }

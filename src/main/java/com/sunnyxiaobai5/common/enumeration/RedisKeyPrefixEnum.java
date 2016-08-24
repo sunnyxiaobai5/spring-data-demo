@@ -12,7 +12,7 @@
 package com.sunnyxiaobai5.common.enumeration;
 
 public enum RedisKeyPrefixEnum {
-    FILE_UPLOAD_KEY("UPLOAD", "文件上传");
+    FILE_UPLOAD("UPLOAD", "文件上传");
 
     private String key;
 

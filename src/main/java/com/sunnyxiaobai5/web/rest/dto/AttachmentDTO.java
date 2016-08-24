@@ -13,6 +13,7 @@ package com.sunnyxiaobai5.web.rest.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class AttachmentDTO {
@@ -101,12 +102,48 @@ public class AttachmentDTO {
         return getFile().getOriginalFilename();
     }
 
-    public AttachmentInfo buildAttachmentInfo() {
-        AttachmentInfo attachmentInfo = new AttachmentInfo();
-        attachmentInfo.setExt(getExt());
-        attachmentInfo.setFilename(getFilename());
-        attachmentInfo.setFileSize(size);
-        attachmentInfo.setChunked(null != chunks);
-        return attachmentInfo;
+    public AttachmentInfoDTO buildAttachmentInfo() {
+        AttachmentInfoDTO infoDTO = new AttachmentInfoDTO();
+        infoDTO.setExt(getExt());
+        infoDTO.setFilename(getFilename());
+        infoDTO.setFileSize(size);
+        infoDTO.setChunked(null != chunks);
+        return infoDTO;
+    }
+
+    public class ChunkDTO {
+        private byte[] bytes;
+        private Integer chunk;
+
+        ChunkDTO() {
+            try {
+                this.bytes = getFile().getBytes();
+            } catch (IOException e) {
+                //TODO 异常处理
+                e.printStackTrace();
+            }
+            this.chunk = getChunk();
+        }
+
+        public byte[] getBytes() {
+            return bytes;
+        }
+
+        public void setBytes(byte[] bytes) {
+            this.bytes = bytes;
+        }
+
+        public Integer getChunk() {
+            return chunk;
+        }
+
+        public void setChunk(Integer chunk) {
+            this.chunk = chunk;
+        }
+    }
+
+
+    public ChunkDTO buildChunk() {
+        return new ChunkDTO();
     }
 }

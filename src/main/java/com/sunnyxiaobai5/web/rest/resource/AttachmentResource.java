@@ -7,7 +7,8 @@ import com.sunnyxiaobai5.service.AttachmentService;
 import com.sunnyxiaobai5.util.RedisUtils;
 import com.sunnyxiaobai5.util.SecurityUtils;
 import com.sunnyxiaobai5.web.rest.dto.AttachmentDTO;
-import com.sunnyxiaobai5.web.rest.dto.AttachmentInfo;
+import com.sunnyxiaobai5.web.rest.dto.AttachmentInfoDTO;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -49,10 +50,10 @@ public class AttachmentResource {
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(AttachmentDTO attachmentDTO) throws IOException {
-        AttachmentInfo info = attachmentDTO.buildAttachmentInfo();
+        AttachmentInfoDTO info = attachmentDTO.buildAttachmentInfo();
         if (null != attachmentDTO.getChunks()) {
-            String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD_KEY.getKey(), attachmentDTO.getFilename());
-            RedisUtils.listLeftPush(key, attachmentDTO);
+            String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD.getKey(), attachmentDTO.getFilename());
+            RedisUtils.listLeftPush(key, attachmentDTO.buildChunk());
         } else {
             //非分片上传，直接上传到文件服务器
             String fastDfsID = uploadToFs(attachmentDTO.getFile());
@@ -64,13 +65,13 @@ public class AttachmentResource {
     }
 
     @RequestMapping(value = "/uploadToServer", method = RequestMethod.POST)
-    public synchronized AttachmentInfo uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException, NoSuchAlgorithmException {
+    public synchronized AttachmentInfoDTO uploadToServer(HttpServletRequest request, AttachmentDTO attachmentDTO) throws IOException, NoSuchAlgorithmException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd" + File.separator + "hh-mm-ss");
 
-        AttachmentInfo info = attachmentDTO.buildAttachmentInfo();
+        AttachmentInfoDTO info = attachmentDTO.buildAttachmentInfo();
 
         if (null != attachmentDTO.getChunks()) {
-            String key = getKey(attachmentDTO.getFilename());
+            String key = getSessionKey(RedisKeyPrefixEnum.FILE_UPLOAD.getKey(), attachmentDTO.getFilename());
             String value = (String) request.getSession().getAttribute(key);
 
             //如果value有值，则表明不是第一次，使用旧的，否者新生成路径
@@ -131,31 +132,34 @@ public class AttachmentResource {
     /**
      * 分片上传合并（从本地文件系统合并）
      *
-     * @param info
+     * @param info 文件信息
      */
-    @RequestMapping(value = "mergeToServer", method = RequestMethod.POST)
-    public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfo info) throws IOException {
+    @RequestMapping(value = "/mergeToServer", method = RequestMethod.POST)
+    public void mergeToServer(HttpServletRequest request, @RequestBody AttachmentInfoDTO info) throws IOException {
         //保存文件
         saveToServer(info);
         //保存文件信息
         saveInfo(info);
-        request.getSession().removeAttribute(getKey(info.getFilename()));
+        String sessionKey = getSessionKey(RedisKeyPrefixEnum.FILE_UPLOAD.getKey(), info.getFilename());
+        request.getSession().removeAttribute(sessionKey);
     }
 
     /**
      * 上传到文件服务器
      *
-     * @param info
+     * @param info 文件信息
      * @throws IOException
      */
-    @RequestMapping(value = "uploadToFs", method = RequestMethod.POST)
-    private String uploadToFs(@RequestBody AttachmentInfo info) throws IOException {
+    @RequestMapping(value = "/uploadToFs", method = RequestMethod.POST)
+    private String uploadToFs(@RequestBody AttachmentInfoDTO info) throws IOException {
         File file = merge(info);
         //TODO 拼接下载路径
         String fastDfsID = uploadToFs(file);
         info.setDownloadPath(fastDfsID);
         //保存文件信息到数据库
         saveInfo(info);
+        //清Redis中数据
+        RedisUtils.delete(RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD.getKey(), info.getFilename()));
         return fastDfsID;
     }
 
@@ -165,15 +169,15 @@ public class AttachmentResource {
      * @param info
      * @return 合并后的文件
      */
-    private File merge(@RequestBody AttachmentInfo info) throws IOException {
-        String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD_KEY.getKey(), info.getFilename());
-        List<AttachmentDTO> attachmentDTOs = RedisUtils.listPopAll(key);
-        attachmentDTOs.sort((o1, o2) -> o1.getChunk() - o2.getChunk());
+    private File merge(@RequestBody AttachmentInfoDTO info) throws IOException {
+        String key = RedisUtils.getRedisKey(RedisKeyPrefixEnum.FILE_UPLOAD.getKey(), info.getFilename());
+        List<AttachmentDTO.ChunkDTO> chunkDTOs = RedisUtils.listPopAll(key);
+        chunkDTOs.sort((o1, o2) -> o1.getChunk() - o2.getChunk());
         File result = new File(info.getFilePath());
         FileOutputStream fos = new FileOutputStream(result);
-        attachmentDTOs.stream().forEach(attachmentDTO -> {
+        chunkDTOs.stream().forEach(chunkDTO -> {
             try {
-                fos.write(attachmentDTO.getFile().getBytes());
+                fos.write(chunkDTO.getBytes());
             } catch (IOException e) {
                 //TODO 异常处理
                 e.printStackTrace();
@@ -209,7 +213,7 @@ public class AttachmentResource {
      *
      * @param info 文件相关信息
      */
-    private void saveInfo(AttachmentInfo info) {
+    private void saveInfo(AttachmentInfoDTO info) {
         Attachment attachment = new Attachment();
         attachment.setExt(info.getExt());
         attachment.setFilename(info.getFilename());
@@ -219,23 +223,14 @@ public class AttachmentResource {
         attachmentService.save(attachment);
     }
 
-
     /**
      * 删除文件
      *
      * @param id 文件信息ID
      */
-    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void delete(String id) {
         attachmentService.delete(id);
-    }
-
-    /**
-     * 清空redis缓存
-     *
-     * @param attachmentDTO
-     */
-    private void clearCache(AttachmentDTO attachmentDTO) {
     }
 
     /**
@@ -243,7 +238,7 @@ public class AttachmentResource {
      *
      * @param info 要保存的文件
      */
-    private void saveToServer(AttachmentInfo info) throws IOException {
+    private void saveToServer(AttachmentInfoDTO info) throws IOException {
         File file = new File(info.getFilePath());
         File dir = new File(file.getParent());
         File[] parts = dir.listFiles();
@@ -285,16 +280,10 @@ public class AttachmentResource {
     /**
      * 获取分片文件的key（以文件名作为key的一部分）
      *
-     * @param filename 文件名
+     * @param identity 标识
      * @return
      */
-    private String getKey(String filename) {
-        return SecurityUtils.getCurrentLogin() + "_FILE_UPLOAD_" + filename;
-    }
-
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<String> handleException(MaxUploadSizeExceededException ex) {
-        System.out.println("=====================" + ex.getClass().getName());
-        return ResponseEntity.ok("ok");
+    private String getSessionKey(String prefix, String identity) {
+        return SecurityUtils.getCurrentLogin() + "_" + prefix + "_" + identity;
     }
 }

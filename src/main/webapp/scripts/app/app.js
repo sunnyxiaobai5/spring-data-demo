@@ -35,8 +35,45 @@
             $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
 
+            $httpProvider.interceptors.push('httpInterceptor');
+
             $urlRouterProvider.otherwise('/home');
 
+        })
+        .factory('httpInterceptor', function ($q, $injector, EXCEPTION_CODE) {
+            return {
+                'request': function (config) {
+                    // do something on success
+                    return config;
+                },
+
+                'requestError': function (rejection) {
+                    // do something on error
+                    // if (canRecover(rejection)) {
+                    //     return responseOrNewPromise
+                    // }
+                    return $q.reject(rejection);
+                },
+
+                'response': function (response) {
+                    // do something on success
+                    return response;
+                },
+
+                'responseError': function (rejection) {
+                    var header = rejection.headers();
+                    var Notify = $injector.get('Notify');
+                    if (header.code == EXCEPTION_CODE.SYSTEM_EXCEPTION) {
+                        Notify.alert("服务器内部错误", "请联系管理员");
+                    } else if (header.code == EXCEPTION_CODE.COMMON_EXCEPTION) {
+                        Notify.alert("操作失败！原因如下", rejection.data);
+                    }
+                    else if (header.code == EXCEPTION_CODE.CUSTOM_EXCEPTION) {
+
+                    }
+                    return $q.reject(rejection);
+                }
+            };
         });
 })();
 
