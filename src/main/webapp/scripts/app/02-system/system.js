@@ -23,7 +23,7 @@
                     },
                     views: {
                         'content@main': {
-                            templateUrl: 'scripts/app/system2/system2.html'
+                            templateUrl: 'scripts/app/02-system/system.html'
                         }
                     }
                 })
