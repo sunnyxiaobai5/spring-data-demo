@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.sunnyxiaobai5.common.annotation.ExportAnnotation;
 import com.sunnyxiaobai5.common.enumeration.ExceptionEnum;
 import com.sunnyxiaobai5.common.exception.BaseException;
+import com.sunnyxiaobai5.common.exception.ExcelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.util.FieldUtils;
@@ -68,7 +69,7 @@ public class PdfTableUtils {
     public static void createPdf(String dest, List<String> headers, List<String> fieldNames, List<?> dataList) throws BaseException {
         //列长度为0时抛出外部异常
         if (headers.isEmpty()) {
-            throw new BaseException(ExceptionEnum.EXPORT_NO_COLUMN.getMessage(), ExceptionEnum.EXPORT_NO_COLUMN.getKey());
+            throw new ExcelException(ExceptionEnum.EXPORT_NO_COLUMN);
         }
 
         //创建pdf文件目录
@@ -129,7 +130,7 @@ public class PdfTableUtils {
 
         //列长度为0时抛出内部异常
         if (objInfo.getHeaders().isEmpty()) {
-            throw new BaseException(ExceptionEnum.EXPORT_NO_ANNOTATION.getMessage(), ExceptionEnum.EXPORT_NO_ANNOTATION.getKey());
+            throw new ExcelException(ExceptionEnum.EXPORT_NO_ANNOTATION);
         }
 
         //创建pdf文件

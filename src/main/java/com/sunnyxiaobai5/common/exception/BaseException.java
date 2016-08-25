@@ -23,10 +23,10 @@ public class BaseException extends Exception {
     }
 
     /**
-     * @param message 异常说明
      * @param code  异常状态码
+     * @param message 异常说明
      */
-    public BaseException(String message, Integer code) {
+    public BaseException(Integer code, String message) {
         super(message);
         this.code = code;
     }

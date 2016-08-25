@@ -15,10 +15,15 @@ import java.io.PrintWriter;
 public class CommonHandlerExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
+        //TODO 错误日志
+        //TODO 判断是否是异步请求，需区别处理
+        //TODO 可将错误信息发送邮件给管理员
+
         if (e instanceof BaseException) {
             handleSystemException(response, e);
         }
-        return null;
+        return new ModelAndView("500.html");
+
     }
 
     private void handleSystemException(HttpServletResponse response, Exception e) {
