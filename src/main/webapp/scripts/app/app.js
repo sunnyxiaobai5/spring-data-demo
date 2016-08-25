@@ -64,6 +64,12 @@
                 'responseError': function (rejection) {
                     var $state = $injector.get('$state');
                     var Notify = $injector.get('Notify');
+
+                    if (rejection.status == 400) {
+                        Notify.alert("参数错误", "请联系管理员！");
+                        $q.reject(rejection);
+                        return;
+                    }
                     if (rejection.status == 404) {
                         $state.go('404');
                         $q.reject(rejection);
@@ -73,7 +79,7 @@
 
                     switch (Number(header.code)) {
                         case EXCEPTION_CODE.SYSTEM_EXCEPTION:
-                            Notify.alert("服务器内部错误", "请联系管理员");
+                            Notify.alert("服务器内部错误", "请联系管理员！");
                             break;
                         case EXCEPTION_CODE.COMMON_EXCEPTION:
                             Notify.alert("操作失败！原因如下", rejection.data.message);

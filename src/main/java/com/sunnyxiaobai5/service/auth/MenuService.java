@@ -25,13 +25,13 @@ public interface MenuService extends BaseService<Menu, MenuDTO, Long> {
      * @param id 系统ID
      * @return
      */
-    List<MenuDTO> findByParentId(Long id);
+    List<MenuDTO> findModules(Long id);
 
     /**
      * 查询所有系统
      *
      * @return
      */
-    List<MenuDTO> findSystem();
+    List<MenuDTO> findSystems();
 
 }

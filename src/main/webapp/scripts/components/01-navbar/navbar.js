@@ -21,13 +21,17 @@
             },
             controller: function ($scope, $element, $attrs, $transclude) {
 
+                $scope.menuList = [];
+
                 $scope.logout = function () {
                     Auth.logout();
                     $state.go('login');
                 };
 
-                Menu.findSystem(null, function (data) {
-                    $scope.menuList = data;
+                Menu.findSystems(function (result) {
+                    angular.forEach(result, function (system) {
+                        $scope.menuList.push(system);
+                    });
                 });
 
                 $scope.$watch(Auth.isAuthenticated, function (newValue, oldValue) {

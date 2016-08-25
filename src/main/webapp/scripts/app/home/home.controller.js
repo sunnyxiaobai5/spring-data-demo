@@ -12,10 +12,11 @@
     'use strict';
 
     angular.module('elapseApp').controller('HomeController', ['$scope', '$state', 'Menu', function ($scope, $state, Menu) {
-
-        $scope.systems = Menu.findSystem(null, function (data) {
-
+        $scope.systems = [];
+        Menu.findSystems(function (result) {
+            angular.forEach(result, function (system) {
+                $scope.systems.push(system);
+            });
         });
-
     }]);
 })();

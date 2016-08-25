@@ -12,7 +12,7 @@
     'use strict';
 
     angular.module('elapseApp').factory('Menu', ['$resource', function ($resource) {
-        return $resource('menu/:id', {}, {
+        return $resource('menus/:id', {}, {
             'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
@@ -21,9 +21,8 @@
                     return data;
                 }
             },
-            'update': {method: 'PUT'},
-            'findByParentId': {method: 'GET', url: 'menu/findByParentId/:id', isArray: true},
-            'findSystem': {method: 'GET', url: 'menu/findSystem', isArray: true}
+            'findSystems': {method: 'GET', url: 'menus/findSystems', isArray: true},
+            'findModules': {method: 'GET', url: 'menus/findModules', isArray: true}
         });
     }]);
 })();

@@ -29,7 +29,7 @@
 
                 $scope.$watch(getSystemState, function (newValue, oldValue) {
                     if (newValue.data && newValue.data.id) {
-                        Menu.findByParentId({id: newValue.data.id}, function (data) {
+                        Menu.findModules({systemId: newValue.data.id}, function (data) {
                             $scope.menus = data;
                         });
                     }

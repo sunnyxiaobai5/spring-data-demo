@@ -21,7 +21,7 @@ angular.module('elapseApp')
                 },
                 views: {
                     '': {
-                        templateUrl: 'scripts/app/error/404.html'
+                        templateUrl: 'scripts/app/00-error/404.html'
                     }
                 }
             })
@@ -32,7 +32,7 @@ angular.module('elapseApp')
                 },
                 views: {
                     '': {
-                        templateUrl: 'scripts/app/error/500.html'
+                        templateUrl: 'scripts/app/00-error/500.html'
                     }
                 }
             });

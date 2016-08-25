@@ -36,7 +36,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     }
 
     @Override
-    public List<MenuDTO> findByParentId(Long id) {
+    public List<MenuDTO> findModules(Long id) {
 
         Set<Menu> menus = menuRepository.findOne(id).getChildren();
 
@@ -48,7 +48,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDTO, Long> implem
     }
 
     @Override
-    public List<MenuDTO> findSystem() {
+    public List<MenuDTO> findSystems() {
 
         List<Menu> menuList = menuRepository.findByParentIdIsNull();
 

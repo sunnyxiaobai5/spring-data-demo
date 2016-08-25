@@ -19,16 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/menus")
 public class MenuResource {
 
 
@@ -61,12 +58,12 @@ public class MenuResource {
     /**
      * 查询某系统下菜单
      *
-     * @param id 系统ID
+     * @param systemId 系统ID
      * @return
      */
-    @RequestMapping(value = "findByParentId/{id}", method = RequestMethod.GET)
-    public ResponseEntity<List<MenuDTO>> findByParentId(@PathVariable Long id) {
-        return new ResponseEntity<>(menuService.findByParentId(id), HttpStatus.OK);
+    @RequestMapping(value = "findModules", method = RequestMethod.GET)
+    public ResponseEntity<List<MenuDTO>> findModules(@RequestParam Long systemId) {
+        return new ResponseEntity<>(menuService.findModules(systemId), HttpStatus.OK);
     }
 
     /**
@@ -74,9 +71,9 @@ public class MenuResource {
      *
      * @return
      */
-    @RequestMapping(value = "findSystem", method = RequestMethod.GET)
-    public ResponseEntity<List<MenuDTO>> findSystem() {
-        return new ResponseEntity<>(menuService.findSystem(), HttpStatus.OK);
+    @RequestMapping(value = "findSystems", method = RequestMethod.GET)
+    public ResponseEntity<List<MenuDTO>> findSystems() {
+        return new ResponseEntity<>(menuService.findSystems(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "export", method = RequestMethod.GET)
