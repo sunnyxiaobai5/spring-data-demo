@@ -41,6 +41,7 @@
 
         })
         .factory('httpInterceptor', function ($q, $injector, EXCEPTION_CODE) {
+
             return {
                 'request': function (config) {
                     // do something on success
@@ -61,16 +62,30 @@
                 },
 
                 'responseError': function (rejection) {
-                    var header = rejection.headers();
+                    var $state = $injector.get('$state');
                     var Notify = $injector.get('Notify');
-                    if (header.code == EXCEPTION_CODE.SYSTEM_EXCEPTION) {
-                        Notify.alert("服务器内部错误", "请联系管理员");
-                    } else if (header.code == EXCEPTION_CODE.COMMON_EXCEPTION) {
-                        Notify.alert("操作失败！原因如下", rejection.data);
+                    if (rejection.status == 404) {
+                        $state.go('404');
+                        $q.reject(rejection);
+                        return;
                     }
-                    else if (header.code == EXCEPTION_CODE.CUSTOM_EXCEPTION) {
+                    var header = rejection.headers();
 
+                    switch (Number(header.code)) {
+                        case EXCEPTION_CODE.SYSTEM_EXCEPTION:
+                            Notify.alert("服务器内部错误", "请联系管理员");
+                            break;
+                        case EXCEPTION_CODE.COMMON_EXCEPTION:
+                            Notify.alert("操作失败！原因如下", rejection.data.message);
+                            break;
+                        case EXCEPTION_CODE.BUSSINESS_EXCEPTION:
+                            Notify.notify(rejection.data.message);
+                            break;
+                        default:
+                            $state.go('500');
+                            break;
                     }
+
                     return $q.reject(rejection);
                 }
             };

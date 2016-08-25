@@ -11,13 +11,14 @@
 (function () {
     'use strict';
 
-    angular.module('elapseApp').factory('User', ['$resource', function ($resource) {
+    angular.module('elapseApp').factory('User', ['$resource', '$q', function ($resource, $q) {
         return $resource('user/:id', {}, {
             'query': {
                 method: 'GET', isArray: true, interceptor: {
                     //TODO 具体异常处理DEMO
                     responseError: function (rejection) {
-                        console.log(rejection)
+                        // alert(rejection);
+                        $q.reject(rejection);
                     }
                 }
             },

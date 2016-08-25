@@ -14,8 +14,8 @@
     angular.module('elapseApp')
         .constant('VERSION', '0.0.1-SNAPSHOT')
         .constant('EXCEPTION_CODE', {
-            'SYSTEM_EXCEPTION': 0,  //系统内部异常
-            'COMMON_EXCEPTION': 1,  //自定义异常（全局处理）
-            'CUSTOM_EXCEPTION': 2   //自定义异常（全局处理）
+            'SYSTEM_EXCEPTION': 0,      //系统内部异常
+            'COMMON_EXCEPTION': 1,      //自定义异常（全局处理）
+            'BUSSINESS_EXCEPTION': 2    //自定义异常（自行处理）
         });
 })();
