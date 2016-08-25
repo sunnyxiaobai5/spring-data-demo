@@ -22,17 +22,16 @@ public class CommonHandlerExceptionResolver implements HandlerExceptionResolver 
         //TODO 判断是否是异步请求，需区别处理
         //TODO 可将错误信息发送邮件给管理员
 
-//        if (e instanceof CommonException) {
-//            handleBaseException(response, e);
-//            return new ModelAndView();
-//        } else if (e instanceof BussinessException) {
-//            handleBaseException(response, e);
-//            return new ModelAndView();
-//        } else if (e instanceof BaseException) {
-//            handleBaseException(response, e);
-//            return new ModelAndView();
-//        }
-//        return new ModelAndView("500.html");
+        if (e instanceof CommonException) {
+            handleBaseException(response, e);
+            return new ModelAndView();
+        } else if (e instanceof BussinessException) {
+            handleBaseException(response, e);
+            return new ModelAndView();
+        } else if (e instanceof BaseException) {
+            handleBaseException(response, e);
+            return new ModelAndView();
+        }
         return null;
     }
 
