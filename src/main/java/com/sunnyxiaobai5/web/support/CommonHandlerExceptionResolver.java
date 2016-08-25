@@ -1,6 +1,8 @@
 package com.sunnyxiaobai5.web.support;
 
 import com.sunnyxiaobai5.common.exception.BaseException;
+import com.sunnyxiaobai5.common.exception.BussinessException;
+import com.sunnyxiaobai5.common.exception.CommonException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -19,14 +21,18 @@ public class CommonHandlerExceptionResolver implements HandlerExceptionResolver 
         //TODO 判断是否是异步请求，需区别处理
         //TODO 可将错误信息发送邮件给管理员
 
-        if (e instanceof BaseException) {
-            handleSystemException(response, e);
+        if (e instanceof CommonException) {
+
+        } else if (e instanceof BussinessException) {
+
+        } else if (e instanceof BaseException) {
+            handleBaseException(response, e);
+            return null;
         }
         return new ModelAndView("500.html");
-
     }
 
-    private void handleSystemException(HttpServletResponse response, Exception e) {
+    private void handleBaseException(HttpServletResponse response, Exception e) {
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.addIntHeader("code", ((BaseException) e).getCode());
         try {
@@ -35,7 +41,6 @@ public class CommonHandlerExceptionResolver implements HandlerExceptionResolver 
             printWriter.close();
         } catch (IOException e1) {
             //TODO 异常处理
-            e1.printStackTrace();
         }
     }
 }

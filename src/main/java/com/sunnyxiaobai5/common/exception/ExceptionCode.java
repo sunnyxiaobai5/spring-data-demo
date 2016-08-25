@@ -17,7 +17,7 @@ public final class ExceptionCode {
     /**
      * 自定义异常（非全局处理）
      */
-    public static final Integer CUSTOM_EXCEPTION = 2;
+    public static final Integer BUSSINESS_EXCEPTION = 2;
 
     /**
      * Excel相关异常（内部信息-开发提示）
