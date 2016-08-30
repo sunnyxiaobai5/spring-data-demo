@@ -137,9 +137,6 @@ public class UserResource {
         model.put("headerMap", headerMap);
         model.put("dataList", users);
 
-        BaseExcelView view = new BaseExcelView();
-        return new ModelAndView(view, model);
+        return new ModelAndView(new BaseExcelView(), model);
     }
-
-
 }

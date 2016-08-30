@@ -17,23 +17,25 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.security.util.FieldUtils;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class BaseExcelView extends AbstractExcelView {
 
     /**
-     * Subclasses must implement this method to create an Excel HSSFWorkbook document,
-     * given the model.
+     * 提供一个通用创建Document方法，若有特殊导出，子类覆写改方法
      *
-     * @param model    the model Map
-     * @param workbook the Excel workbook to complete
+     * @param model    数据模型Map
+     * @param workbook workbook
      * @param request  in case we need locale etc. Shouldn't look at attributes.
      * @param response in case we need to set cookies. Shouldn't write to it.
      */
@@ -45,19 +47,6 @@ public class BaseExcelView extends AbstractExcelView {
         String[] fieldArray = headerMap.keySet().toArray(new String[0]);
         String[] headerArray = headerMap.values().toArray(new String[0]);
         List dataList = (List) model.get("dataList");
-
-        HSSFSheet sheet = buildSheet(workbook, title);
-
-        int row = buildTitle(workbook, sheet, title, fieldArray.length);
-
-        row = buildHeader(workbook, sheet, headerArray, row);
-
-        buildData(sheet, fieldArray, dataList, row);
-    }
-
-    public void buildExcelDocument(String title, Map<String, String> headerMap, List<?> dataList, HSSFWorkbook workbook) throws Exception {
-        String[] fieldArray = headerMap.keySet().toArray(new String[0]);
-        String[] headerArray = headerMap.values().toArray(new String[0]);
 
         HSSFSheet sheet = buildSheet(workbook, title);
 
@@ -145,5 +134,49 @@ public class BaseExcelView extends AbstractExcelView {
             }
         }
         return row + dataList.size();
+    }
+
+
+    //TODO 下面方法应该单独抽取到工具类中
+
+    /**
+     * 手动生成一个Workbook
+     *
+     * @param title     sheet标题
+     * @param headerMap dataList中对象字段名和标题展示值的Map({"id"->"ID","name"->"名称"})
+     * @param dataList  数据集合
+     * @return HSSFWorkbook
+     * @throws Exception
+     */
+    public HSSFWorkbook buildExcelDocument(String title, Map<String, String> headerMap, List<?> dataList) throws Exception {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+
+        String[] fieldArray = headerMap.keySet().toArray(new String[0]);
+        String[] headerArray = headerMap.values().toArray(new String[0]);
+
+        HSSFSheet sheet = buildSheet(workbook, title);
+
+        int row = buildTitle(workbook, sheet, title, fieldArray.length);
+
+        row = buildHeader(workbook, sheet, headerArray, row);
+
+        buildData(sheet, fieldArray, dataList, row);
+
+        return workbook;
+    }
+
+    /**
+     * 下载workbook
+     *
+     * @param workbook
+     * @param response
+     * @throws IOException
+     */
+    public void download(Workbook workbook, HttpServletResponse response) throws IOException {
+        response.setContentType(getContentType());
+
+        ServletOutputStream out = response.getOutputStream();
+        workbook.write(out);
+        out.flush();
     }
 }

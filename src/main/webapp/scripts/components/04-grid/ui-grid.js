@@ -91,6 +91,58 @@
                     }
                 };
                 /*************** 控制逻辑 end ***************/
+
+                /*************** 分页 start ****************/
+                /**
+                 * 分页信息
+                 * @type {{baseIndex: number, curIndex: number, maxPage: number, displayNum: number, num: Array}}
+                 */
+                $scope.page = {
+                    baseIndex: 0,
+                    curIndex: 0,
+                    maxPage: 11,
+                    displayNum: 6,
+                    num: []
+                };
+                /**
+                 * 构造页面显示的页码
+                 * @param baseIndex
+                 */
+                $scope.buildNum = function (baseIndex) {
+                    $scope.page.num = [];
+                    for (var i = baseIndex; i < baseIndex + $scope.page.displayNum; i++) {
+                        $scope.page.num.push(i);
+                    }
+                };
+                //显示页码初始化
+                $scope.buildNum($scope.page.baseIndex);
+
+                /**
+                 * 页码切换，构造页码信息并获取数据
+                 * @param index
+                 */
+                $scope.getData = function (index) {
+                    index = index < 0 ? 0 : index;
+                    index = index >= $scope.page.maxPage ? $scope.page.maxPage - 1 : index;
+                    $scope.page.curIndex = index;
+
+                    if (($scope.page.baseIndex + $scope.page.displayNum - 1) === $scope.page.curIndex) {
+                        $scope.page.baseIndex += ($scope.page.displayNum - 1) / 2;
+                    }
+                    if ($scope.page.baseIndex + $scope.page.displayNum > $scope.page.maxPage) {
+                        $scope.page.baseIndex = $scope.page.maxPage - $scope.page.displayNum;
+                    }
+                    if (($scope.page.baseIndex === $scope.page.curIndex)) {
+                        $scope.page.baseIndex -= ($scope.page.displayNum - 1) / 2;
+                    }
+                    if ($scope.page.baseIndex < 0) {
+                        $scope.page.baseIndex = 0;
+                    }
+                    $scope.page.baseIndex = Math.floor($scope.page.baseIndex);
+                    $scope.buildNum($scope.page.baseIndex);
+                };
+                /*************** 分页 end ***************/
+
             }
         };
     }]).filter('to_trusted', ['$sce', function ($sce) {
