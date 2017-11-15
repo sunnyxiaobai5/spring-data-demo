@@ -1,4 +1,4 @@
-# spring-data-demo
+# Spring Demo
 
 ## SpringMVC
 
