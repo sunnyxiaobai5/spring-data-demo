@@ -4,9 +4,9 @@
  * <li>项目名称: spring-data-demo</li>
  * <li>完整包名: com.sunnyxiaobai5.web</li>
  * <li>文件名称: UserResource.java</li>
- * <li>内容摘要: </li>
- * <li>内容描述: </li>
- * <li>其他说明: </li>
+ * <li>内容摘要:</li>
+ * <li>内容描述:</li>
+ * <li>其他说明:</li>
  * <li>@author Xiangyong Zeng</li>
  ******************************************************************************/
 package com.sunnyxiaobai5.web.rest.resource;
@@ -79,12 +79,13 @@ public class UserResource {
      * 查询所有
      *
      * @param number 页码
-     * @param size   每页条数
+     * @param size 每页条数
      * @return ResponseEntity<List<UserDTO>>
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value = "number", required = false) Integer number,
-                                                 @RequestParam(value = "size", required = false) Integer size) {
+    public ResponseEntity<List<UserDTO>> findAll(
+            @RequestParam(value = "number", required = false) Integer number,
+            @RequestParam(value = "size", required = false) Integer size) {
         Page<User> page = userService.findAll(new PageRequest(number, size));
 
         List<UserDTO> result = userMapper.userToUserDTO(page.getContent());
@@ -111,7 +112,8 @@ public class UserResource {
      *
      * @param id 人员ID
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
@@ -138,5 +140,20 @@ public class UserResource {
         model.put("dataList", users);
 
         return new ModelAndView(new BaseExcelView(), model);
+    }
+
+    /**
+     * 查询单个
+     *
+     * @param key cache key
+     * @return ResponseEntity<UserDTO>
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> testCache(String key) {
+        return Optional.ofNullable(userService.testCache(key))
+                .map(userMapper::userToUserDTO)
+                .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

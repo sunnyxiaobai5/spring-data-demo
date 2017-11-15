@@ -16,4 +16,5 @@ import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
 
 public interface UserService extends BaseService<User, UserDTO, Long> {
+    User testCache(String key);
 }

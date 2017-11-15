@@ -11,15 +11,17 @@
  ******************************************************************************/
 package com.sunnyxiaobai5.service.auth;
 
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
 import com.sunnyxiaobai5.common.BaseRepository;
 import com.sunnyxiaobai5.common.BaseServiceImpl;
 import com.sunnyxiaobai5.domain.auth.User;
 import com.sunnyxiaobai5.repository.auth.UserRepository;
 import com.sunnyxiaobai5.web.rest.dto.UserDTO;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 @Transactional
 @Service("userService")
@@ -30,5 +32,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDTO, Long> implem
     @Override
     protected BaseRepository<User, Long> getRepository() {
         return userRepository;
+    }
+
+    @Cacheable("testCache")
+    @Override
+    public User testCache(String key) {
+        return userRepository.findByName(key);
     }
 }
